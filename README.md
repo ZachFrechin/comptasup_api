@@ -8,8 +8,8 @@ Avant de lancer le projet, assurez-vous que les éléments suivants sont install
 - **Docker Compose ou Docker Desktop**
 - **PHP version 8.2 ou supérieure**
 - **Composer (pour la gestion des dépendances PHP)**
-- **Installation**
-- **Suivez ces étapes pour lancer l'application :**
+
+( vous pourrez dans certain cas avoir à configurez php cf. php.ini )
 
 ## Installation 
 
