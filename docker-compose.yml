@@ -8,6 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
     ports:
       - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin
@@ -16,3 +18,24 @@ services:
       - 8082:80
     environment:
       - PMA_ARBITRARY=1
+    depends_on:
+      - db
+
+  comptasup_api:
+    image: php:8.1-fpm
+    container_name: comptasup_api
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: comptasup_api
+      DB_USERNAME: root
+      DB_PASSWORD: 1234
+    depends_on:
+      - db
+    command: sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+
+volumes:
+  mysql_data: {}
