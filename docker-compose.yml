@@ -22,20 +22,36 @@ services:
       - db
 
   comptasup_api:
-    image: php:8.1-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: comptasup_api
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html:cached  # Utilisation de :cached pour optimiser les performances
+      - /var/www/html/vendor    # Volume Docker interne pour éviter de monter vendor
+      - /var/www/html/node_modules # Volume interne pour éviter de monter node_modules
     environment:
-      DB_HOST: mysql
+      DB_HOST: db
       DB_PORT: 3306
       DB_DATABASE: comptasup_api
       DB_USERNAME: root
       DB_PASSWORD: 1234
     depends_on:
       - db
-    command: sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+    expose:
+      - "9000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - .:/var/www/html:cached
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+    depends_on:
+      - comptasup_api
 
 volumes:
   mysql_data: {}
