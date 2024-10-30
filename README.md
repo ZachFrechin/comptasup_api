@@ -6,7 +6,7 @@ Ce projet est une API développée avec Laravel pour le projet ComptaSup. Cette 
 Avant de lancer le projet, assurez-vous que les éléments suivants sont installés sur votre machine :
 
 - **Docker Compose ou Docker Desktop**
-- **PHP version 8.1.30 ou supérieure**
+- **PHP version 8.2 ou supérieure**
 - **Composer (pour la gestion des dépendances PHP)**
 - **Installation**
 - **Suivez ces étapes pour lancer l'application :**
@@ -40,11 +40,9 @@ Démarrez les services MySQL et PHPMyAdmin avec Docker Compose :
 
 Note : Cette commande lancera MySQL et PHPMyAdmin en mode détaché. Vérifiez que les ports sont disponibles et bien configurés.
 
-Lancez le serveur de développement Laravel :
-
-``php artisan serve``
 
 Le serveur devrait maintenant être accessible sur http://127.0.0.1:8000.
+( fonctionne sur un serveur nginx )
 
 ## Utilisation
 Après avoir lancé le projet, vous pouvez accéder à l'API en utilisant un client REST comme Postman ou cURL. Consultez la documentation de l'API pour plus d'informations sur les routes disponibles.
