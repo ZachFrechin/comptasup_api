@@ -22,11 +22,6 @@ use Illuminate\Foundation\Http\FormRequest;
         public function rules(): array
         {
             return [
-                "name" => [
-                    "required",
-                    "string",
-                    "max:255",
-                ],
                 "email" => [
                     "required",
                     "email",
@@ -37,7 +32,7 @@ use Illuminate\Foundation\Http\FormRequest;
                     "string",
                     "min:6",
                     "confirmed",
-                    "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/",
+                    "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{6,}$/",
                 ],
                 "nom" => [
                     "required",
@@ -51,12 +46,13 @@ use Illuminate\Foundation\Http\FormRequest;
                 ],
                 "naissance" => [
                     "required",
-                    "date",
+                    "date_format:Y-m-d",
                     "before:today",
                 ],
                 "code_postal" => [
                     "nullable",
-                    "digits:5",
+                    "string",
+                    "regex:/^\d{5}$/",
                 ],
                 "ville" => [
                     "nullable",
@@ -76,13 +72,7 @@ use Illuminate\Foundation\Http\FormRequest;
                 "numero_de_rue" => [
                     "nullable",
                     "integer",
-                ],
-                "ressource" => [
-                    "nullable",
-                    "image",
-                    "mimes:jpeg,png,jpg",
-                    "max:2048",
-                ],
+                ]
             ];
         }
 
@@ -90,29 +80,30 @@ use Illuminate\Foundation\Http\FormRequest;
         public function messages(): array
     {
         return [
-            "email.required" => "Le champ adresse e-mail est obligatoire.",
-            "email.email" => "Le champ adresse e-mail doit être valide.",
+            "email.required" => "Le champ email est obligatoire.",
+            "email.email" => "Le champ email doit être valide (ex: example@example.com).",
             "email.unique" => "Cette adresse e-mail est déjà utilisée.",
 
-            "password.required" => "Le champ mot de passe est obligatoire.",
-            "password.string" => "Le champ mot de passe doit être une chaîne de caractères.",
-            "password.min" => "Le champ mot de passe doit contenir au moins 6 caractères.",
-            "password.confirmed" => "Le champ confirmation du mot de passe ne correspond pas.",
-            "password.regex" => "Le champ mot de passe doit contenir au moins 6 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.",
+            "password.required" => "Le champ password est obligatoire.",
+            "password.string" => "Le champ password doit être une chaîne de caractères.",
+            "password.min" => "Le champ password doit contenir au moins 6 caractères.",
+            "password.confirmed" => "Le champ password_confirmation du mot de passe ne correspond pas.",
+            "password.regex" => "Le champ password doit contenir au moins 6 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial [@$!%*?&-].",
 
             "nom.required" => "Le champ nom est obligatoire.",
             "nom.string" => "Le champ nom doit être une chaîne de caractères.",
             "nom.max" => "Le champ nom ne doit pas dépasser 255 caractères.",
 
-            "prenom.required" => "Le champ prénom est obligatoire.",
-            "prenom.string" => "Le champ prénom doit être une chaîne de caractères.",
-            "prenom.max" => "Le champ prénom ne doit pas dépasser 255 caractères.",
+            "prenom.required" => "Le champ prenom est obligatoire.",
+            "prenom.string" => "Le champ prenom doit être une chaîne de caractères.",
+            "prenom.max" => "Le champ prenom ne doit pas dépasser 255 caractères.",
 
-            "naissance.required" => "Le champ date de naissance est obligatoire.",
-            "naissance.date" => "Le champ date de naissance doit être une date valide.",
-            "naissance.before" => "Le champ date de naissance doit être dans le passé.",
+            "naissance.required" => "Le champ naissance est obligatoire.",
+            "naissance.date_format" => "Le champ naissance doit être une date valide (YYYY-MM-dd).",
+            "naissance.before" => "Le champ naissance doit être dans le passé.",
 
-            "code_postal.digits" => "Le champ code postal doit comporter exactement 5 chiffres.",
+            "code_postal.string" => "Le champ code postal doit être une chaîne de caractères.",
+            "code_postal.regex" => "Le champ code postal doit contenir uniquement 5 chiffres.",
 
             "ville.string" => "Le champ ville doit être une chaîne de caractères.",
             "ville.max" => "Le champ ville ne doit pas dépasser 255 caractères.",
@@ -124,10 +115,6 @@ use Illuminate\Foundation\Http\FormRequest;
             "rue.max" => "Le champ rue ne doit pas dépasser 255 caractères.",
 
             "numero_de_rue.integer" => "Le champ numéro de rue doit être un nombre entier.",
-
-            "ressource.image" => "Le champ ressource doit être une image.",
-            "ressource.mimes" => "Le champ ressource doit être au format JPEG, PNG ou JPG.",
-            "ressource.max" => "Le champ ressource ne doit pas dépasser 2 Mo.",
         ];
     }
 }
