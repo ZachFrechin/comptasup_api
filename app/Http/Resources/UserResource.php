@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class User extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,7 +26,11 @@ class User extends JsonResource
             'rue' => $this->profil->rue,
             'numero_de_rue' => $this->profil->numero_de_rue,
             'ressource' => $this->profil->ressource,
-            'roles' => Role::collection($this->roles)
+            'roles' => RoleResource::collection($this->roles),
+            'vehicules' => VehiculeResource::collection($this->profil->vehicules),
+            'trajets' => TrajetResource::collection($this->profil->trajets),
+            'date_ajout' => $this->created_at,
+            'derniere_modification' => $this->updated_at
         ];
     }
 }

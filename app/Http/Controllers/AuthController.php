@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\NewAccessToken;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
