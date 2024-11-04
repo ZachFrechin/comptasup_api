@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         return response()->json([
             "user_created" => $userRessource
-        ]);
+        ], 201);
     }
 
     public function login(LoginRequest $request) : JsonResponse{
