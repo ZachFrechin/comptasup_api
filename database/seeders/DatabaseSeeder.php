@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Profil;
 use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,10 +21,22 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $roleFake = Role::create([
-            "nom" => "Fake"
+        Profil::create([
+            'nom' => 'nomExample',
+            'prenom' => 'prenomExample',
+            'naissance' => '1980-01-01',
+            'code_postal' => '73000',
+            'ville' => 'Chambéry',
+            'pays' => 'France',
+            'rue' => 'rue Sommeiller',
+            'numero_de_rue' => 1,
+            'user_id' => $user->id,
         ]);
 
-        $user->roles()->attach($roleFake);
+        $adminRole = Role::create([
+            "nom" => "Administrateur"
+        ]);
+
+        $user->roles()->attach($adminRole);
     }
 }
