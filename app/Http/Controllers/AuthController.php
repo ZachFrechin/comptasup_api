@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $roleNames = $user->roles()->get()->pluck('nom')->toArray();
-        $token = $user->createToken('auth_token', $roleNames);
+        $token = $user->createToken($user->id, $roleNames);
 
         $userRessource = new UserResource($user);
 
