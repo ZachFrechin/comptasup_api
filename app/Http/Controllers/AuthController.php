@@ -24,7 +24,7 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password']),
         ]);
 
-        $profil = Profil::create([
+        Profil::create([
             'nom' => $fields['nom'],
             'prenom' => $fields['prenom'],
             'naissance' => $fields['naissance'],
@@ -60,7 +60,7 @@ class AuthController extends Controller
         $userRessource = new UserResource($user);
 
         return response()->json([
-            "token" => $token,
+            "token" => $token->plainTextToken,
             "user" => $userRessource
         ]);
     }
