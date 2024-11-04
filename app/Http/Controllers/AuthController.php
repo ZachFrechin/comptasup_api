@@ -37,7 +37,6 @@ class AuthController extends Controller
         ]);
 
         //TODO: Ajouter le rôle Salarié par défaut.
-        $user->roles()->attach(Role::first());
         $userRessource = new UserResource($user);
 
         return response()->json([
@@ -58,8 +57,11 @@ class AuthController extends Controller
         $roleNames = $user->roles()->get()->pluck('nom')->toArray();
         $token = $user->createToken('auth_token', $roleNames);
 
+        $userRessource = new UserResource($user);
+
         return response()->json([
-            "token" => $token
+            "token" => $token,
+            "user" => $userRessource
         ]);
     }
 }
