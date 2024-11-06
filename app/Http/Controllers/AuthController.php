@@ -24,18 +24,27 @@ class AuthController extends Controller
                 'message' => 'Les identifiants de connexion sont incorrects'
             ], 401);
         }
-
+    
         /** @var \App\Models\User $user */
         $user = Auth::user();
-
-        $permissions = $user->roles()->permissions()->pluck('name')->toArray();
+    
+        // Récupérer toutes les permissions via les rôles de l'utilisateur
+        $permissions = $user->roles()
+            ->with('permissions') // Charger les permissions des rôles
+            ->get()
+            ->pluck('permissions') // Obtenir la collection des permissions pour chaque rôle
+            ->flatten() // Aplatir les résultats en une seule collection
+            ->pluck('nom') // Obtenir les noms des permissions
+            ->unique() // Supprimer les doublons
+            ->toArray();
+    
         $token = $user->createToken($user->id, $permissions);
-
-        $userRessource = new UserResource($user);
-
+    
+        $userResource = new UserResource($user);
+    
         return response()->json([
             "token" => $token->plainTextToken,
-            "user" => $userRessource
+            "user" => $userResource
         ]);
     }
 }
