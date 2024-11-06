@@ -56,10 +56,6 @@ class AuthController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if ($user) {
-            return response()->json(['message' => 'Erreur lors de l\'authentification.'], 500);
-        }
-
         $roleNames = $user->roles()->get()->pluck('nom')->toArray();
         $token = $user->createToken($user->id, $roleNames);
 
