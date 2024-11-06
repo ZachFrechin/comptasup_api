@@ -126,7 +126,17 @@ class UserController extends Controller
             "roles.*" => "required|int|exists:roles,id"
         ]);
         $user = User::find($id);
-        $user->roles()->sync($request->roles);
+        $user->roles()->attach($request->roles);
+        return response()->json(["data" => new UserResource($user)], 200);
+    }
+
+    public function deleteRole(Request $request, string $id) {
+        $request->validate([
+            "roles" => "required|array",
+            "roles.*" => "required|int|exists:roles,id"
+        ]);
+        $user = User::find($id);
+        $user->roles()->detach($request->roles);
         return response()->json(["data" => new UserResource($user)], 200);
     }
 

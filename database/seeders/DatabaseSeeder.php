@@ -33,8 +33,6 @@
                 'user_id' => $user->id,
             ]);
 
-
-            
             return $user;
         }
         public function run(): void

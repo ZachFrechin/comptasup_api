@@ -15,6 +15,7 @@ Route::prefix('user')->group(function () {
         Route::put('/update/{id}', 'update');
         Route::delete('/destroy/{id}', 'destroy');
         Route::put('/updateRole/{id}', 'updateRoles');
+        Route::delete('/deleteRole/{id}', 'deleteRole');
     });
 });
 
