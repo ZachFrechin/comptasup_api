@@ -16,35 +16,6 @@ use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
-
-    public function register(RegisterRequest $request): JsonResponse {
-        $fields = $request->validated();
-
-        $user = User::create([
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password']),
-        ]);
-
-        Profil::create([
-            'nom' => $fields['nom'],
-            'prenom' => $fields['prenom'],
-            'naissance' => $fields['naissance'],
-            'code_postal' => $fields['code_postal'] ?? null,
-            'ville' => $fields['ville'] ?? null,
-            'pays' => $fields['pays'] ?? null,
-            'rue' => $fields['rue'] ?? null,
-            'numero_de_rue' => $fields['numero_de_rue'] ?? null,
-            'user_id' => $user->id,
-        ]);
-
-        $user->roles()->attach(Role::first());
-        $userRessource = new UserResource($user);
-
-        return response()->json([
-            "user_created" => $userRessource
-        ], 201);
-    }
-
     public function login(LoginRequest $request) : JsonResponse{
         $credentials = $request->validated();
 
