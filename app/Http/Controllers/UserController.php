@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 
 use App\Models\Profil;
 use App\Models\User;
@@ -54,7 +54,7 @@ class UserController extends Controller
         $profil->user_id = $user->id;
         $profil->save();
 
-        
+
         
         return response()->json(["data" => new UserResource($user)] ,200);
     }
