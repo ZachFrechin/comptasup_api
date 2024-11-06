@@ -28,8 +28,8 @@ class AuthController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $roleNames = $user->roles()->get()->pluck('nom')->toArray();
-        $token = $user->createToken($user->id, $roleNames);
+        $permissions = $user->roles()->permissions()->pluck('name')->toArray();
+        $token = $user->createToken($user->id, $permissions);
 
         $userRessource = new UserResource($user);
 
