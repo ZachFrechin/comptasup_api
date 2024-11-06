@@ -8,10 +8,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::prefix('user')->group(function () {
     Route::controller(UserController::class)->group(function () {
-        Route::get('/', [AuthController::class,'index']);
-        Route::get('/{id}', [AuthController::class,'show']);
-        Route::get('/store', [AuthController::class,'store']);
-        Route::get('/update/{id}', [AuthController::class,'update']);
-        Route::get('/destroy/{id}', [AuthController::class,'destroy']);
+        Route::get('/', 'index');
+        Route::get('/{id}', 'show');
+        Route::post('/store', 'store');
+        Route::put('/update/{id}', 'update');
+        Route::delete('/destroy/{id}', 'destroy');
     });
 });

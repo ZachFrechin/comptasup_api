@@ -19,21 +19,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
-        $role = $request->input('role');
-        $name = $request->input('name');
-
-        $users = User::query()
-            ->when($name, function ($query, $name) {
-                $query->where('name', 'like', "%$name%");
-            })
-            ->when($role, function ($query, $role) {
-                $query->whereHas('roles', function ($query) use ($role) {
-                    $query->where('roles.name', $role);
-                });
-            })
-            ->get();
-        return response()->json(["data" => UserResource::collection($users)] ,200);
+        return response()->json(["data" => UserResource::collection(User::all())] ,200);
     }
 
     /**
@@ -52,6 +38,11 @@ class UserController extends Controller
         $user = new User();
         $profil = new Profil();
 
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $user->roles()->attach(Role::first());
+
         $profil->nom = $request->nom;
         $profil->prenom = $request->prenom;
         $profil->naissance = $request->naissance;
@@ -63,10 +54,7 @@ class UserController extends Controller
         $profil->user_id = $user->id;
         $profil->save();
 
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        $user->roles()->attach(Role::first());
+        
         
         return response()->json(["data" => new UserResource($user)] ,200);
     }
