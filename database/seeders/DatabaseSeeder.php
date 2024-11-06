@@ -51,11 +51,11 @@
             $manage_user = Permission::create(["nom" => "manage_users"]);
             $administrator_permission = Permission::create(["nom" => "administrator"]);
             
-            $employee = Role::create(["nom" => "employee"]);
-            $validator = Role::create(["nom" => "validator"]);
-            $controller = Role::create(["nom" => "controller"]);
-            $manager = Role::create(["nom" => "manager"]);
-            $adminRole = Role::create(["nom" => "administrator"]);
+            $employee = Role::create(["nom" => "employé"]);
+            $validator = Role::create(["nom" => "validateur"]);
+            $controller = Role::create(["nom" => "controlleur"]);
+            $manager = Role::create(["nom" => "gestionnaire"]);
+            $adminRole = Role::create(["nom" => "administrateur"]);
 
             // Attacher les permissions par ID
             $validator->permissions()->attach($select_user->id);
