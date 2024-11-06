@@ -120,7 +120,7 @@ class UserController extends Controller
         return response()->json(["data" => new UserResource($user)], 200);
     }
 
-    public function updateRoles(Request $request, string $id) {
+    public function updateRole(Request $request, string $id) {
         $request->validate([
             "roles" => "required|array",
             "roles.*" => "required|int|exists:roles,id"
