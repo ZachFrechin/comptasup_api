@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\NewAccessToken;
 use App\Http\Resources\UserResource;
 
+
 class AuthController extends Controller
 {
 
@@ -36,7 +37,7 @@ class AuthController extends Controller
             'user_id' => $user->id,
         ]);
 
-        //TODO: Ajouter le rôle Salarié par défaut.
+        $user->roles()->attach(Role::first());
         $userRessource = new UserResource($user);
 
         return response()->json([
