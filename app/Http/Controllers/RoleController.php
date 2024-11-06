@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleCreateRequest;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Http\Resources\RoleResource;
 
 class RoleController extends Controller
 {
@@ -26,9 +29,13 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleCreateRequest $request)
     {
-        //
+        $role = new Role();
+        $role->nom = $request->name;
+        $role->save();
+        $role->permissions()->sync($request->permissions);
+        return response()->json(["data" => new RoleResource($role)] ,200);
     }
 
     /**
@@ -36,7 +43,8 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $role = Role::find($id);
+        return response()->json(["data" => new RoleResource($role)] ,200);
     }
 
     /**
