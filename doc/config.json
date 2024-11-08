@@ -1,0 +1,14 @@
+{
+    "name": "ComptaSup API",
+    "version": "0.1.0",
+    "description": "Complete documentation of all comptasup api endpoints.",
+    "title": "API doc of comptasup api",
+    "url" : "http://localhost:[port]/api",
+
+    "template": {
+      "showRequiredLabels": false,
+      "withCompare": true,
+      "withGenerator": true,
+      "aloneDisplay": false
+    }
+  }
