@@ -47,12 +47,14 @@ class UserController extends Controller
         $profil->nom = $request->nom;
         $profil->prenom = $request->prenom;
         $profil->naissance = $request->naissance;
+        $profil->telephone = $request->telephone;
         $profil->code_postal = $request->code_postal;
         $profil->ville = $request->ville;
         $profil->pays = $request->pays;
         $profil->rue = $request->rue;
         $profil->numero_de_rue = $request->numero_de_rue;
         $profil->user_id = $user->id;
+
         $profil->save();
 
 
@@ -82,42 +84,18 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user) : JsonResponse
     {
         $profil = $user->profil;
+        $userField = $request->only($user->fillable);
+        $profilField = $request->only($profil->fillable);
 
-        if ($request->has('nom')) {
-            $profil->nom = $request->nom;
-        }
-        if ($request->has('prenom')) {
-            $profil->prenom = $request->prenom;
-        }
-        if ($request->has('naissance')) {
-            $profil->naissance = $request->naissance;
-        }
-        if ($request->has('code_postal')) {
-            $profil->code_postal = $request->code_postal;
-        }
-        if ($request->has('ville')) {
-            $profil->ville = $request->ville;
-        }
-        if ($request->has('pays')) {
-            $profil->pays = $request->pays;
-        }
-        if ($request->has('rue')) {
-            $profil->rue = $request->rue;
-        }
-        if ($request->has('numero_de_rue')) {
-            $profil->numero_de_rue = $request->numero_de_rue;
-        }
-        $profil->save();
+        $user->update($userField);
+        $profil->update($profilField);
 
-        if ($request->has('email')) {
-            $user->email = $request->email;
-        }
-        if ($request->has('password')) {
+        if($request->has('password')) {
             $user->password = bcrypt($request->password);
+            $user->save();
         }
-        $user->save();
 
-        return response()->json(["data" => new UserResource($user)], 200);
+        return response()->json(["data" => new UserResource($user)], 200);  
     }
 
     public function updateRole(Request $request, User $user): JsonResponse 

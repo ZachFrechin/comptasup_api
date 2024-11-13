@@ -11,7 +11,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,54 +23,47 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             "email" => [
-                "nullable",
                 "email",
-                "unique:users,email," . $this->route('user'), // Ignore unique constraint on current user
+                "unique:users,email"
             ],
             "password" => [
-                "nullable",
                 "string",
                 "min:6",
                 "confirmed",
                 "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{6,}$/",
             ],
             "nom" => [
-                "nullable",
                 "string",
                 "max:255",
             ],
             "prenom" => [
-                "nullable",
                 "string",
                 "max:255",
             ],
             "naissance" => [
-                "nullable",
                 "date_format:Y-m-d",
                 "before:today",
             ],
+            "telephone" => [
+                "string"
+            ],
             "code_postal" => [
-                "nullable",
                 "string",
                 "regex:/^\d{5}$/",
             ],
             "ville" => [
-                "nullable",
                 "string",
                 "max:255",
             ],
             "pays" => [
-                "nullable",
                 "string",
                 "max:255",
             ],
             "rue" => [
-                "nullable",
                 "string",
                 "max:255",
             ],
             "numero_de_rue" => [
-                "nullable",
                 "integer",
             ]
         ];

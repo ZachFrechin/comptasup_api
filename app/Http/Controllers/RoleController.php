@@ -33,6 +33,7 @@ class RoleController extends Controller
     {
         $role = new Role();
         $role->nom = $request->name;
+        $role->color = $request->color;
         $role->save();
         $role->permissions()->sync($request->permissions);
         return response()->json(["data" => new RoleResource($role)] ,200);

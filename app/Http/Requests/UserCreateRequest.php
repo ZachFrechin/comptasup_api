@@ -49,6 +49,10 @@ use Illuminate\Foundation\Http\FormRequest;
                     "date_format:Y-m-d",
                     "before:today",
                 ],
+                "telephone" => [
+                    "required",
+                    "string",
+                ],
                 "code_postal" => [
                     "nullable",
                     "string",

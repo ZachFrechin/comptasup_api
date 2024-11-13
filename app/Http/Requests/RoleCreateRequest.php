@@ -23,6 +23,7 @@ class RoleCreateRequest extends FormRequest
     {
         return [
             "name"=> "string|required",
+            "color"=> "string|nullable",
             "permissions" => "required|array",
             "permissions.*" => "required|int|exists:permissions,id"
         ];

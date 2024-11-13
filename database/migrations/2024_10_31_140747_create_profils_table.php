@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->date('naissance');
+            $table->string('telephone')->nullable();
             $table->string('code_postal')->nullable();
             $table->string('ville')->nullable();
             $table->string('pays')->nullable();

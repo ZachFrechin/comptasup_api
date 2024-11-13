@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'nom' => $this->profil->nom,
             'prenom' => $this->profil->prenom,
             'naissance' => $this->profil->naissance,
+            'telephone' => $this->profil->telephone,
             'code_postal' => $this->profil->code_postal,
             'ville' => $this->profil->ville,
             'pays' => $this->profil->pays,
@@ -30,7 +31,8 @@ class UserResource extends JsonResource
             'vehicules' => VehiculeResource::collection($this->profil->vehicules),
             'trajets' => TrajetResource::collection($this->profil->trajets),
             'date_ajout' => $this->created_at,
-            'derniere_modification' => $this->updated_at
+            'derniere_modification' => $this->updated_at,
+            "statut" => $this->active,
         ];
     }
 }
