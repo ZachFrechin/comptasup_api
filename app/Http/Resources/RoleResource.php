@@ -17,6 +17,7 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'nom' => $this->nom,
+            'color' => $this->color,
             'permissions' => PermissionResource::collection($this->permissions),
         ];
     }

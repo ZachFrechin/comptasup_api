@@ -53,5 +53,15 @@ services:
     depends_on:
       - comptasup_api
 
+  apidoc :
+    build:
+      context: .
+      dockerfile: Dockerfile.express  # Spécifiez votre Dockerfile Express
+    container_name: apidoc
+    ports:
+      - "64545:64545"  # Mappez le port 64545 pour accéder à l'application Express
+    volumes:
+      - .:/app  # Assurez-vous que le fichier index.html et le code Express sont dans le répertoire monté.
+
 volumes:
   mysql_data: {}

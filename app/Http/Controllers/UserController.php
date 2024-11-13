@@ -6,6 +6,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Models\Profil;
 use App\Models\User;
@@ -17,7 +18,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         return response()->json(["data" => UserResource::collection(User::all())] ,200);
     }
@@ -33,7 +34,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserCreateRequest $request)
+    public function store(UserCreateRequest $request): JsonResponse
     {
         $user = new User();
         $profil = new Profil();
@@ -46,12 +47,14 @@ class UserController extends Controller
         $profil->nom = $request->nom;
         $profil->prenom = $request->prenom;
         $profil->naissance = $request->naissance;
+        $profil->telephone = $request->telephone;
         $profil->code_postal = $request->code_postal;
         $profil->ville = $request->ville;
         $profil->pays = $request->pays;
         $profil->rue = $request->rue;
         $profil->numero_de_rue = $request->numero_de_rue;
         $profil->user_id = $user->id;
+
         $profil->save();
 
 
@@ -78,64 +81,39 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(UserUpdateRequest $request, User $user) : JsonResponse
     {
-        $user = User::findOrFail($id);
         $profil = $user->profil;
+        $userField = $request->only($user->fillable);
+        $profilField = $request->only($profil->fillable);
 
-        if ($request->has('nom')) {
-            $profil->nom = $request->nom;
-        }
-        if ($request->has('prenom')) {
-            $profil->prenom = $request->prenom;
-        }
-        if ($request->has('naissance')) {
-            $profil->naissance = $request->naissance;
-        }
-        if ($request->has('code_postal')) {
-            $profil->code_postal = $request->code_postal;
-        }
-        if ($request->has('ville')) {
-            $profil->ville = $request->ville;
-        }
-        if ($request->has('pays')) {
-            $profil->pays = $request->pays;
-        }
-        if ($request->has('rue')) {
-            $profil->rue = $request->rue;
-        }
-        if ($request->has('numero_de_rue')) {
-            $profil->numero_de_rue = $request->numero_de_rue;
-        }
-        $profil->save();
+        $user->update($userField);
+        $profil->update($profilField);
 
-        if ($request->has('email')) {
-            $user->email = $request->email;
-        }
-        if ($request->has('password')) {
+        if($request->has('password')) {
             $user->password = bcrypt($request->password);
+            $user->save();
         }
-        $user->save();
 
-        return response()->json(["data" => new UserResource($user)], 200);
+        return response()->json(["data" => new UserResource($user)], 200);  
     }
 
-    public function updateRole(Request $request, string $id) {
+    public function updateRole(Request $request, User $user): JsonResponse 
+    {
         $request->validate([
             "roles" => "required|array",
             "roles.*" => "required|int|exists:roles,id"
         ]);
-        $user = User::find($id);
         $user->roles()->attach($request->roles);
         return response()->json(["data" => new UserResource($user)], 200);
     }
 
-    public function deleteRole(Request $request, string $id) {
+    public function deleteRole(Request $request, User $user): JsonResponse 
+    {
         $request->validate([
             "roles" => "required|array",
             "roles.*" => "required|int|exists:roles,id"
         ]);
-        $user = User::find($id);
         $user->roles()->detach($request->roles);
         return response()->json(["data" => new UserResource($user)], 200);
     }
@@ -143,9 +121,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user): JsonResponse
     {
-        $user = User::find($id);
         $user->delete();
+        return response()->json(["data"=> "ok"],200);
     }
 }

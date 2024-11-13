@@ -25,6 +25,7 @@
                 'nom' => 'nomExample',
                 'prenom' => 'prenomExample',
                 'naissance' => '1980-01-01',
+                'telephone' => '0612345678',
                 'code_postal' => '73000',
                 'ville' => 'Chambéry',
                 'pays' => 'France',
@@ -49,11 +50,11 @@
             $manage_user = Permission::create(["nom" => "manage_users"]);
             $administrator_permission = Permission::create(["nom" => "administrator"]);
             
-            $employee = Role::create(["nom" => "employé"]);
-            $validator = Role::create(["nom" => "validateur"]);
-            $controller = Role::create(["nom" => "controlleur"]);
-            $manager = Role::create(["nom" => "gestionnaire"]);
-            $adminRole = Role::create(["nom" => "administrateur"]);
+            $employee = Role::create(["nom" => "Employé", "color" => "#FF6352"]);
+            $validator = Role::create(["nom" => "Validateur", "color" => "#95E01C"]);
+            $controller = Role::create(["nom" => "Contrôleur", "color" => "#FFD600"]);
+            $manager = Role::create(["nom" => "Gestionnaire", "color"=> "#FF7DF2"]);
+            $adminRole = Role::create(["nom" => "Administrateur", "color"=> "#39B8FF"]);
 
             // Attacher les permissions par ID
             $validator->permissions()->attach($select_user->id);

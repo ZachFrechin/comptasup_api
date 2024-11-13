@@ -12,6 +12,7 @@ class Profil extends Model
         'nom',
         'prenom',
         'naissance',
+        'telephone',
         'code_postal',
         'ville',
         'pays',
