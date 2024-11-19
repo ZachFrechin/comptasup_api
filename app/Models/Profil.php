@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Vehicule;
 use App\Models\Trajet;
+use App\Models\Service;
+
 class Profil extends Model
 {
     protected $fillable = [
@@ -20,6 +22,7 @@ class Profil extends Model
         'numero_de_rue',
         'ressource',
         'user_id',
+        'service_id',
     ];
 
     public function user() {
@@ -34,4 +37,7 @@ class Profil extends Model
         return $this->hasMany(Trajet::class);
     }
 
+    public function service() {
+        return $this->belongsTo(Service::class);
+    }
 }

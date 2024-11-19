@@ -11,4 +11,8 @@ class Service extends Model
         "description",
         "numero",
     ] ;
+
+    public function profils() {
+        return $this->hasMany(Profil::class);
+    }
 }

@@ -8,6 +8,7 @@
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\Hash;
     use App\Models\Permission;
+    use App\Models\Service;
 
     class DatabaseSeeder extends Seeder
     {
@@ -15,7 +16,7 @@
          * Seed the application's database.
          */
 
-        public function createAdmin(int $nb) : User {
+        public function createAdmin(int $nb, array $payload) : User {
             $user = User::factory()->create([
                 'email' => 'example' .$nb .'@example.com',
                 'password' => Hash::make('password'),
@@ -32,12 +33,19 @@
                 'rue' => 'rue Sommeiller',
                 'numero_de_rue' => 1,
                 'user_id' => $user->id,
+                'service_id'=> $payload[$nb % 2]->id,
             ]);
 
             return $user;
         }
         public function run(): void
         {
+
+            $serviceCompta = Service::create(["nom" => "Comptabilité", "description" => "Comptabilité", "numero" => "01"]);
+            $serviceMangement = Service::create(["nom" => "Mangement", "description" => "Mangement", "numero" => "02"]);
+
+            $payload = [$serviceCompta, $serviceMangement];
+
             $select_role = Permission::create(["nom" => "select_roles"]);
             $create_role = Permission::create(["nom" => "create_roles"]);
             $update_role = Permission::create(["nom" => "update_roles"]);
@@ -71,8 +79,11 @@
 
             $j = 0;
             for ($i = 0; $i < 10; $i++) {
-                $user = $this->createAdmin($i);
-                $user->roles()->attach($roleArray[$j++ % 4]);
+                $user = $this->createAdmin($i, $payload);
+                $user->roles()->attach($roleArray[$j++ % 4]->id);
+                $user->roles()->attach($employee->id);
             }
+
+
         }
     }

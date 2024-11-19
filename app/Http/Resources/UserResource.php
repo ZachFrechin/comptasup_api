@@ -33,6 +33,7 @@ class UserResource extends JsonResource
             'date_ajout' => $this->created_at,
             'derniere_modification' => $this->updated_at,
             "statut" => $this->active,
+            "service" => $this->profil->service,
         ];
     }
 }
