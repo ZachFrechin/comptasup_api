@@ -32,7 +32,7 @@ class RoleController extends Controller
     public function store(RoleCreateRequest $request)
     {
         $role = new Role();
-        $role->nom = $request->name;
+        $role->nom = $request->nom;
         $role->color = $request->color;
         $role->save();
         $role->permissions()->sync($request->permissions);

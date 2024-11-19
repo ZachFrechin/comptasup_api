@@ -13,8 +13,8 @@ use App\Http\Controllers\ServiceController;
  * @apiGroup Auth
  * * @apiVersion 0.1.0
  *
- * @apiParam {String} email Email de l'utilisateur.
- * @apiParam {String} password Mot de passe de l'utilisateur.
+ * @apiBody {String} email Email de l'utilisateur.
+ * @apiBody {String} password Mot de passe de l'utilisateur.
  *
  * @apiSuccess {Object} data Objet de réponse contenant les données.
  * @apiSuccess {String} data.token Token d'authentification de l'utilisateur.
@@ -123,8 +123,18 @@ Route::prefix('user')->group(function () {
          * @apiGroup User
          * * @apiVersion 0.1.0
          *
-         * @apiParam {String} email Email de l'utilisateur.
-         * @apiParam {String} password Mot de passe de l'utilisateur.
+         * @apiBody {String} email Email de l'utilisateur.
+         * @apiBody {String} password Mot de passe de l'utilisateur.
+         * @apiBody {String} nom Nom de l'utilisateur.
+         * @apiBody {String} prenom Prénom de l'utilisateur.
+         * @apiBody {Date} naissance Date de naissance de l'utilisateur.
+         * @apiBody {String} telephone Numéro de téléphone de l'utilisateur.
+         * @apiBody {String} code_postal Code postal de l'utilisateur (optionel).
+         * @apiBody {String} ville Ville de l'utilisateur (optionel).
+         * @apiBody {String} pays Pays de l'utilisateur (optionel).
+         * @apiBody {String} rue Rue de l'utilisateur (optionel).
+         * @apiBody {String} numero_de_rue Numéro de rue de l'utilisateur (optionel).
+         *
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -153,9 +163,11 @@ Route::prefix('user')->group(function () {
          * * @apiVersion 0.1.0
          *
          * @apiParam {Number} id ID de l'utilisateur.
-         * @apiParam {String} [email] Email de l'utilisateur.
-         * @apiParam {String} [nom] Nom de l'utilisateur.
-         * @apiParam {String} [prenom] Prénom de l'utilisateur.
+         *
+         * @apiBody {Number} id ID de l'utilisateur.
+         * @apiBody {String} [email] Email de l'utilisateur.
+         * @apiBody {String} [nom] Nom de l'utilisateur.
+         * @apiBody {String} [prenom] Prénom de l'utilisateur.
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -174,7 +186,7 @@ Route::prefix('user')->group(function () {
          *       }
          *     }
          */
-        Route::put('/update/{user}', 'update');
+        Route::put('/{user}', 'update');
 
         /**
          * % TO UPDATE
@@ -184,6 +196,8 @@ Route::prefix('user')->group(function () {
          * * @apiVersion 0.1.0
          *
          * @apiParam {Number} id ID de l'utilisateur.
+         *
+         * @apiBody {Number} id ID de l'utilisateur.
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -197,7 +211,7 @@ Route::prefix('user')->group(function () {
          *       }
          *     }
          */
-        Route::delete('/destroy/{user}', 'destroy');
+        Route::delete('/{user}', 'destroy');
 
         /**
          * $ UP TO DATE
@@ -207,7 +221,9 @@ Route::prefix('user')->group(function () {
          * * @apiVersion 0.1.0
          *
          * @apiParam {Number} id ID de l'utilisateur.
-         * @apiParam {Number} role_id ID du nouveau rôle.
+         *
+         * @apiBody {Number} id ID de l'utilisateur.
+         * @apiBody {Number} role_id ID du nouveau rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -237,6 +253,8 @@ Route::prefix('user')->group(function () {
          * @apiName DeleteUserRole
          * @apiGroup User
          * * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID de l'utilisateur.
          *
          * @apiParam {Number} id ID de l'utilisateur.
          * @apiHeader {Bearer} token Token d'authentification
@@ -326,7 +344,10 @@ Route::prefix('role')->group(function () {
          * @apiGroup Role
          * * @apiVersion 0.1.0
          *
-         * @apiParam {String} nom Nom du rôle.
+         * @apiBody {String} nom Nom du rôle.
+         * @apiBody {String} couleur Couleur du rôle.
+         * @apiBody {array} arrayPermissions Permissions du rôle.
+         *
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -353,7 +374,9 @@ Route::prefix('role')->group(function () {
          * * @apiVersion 0.1.0
          *
          * @apiParam {Number} id ID du rôle.
-         * @apiParam {String} [nom] Nom du rôle.
+         *
+         * @apiBody {String} nom Nom du rôle. {Number} id ID du rôle.
+         * @apiBody {String} nom Nom du rôle. {String} [nom] Nom du rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiSuccess {Object} data Objet de réponse contenant les données.
@@ -370,7 +393,7 @@ Route::prefix('role')->group(function () {
          *       }
          *     }
          */
-        Route::put('/update/{id}','update');
+        Route::put('/{id}','update');
 
         /**
          * $ UP TO DATE
@@ -393,7 +416,7 @@ Route::prefix('role')->group(function () {
          *       }
          *     }
          */
-        Route::delete('/destroy/{id}', 'destroy');
+        Route::delete('/{id}', 'destroy');
     });
 });
 

@@ -54,7 +54,8 @@ class UserController extends Controller
         $profil->rue = $request->rue;
         $profil->numero_de_rue = $request->numero_de_rue;
         $profil->user_id = $user->id;
-
+        $profil->service_id = $request->service_id;
+        
         $profil->save();
 
 

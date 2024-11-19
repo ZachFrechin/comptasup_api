@@ -76,6 +76,10 @@ use Illuminate\Foundation\Http\FormRequest;
                 "numero_de_rue" => [
                     "nullable",
                     "integer",
+                ],
+                "service_id"=> [
+                    "nullable",
+                    "exists:services,id"
                 ]
             ];
         }

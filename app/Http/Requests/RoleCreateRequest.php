@@ -22,7 +22,7 @@ class RoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=> "string|required",
+            "nom"=> "string|required",
             "color"=> "string|nullable",
             "permissions" => "required|array",
             "permissions.*" => "required|int|exists:permissions,id"
