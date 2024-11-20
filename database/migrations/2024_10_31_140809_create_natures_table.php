@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('numero');
-            $table->string('descriptor');
             $table->timestamps();
         });
     }

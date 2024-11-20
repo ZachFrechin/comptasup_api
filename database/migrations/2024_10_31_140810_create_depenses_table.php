@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('depenses', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->nullable();
-            $table->string('ressource');
-            $table->unsignedBigInteger('note_id');
+            $table->unsignedBigInteger('note_id')->nullable();
             $table->unsignedBigInteger('nature_id');
             $table->float('totalTTC');
             $table->date('date');

@@ -10,7 +10,6 @@ class Depense extends Model
 {
     protected $fillable = [
         'nom',
-        'ressource',
         'note_id',
         'totalTTC',
         'date',

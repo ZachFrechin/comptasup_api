@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\NatureController;
+use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\NoteController;
 
 /**
  * $ UP TO DATE
@@ -565,4 +568,256 @@ Route::prefix('service')->group(function () {
         Route::delete('/{service}', 'destroy');
     });
 });
+
+Route::prefix('nature')->group(function () {
+    Route::controller(NatureController::class)->group(function () {
+        /**
+         * @api {get} /nature Liste des natures
+         * @apiName GetNatures
+         * @apiGroup Nature
+         * @apiVersion 0.1.0
+         *
+         * @apiSuccess {Object[]} data Liste des natures.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "data": [
+         *         { "id": 1, "nom": "Nature 1", "numero": "001" },
+         *         { "id": 2, "nom": "Nature 2", "numero": "002" }
+         *       ]
+         *     }
+         */
+        Route::get('/','index');
+
+        /**
+         * @api {post} /nature/store Créer une nouvelle nature
+         * @apiName StoreNature
+         * @apiGroup Nature
+         * @apiVersion 0.1.0
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         * @apiBody {String} nom Nom de la nature.
+         * @apiBody {String} numero Numéro de la nature.
+         *
+         * @apiSuccess {Object} data Détails de la nature créée.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 201 Created
+         *     {
+         *       "data": {
+         *         "id": 1,
+         *         "nom": "Nature 1",
+         *         "numero": "001"
+         *       }
+         *     }
+         */
+        Route::post('/store','store');
+
+        /**
+         * @api {get} /nature/:id Afficher une nature
+         * @apiName ShowNature
+         * @apiGroup Nature
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID unique de la nature.
+         *
+         * @apiSuccess {Object} data Détails de la nature.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "data": {
+         *         "id": 1,
+         *         "nom": "Nature 1",
+         *         "numero": "001"
+         *       }
+         *     }
+         */
+        Route::get('/{nature}','show');
+    });
+});
+
+Route::prefix('depense')->group(function () {
+    Route::controller(DepenseController::class)->group(function () {
+        /**
+         * @api {get} /depense Liste des dépenses
+         * @apiName GetDepenses
+         * @apiGroup Depense
+         * @apiVersion 0.1.0
+         *
+         * @apiSuccess {Object[]} data Liste des dépenses.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "data": [
+         *         {
+                    "id": 4,
+                    "descriptor": {
+                        "reason": "string",
+                        "price": "int",
+                        "totalKm": "float"
+                    },
+                    "note": {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    },
+                    "nature": {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    },
+                    "totalTTC": 50,
+                    "date": "2003\/08\/06",
+                    "tiers": "zeubiii"
+         *         },
+         *      ]
+         *   }
+         */
+        Route::get('/','index');
+
+        /**
+         * @api {post} /depense/store Créer une nouvelle dépense
+         * @apiName StoreDepense
+         * @apiGroup Depense
+         * @apiVersion 0.1.0
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         * @apiBody {Number} montant Montant de la dépense.
+         * @apiBody {String} description Description de la dépense.
+         *
+         * @apiSuccess {Object} data Détails de la dépense créée.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 201 Created
+         *     {
+         *  "data": {
+         *     "id": 4,
+         *          "descriptor": {
+                    "reason": "string",
+                    "price": "int",
+                    "totalKm": "float"
+                },
+                "note": {
+                    "id": 1,
+                    "commentaire": null,
+                    "etat_id": null
+                },
+                "nature": {
+                    "id": 1,
+                    "commentaire": null,
+                    "etat_id": null
+                },
+                "totalTTC": 50,
+                "date": "2003\/08\/06",
+                "tiers": "zeubiii"
+            }
+        }
+         */
+        Route::post('/store','store');
+
+        /**
+         * @api {get} /depense/:id Afficher une dépense
+         * @apiName ShowDepense
+         * @apiGroup Depense
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID unique de la dépense.
+         *
+         * @apiSuccess {Object} data Détails de la dépense.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+                "data": {
+                    "id": 4,
+                    "descriptor": {
+                        "reason": "string",
+                        "price": "int",
+                        "totalKm": "float"
+                    },
+                    "note": {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    },
+                    "nature": {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    },
+                    "totalTTC": 50,
+                    "date": "2003\/08\/06",
+                    "tiers": "zeubiii"
+                }
+            }
+         */
+        Route::get('/{depense}','show');
+    });
+});
+
+Route::prefix('note')->group(function () {
+    Route::controller(NoteController::class)->group(function () {
+        /**
+         * @api {get} /note Liste des notes
+         * @apiName GetNotes
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiSuccess {Object[]} data Liste des notes.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "data": [
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    }
+	            ]
+         *     }
+         */
+        Route::get('/','index');
+
+        /**
+         * @api {post} /note/store Créer une nouvelle note
+         * @apiName StoreNote
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         * @apiBody {String} contenu Contenu de la note.
+         *
+         * @apiSuccess {Object} data Détails de la note créée.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 201 Created
+         *     {
+         *       {
+                    "id": 1,
+                    "commentaire": null,
+                    "etat_id": null
+                }
+         *   }
+         */
+        Route::post('/store','store');
+
+        /**
+         * @api {get} /note/:id Afficher une note
+         * @apiName ShowNote
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID unique de la note.
+         *
+         * @apiSuccess {Object} data Détails de la note.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       {
+                    "id": 1,
+                    "commentaire": null,
+                    "etat_id": null
+                }
+         *    }
+         */
+        Route::get('/{note}','show');
+    });
+});
+    
 
