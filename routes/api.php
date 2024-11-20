@@ -582,10 +582,13 @@ Route::prefix('nature')->group(function () {
          *     HTTP/1.1 200 OK
          *     {
          *       "data": [
-         *         { "id": 1, "nom": "Nature 1", "numero": "001" },
-         *         { "id": 2, "nom": "Nature 2", "numero": "002" }
-         *       ]
-         *     }
+                    {
+                        "id": 1,
+                        "nom": "sample",
+                        "descriptor": []
+                    }
+	            ]
+         *   }
          */
         Route::get('/','index');
 
@@ -604,10 +607,10 @@ Route::prefix('nature')->group(function () {
          *     HTTP/1.1 201 Created
          *     {
          *       "data": {
-         *         "id": 1,
-         *         "nom": "Nature 1",
-         *         "numero": "001"
-         *       }
+                    "id": 1,
+                    "nom": "sample",
+                    "descriptor": []
+                 }
          *     }
          */
         Route::post('/store','store');
@@ -625,10 +628,10 @@ Route::prefix('nature')->group(function () {
          *     HTTP/1.1 200 OK
          *     {
          *       "data": {
-         *         "id": 1,
-         *         "nom": "Nature 1",
-         *         "numero": "001"
-         *       }
+                    "id": 1,
+                    "nom": "sample",
+                    "descriptor": []
+                  }
          *     }
          */
         Route::get('/{nature}','show');

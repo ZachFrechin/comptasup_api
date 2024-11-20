@@ -38,7 +38,7 @@ class NatureController extends Controller
      */
     public function show(Nature $nature)
     {
-        return response()->json(['data'=> new NatureResource($nature) ,200]);
+        return response()->json(['data'=> new NatureResource($nature)] ,200);
     }
 
     /**

@@ -39,7 +39,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        return response()->json(NoteResource::make($note) ,200);
+        return response()->json(new NoteResource($note) ,200);
     }
 
     /**
