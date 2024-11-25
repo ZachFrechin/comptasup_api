@@ -10,7 +10,8 @@ class Note extends Model
 {
     protected $fillable = [
         'commentaire',
-        'etat_id'
+        'etat_id',
+        'user_id',
     ];
 
     public function depenses() {
@@ -19,5 +20,9 @@ class Note extends Model
 
     public function etat() {
         return $this->belongsTo(Etat::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

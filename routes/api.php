@@ -338,7 +338,7 @@ Route::prefix('role')->group(function () {
          *       }
          *     }
          */
-        Route::get('/{id}','show');
+        Route::get('/{role}','show');
 
         /**
          * $ UP TO DATE
@@ -396,7 +396,7 @@ Route::prefix('role')->group(function () {
          *       }
          *     }
          */
-        Route::put('/{id}','update');
+        Route::put('/{role}','update');
 
         /**
          * $ UP TO DATE
@@ -419,7 +419,7 @@ Route::prefix('role')->group(function () {
          *       }
          *     }
          */
-        Route::delete('/{id}', 'destroy');
+        Route::delete('/{role}', 'destroy');
     });
 });
 

@@ -21,8 +21,10 @@ return new class extends Migration
             $table->id();
             $table->text('commentaire')->nullable();
             $table->unsignedBigInteger('etat_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('validateur_id')->nullable();
             $table->unsignedBigInteger('controleur_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('validateur_id')->references('id')->on('users');
             $table->foreign('controleur_id')->references('id')->on('users');
             $table->foreign('etat_id')->references('id')->on('etats');

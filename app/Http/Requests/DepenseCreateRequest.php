@@ -28,7 +28,7 @@ class DepenseCreateRequest extends FormRequest
             'totalTTC' => "int|required",
             'date' => "date|required",
             'tiers' => "string|nullable",
-            'nature_id' => "int|required|exists:natures,id",
+            'nature_id' => "int|required|exists:natures,id|nullable",
         ];
     }
 }

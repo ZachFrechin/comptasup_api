@@ -9,6 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\Role;
 use App\Models\Profil;
+use App\Models\Note;
 
 class User extends Authenticatable
 {
@@ -55,5 +56,9 @@ class User extends Authenticatable
 
     public function profil() {
         return $this->hasOne(Profil::class);
+    }
+
+    public function notes() {
+        return $this->hasMany(Note::class);
     }
 }

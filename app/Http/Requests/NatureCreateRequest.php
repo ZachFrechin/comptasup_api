@@ -25,6 +25,7 @@ class NatureCreateRequest extends FormRequest
              "numero" =>"string|required",
              "nom" =>"string|required",
              "descriptor" => "json|required",
+             'user_id' => "int|exists:users,id",
         ];
     }
 

@@ -9,6 +9,7 @@
     use Illuminate\Support\Facades\Hash;
     use App\Models\Permission;
     use App\Models\Service;
+    use App\Models\Note;
 
     class DatabaseSeeder extends Seeder
     {
@@ -64,7 +65,6 @@
             $manager = Role::create(["nom" => "Gestionnaire", "color"=> "#FF7DF2"]);
             $adminRole = Role::create(["nom" => "Administrateur", "color"=> "#39B8FF"]);
 
-            // Attacher les permissions par ID
             $validator->permissions()->attach($select_user->id);
             $controller->permissions()->attach($select_user->id);
             $manager->permissions()->attach([$select_user->id, $select_role->id]);
@@ -77,12 +77,17 @@
                 $adminRole
             ];
 
+            
+
             $j = 0;
             for ($i = 0; $i < 10; $i++) {
                 $user = $this->createAdmin($i, $payload);
                 $user->roles()->attach($roleArray[$j++ % 4]->id);
                 $user->roles()->attach($employee->id);
             }
+
+            $note = Note::create(["user_id" => 1]);
+
 
 
         }

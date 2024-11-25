@@ -9,13 +9,10 @@ use App\Http\Resources\RoleResource;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $roles = Role::all();
-        return response()->json(["data" => RoleResource::collection($roles)] ,200);
+        return response()->json(["data" => RoleResource::collection(Role::all())] ,200);
     }
 
     /**
@@ -36,16 +33,15 @@ class RoleController extends Controller
         $role->color = $request->color;
         $role->save();
         $role->permissions()->sync($request->permissions);
-        return response()->json(["data" => new RoleResource($role)] ,200);
+        return response()->json(["data" => RoleResource::make($role)] ,201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Role $role)
     {
-        $role = Role::find($id);
-        return response()->json(["data" => new RoleResource($role)] ,200);
+        return response()->json(["data" => RoleResource::make($role)] ,200);
     }
 
     /**
@@ -59,7 +55,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -67,7 +63,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
         //
     }
