@@ -31,4 +31,4 @@ class DepenseCreateRequest extends FormRequest
             'nature_id' => "int|required|exists:natures,id|nullable",
         ];
     }
-}
+} 
