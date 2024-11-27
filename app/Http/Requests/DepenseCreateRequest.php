@@ -25,7 +25,7 @@ class DepenseCreateRequest extends FormRequest
             'nom' => "string|required",
             "descriptor"=> "json|required",
             'note_id' => "int|exists:notes,id|nullable",
-            'totalTTC' => "int|required",
+            'totalTTC' => "string|required",
             'date' => "date|required",
             'tiers' => "string|nullable",
             'nature_id' => "int|required|exists:natures,id|nullable",

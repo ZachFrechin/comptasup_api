@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom')->nullable();
             $table->unsignedBigInteger('note_id')->nullable();
             $table->unsignedBigInteger('nature_id')->nullable();
-            $table->float('totalTTC');
+            $table->string('totalTTC');
             $table->date('date');
             $table->string('tiers')->nullable();
             $table->foreign('nature_id')->references('id')->on('natures');

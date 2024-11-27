@@ -684,7 +684,7 @@ Route::prefix('depense')->group(function () {
          * @apiVersion 0.1.0
          *
          * @apiHeader {Bearer} token Token d'authentification
-         * @apiBody {Number} montant Montant de la dépense.
+         * @apiBody {String} montant Montant de la dépense.
          * @apiBody {String} descriptor Description de la dépense.
          * @apiBody {String} tiers Tiers de la.depense.
          * @apiBody {Date} date Date de la.depense.
