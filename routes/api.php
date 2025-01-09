@@ -682,17 +682,14 @@ Route::prefix('depense')->group(function () {
          * @apiVersion 0.1.0
          *
          * @apiHeader {Bearer} token Token d'authentification
-<<<<<<< Updated upstream
-         * @apiBody {Number} montant Montant de la dépense.
-         * @apiBody {String} description Description de la dépense.
-=======
+
          * @apiBody {String} montant Montant de la dépense.
          * @apiBody {String} details Description de la dépense.
          * @apiBody {String} tiers Tiers de la.depense.
          * @apiBody {Date} date Date de la.depense.
          * @apiBody {Number} nature Nature de la.depense.
          * @apiBody {Number} note Note de la.depense.
->>>>>>> Stashed changes
+
          *
          * @apiSuccess {Object} data Détails de la dépense créée.
          * @apiSuccessExample {json} Succès:
