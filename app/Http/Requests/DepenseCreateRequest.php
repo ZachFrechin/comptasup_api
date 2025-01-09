@@ -14,7 +14,7 @@ class DepenseCreateRequest extends FormRequest
         return true;
     }
 
-    /**
+    /*
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -23,12 +23,16 @@ class DepenseCreateRequest extends FormRequest
     {
         return [
             'nom' => "string|required",
-            "descriptor"=> "json|required",
             'note_id' => "int|exists:notes,id|nullable",
             'totalTTC' => "int|required",
             'date' => "date|required",
             'tiers' => "string|nullable",
+<<<<<<< Updated upstream
             'nature_id' => "int|required|exists:natures,id",
+=======
+            'nature_id' => "int|exists:natures,id",
+            "details" => "json|required"
+>>>>>>> Stashed changes
         ];
     }
 }

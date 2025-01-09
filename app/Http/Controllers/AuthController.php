@@ -39,7 +39,6 @@ class AuthController extends Controller
             ->toArray();
     
         $token = $user->createToken($user->id, $permissions);
-    
         $userResource = new UserResource($user);
     
         return response()->json([

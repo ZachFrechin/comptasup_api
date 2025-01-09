@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('totalTTC');
             $table->date('date');
             $table->string('tiers')->nullable();
+            $table->json("details");
             $table->foreign('nature_id')->references('id')->on('natures');
             $table->foreign('note_id')->references('id')->on('notes');
             $table->timestamps();

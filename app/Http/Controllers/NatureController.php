@@ -28,8 +28,7 @@ class NatureController extends Controller
 
     public function store(NatureCreateRequest $request)
     {
-        $nature = Nature::create($request->only('nom', 'numero'));
-        Storage::put( 'nature/' .$nature->id, $request->descriptor);
+        $nature = Nature::create($request->only('nom', 'numero', 'descriptor'));
         return response()->json(['data'=> new NatureResource($nature) ,201]);
     }
 

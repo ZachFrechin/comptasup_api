@@ -15,6 +15,7 @@ class Depense extends Model
         'date',
         'tiers',
         'nature_id',
+        'details'
     ];
 
     public function note() {

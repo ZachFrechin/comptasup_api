@@ -18,7 +18,7 @@ class NatureResource extends JsonResource
         return [
             "id"=> $this->id,
             "nom" => $this->nom,
-            "descriptor" => Storage::json("nature/" . $this->id)
+            "descriptor" => $this->descriptor
         ];
     }
 }

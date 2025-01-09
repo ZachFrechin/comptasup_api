@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\DepenseResource;
 use App\Models\Depense;
 use App\Http\Requests\DepenseCreateRequest;
+use App\Models\Nature;
 use Storage;
 
 class DepenseController extends Controller
@@ -32,7 +33,17 @@ class DepenseController extends Controller
     public function store(DepenseCreateRequest $request)
     {
         $depense = Depense::create($request->validated());
-        Storage::put("depense/" . $depense->id, $request->descriptor);
+        $nature = Nature::where("id", $request->nature_id)->first();
+
+        $natureDescriptor = json_decode($nature->descriptor, true);
+        foreach ($natureDescriptor as $key => $value) {
+            if ($value["type"] == "file") {
+                $name = json_decode($depense->details, true)["keys"];
+                if($request->hasFile($name)) {
+                    $request->file($name)->storeAs('public/depenses/'.$depense->id, $name);
+                }
+            }
+        }
         return response()->json(["data"=> DepenseResource::make($depense) ] ,200);
     }
 
@@ -41,7 +52,7 @@ class DepenseController extends Controller
      */
     public function show(Depense $depense)
     {
-        return response()->json(["data"=> DepenseResource::make($depense) ] ,200);
+        return response()->json(["data"=> DepenseResource::make(parameters: $depense) ] ,200);
     }
 
     /**

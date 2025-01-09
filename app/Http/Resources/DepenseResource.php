@@ -17,16 +17,26 @@ class DepenseResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
     public function toArray(Request $request): array
     {
         return [
             "id"=> $this->id,
-            "descriptor" => Storage::json("depense/" . $this->id),
+            "details" => $this->details,
             "note" => NoteResource::make($this->note),
-            "nature" => NoteResource::make($this->nature),
+            "nature" => NatureResource::make($this->nature),
             "totalTTC" => $this->totalTTC,
             "date" => $this->date,
             "tiers" => $this->tiers,
+            "fichiers" => $this->getFichiersUrls(),
         ];
+    }
+
+    private function getFichiersUrls(): array
+    {
+        $directory = 'public/depenses/' . $this->id;
+        $files = Storage::files($directory); // Liste des fichiers dans le répertoire
+
+        return array_map(fn($file) => Storage::url($file), $files); // Génération des URLs
     }
 }
