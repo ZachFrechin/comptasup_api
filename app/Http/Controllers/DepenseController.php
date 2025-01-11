@@ -43,8 +43,7 @@ class DepenseController extends Controller
                 $name = json_decode($depense->details, true)[$key];
 
                 if($request->hasFile($key)) {
-                    $storedPath = $request->file($key)->storeAs('public/depenses/'.$depense->id, $name);
-                    dd($storedPath);
+                    $request->file($key)->storeAs('public/depenses/'.$depense->id, $name);
                 }
             }
         }
