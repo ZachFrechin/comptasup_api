@@ -24,12 +24,11 @@ class DepenseCreateRequest extends FormRequest
         return [
             'nom' => "string|required",
             'note_id' => "int|exists:notes,id|nullable",
-            'totalTTC' => "int|required",
+            'totalTTC' => "numeric|required",
             'date' => "date|required",
             'tiers' => "string|nullable",
             'nature_id' => "int|exists:natures,id",
             "details" => "json|required"
-
         ];
     }
 }
