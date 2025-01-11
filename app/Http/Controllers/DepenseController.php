@@ -36,11 +36,15 @@ class DepenseController extends Controller
         $nature = Nature::where("id", $request->nature_id)->first();
 
         $natureDescriptor = json_decode($nature->descriptor, true);
+
         foreach ($natureDescriptor as $key => $value) {
             if ($value["type"] == "file") {
-                $name = json_decode($depense->details, true)["keys"];
-                if($request->hasFile($name)) {
-                    $request->file($name)->storeAs('public/depenses/'.$depense->id, $name);
+
+                $name = json_decode($depense->details, true)[$key];
+
+                if($request->hasFile($key)) {
+                    $storedPath = $request->file($key)->storeAs('public/depenses/'.$depense->id, $name);
+                    dd($storedPath);
                 }
             }
         }
