@@ -5,6 +5,7 @@
     use App\Models\Profil;
     use App\Models\Role;
     use App\Models\User;
+    use App\Models\Nature;
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\Hash;
     use App\Models\Permission;
@@ -57,7 +58,7 @@
             $delete_user = Permission::create(["nom" => "delete_users"]);
             $manage_user = Permission::create(["nom" => "manage_users"]);
             $administrator_permission = Permission::create(["nom" => "administrator"]);
-            
+
             $employee = Role::create(["nom" => "Employé", "color" => "#FF6352"]);
             $validator = Role::create(["nom" => "Validateur", "color" => "#95E01C"]);
             $controller = Role::create(["nom" => "Contrôleur", "color" => "#FFD600"]);
@@ -84,6 +85,6 @@
                 $user->roles()->attach($employee->id);
             }
 
-
+            Nature::create(["nom" => "Nature", "numero" => "1", "descriptor" => "{\"file\":{\"type\":\"file\",\"title\":\"Justificatif\",\"size\":10,\"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\"required\":true}}"]);
         }
     }
