@@ -89,8 +89,10 @@
             Nature::create(["nom" => "Nature", "numero" => "1", "descriptor" => "{\"file\":{\"type\":\"file\",\"title\":\"Justificatif\",\"size\":10,\"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\"required\":true}}"]);
 
             Etat::create(["nom" => "not validated"]);
-            Etat::create(["nom" => "not controlled"]);
-            Etat::create(["nom" => "correct"]);
+            Etat::create(["nom" => "rejected"]);
+            Etat::create(["nom" => "canceled"]);
+            Etat::create(["nom" => "not_controled"]);
+            Etat::create(["nom" => "validated"]);
             Etat::create(["nom" => "archived"]);
         }
     }

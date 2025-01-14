@@ -767,20 +767,39 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          * @apiGroup Note
          * @apiVersion 0.1.0
          *
+         * @apiDescription Récupère la liste des notes de l'utilisateur connecté.
+         * Vous pouvez ajouter un paramètre optionnel dabs l'url `etat` pour filtrer les notes en fonction de leur état. ( id de l'état )
+         *
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
+         *
          * @apiSuccess {Object[]} data Liste des notes.
+         * @apiSuccess {Number} data.id ID unique de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
+         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
          * @apiSuccessExample {json} Succès:
          *     HTTP/1.1 200 OK
          *     {
-         *       "data": [
-                    {
-                        "id": 1,
-                        "commentaire": null,
-                        "etat_id": null
-                    }
-	            ]
+         *         "data": [
+         *             {
+         *                 "id": 1,
+         *                 "commentaire": null,
+         *                 "etat_id": {
+         *                     "id": 1,
+         *                     "nom": "not validated",
+         *                     "created_at": "2025-01-14T18:55:52.000000Z",
+         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
+         *                 }
+         *             }
+         *         ]
          *     }
          */
-        Route::get('/','index');
+        Route::get('/', 'index');
+
 
         /**
          * @api {get} /note/byValidator Liste des notes par validateur
@@ -788,17 +807,35 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          * @apiGroup Note
          * @apiVersion 0.1.0
          *
+         * @apiDescription Récupère la liste des notes associées au validateur connecté.
+         * Vous pouvez ajouter un paramètre optionnel `etat` pour filtrer les notes en fonction de leur état.
+         *
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
+         *
          * @apiSuccess {Object[]} data Liste des notes.
+         * @apiSuccess {Number} data.id ID unique de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
+         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
          * @apiSuccessExample {json} Succès:
          *     HTTP/1.1 200 OK
          *     {
-         *       "data": [
-                    {
-                        "id": 1,
-                        "commentaire": null,
-                        "etat_id": null
-                    }
-                ]
+         *         "data": [
+         *             {
+         *                 "id": 1,
+         *                 "commentaire": null,
+         *                 "etat_id": {
+         *                     "id": 1,
+         *                     "nom": "not validated",
+         *                     "created_at": "2025-01-14T18:55:52.000000Z",
+         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
+         *                 }
+         *             }
+         *         ]
          *     }
          */
         Route::get('/byValidator','indexByValidator');
@@ -845,6 +882,139 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          *    }
          */
         Route::get('/{note}','show');
+
+        /**
+         * @api {post} /note/:id/validate Valider une note de frais
+         * @apiName ValidateNote
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID de la note de frais à valider.
+         *
+         * @apiSuccess {String} message Message de confirmation.
+         * @apiSuccess {Object} data Données de la note mise à jour.
+         * @apiSuccess {Number} data.id ID de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id État de la note.
+         * @apiSuccess {Number} data.etat_id.id ID de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "message": "Note has been validated and marked as 'not controlled'.",
+         *       "data": {
+         *           "id": 1,
+         *           "commentaire": null,
+         *           "etat_id": {
+         *               "id": 2,
+         *               "nom": "not controlled",
+         *               "created_at": "2025-01-14T18:55:52.000000Z",
+         *               "updated_at": "2025-01-14T18:55:52.000000Z"
+         *           }
+         *       }
+         *     }
+         *
+
+         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
+         * @apiErrorExample {json} Non autorisé:
+         *     HTTP/1.1 403 Forbidden
+         *     {
+         *       "message": "You are not the validator of this note."
+         *     }
+         */
+        Route::post('/{note}/validate', 'validate');
+
+        /**
+         * @api {post} /note/:id/reject Rejeter une note de frais
+         * @apiName RejectNote
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID de la note de frais à valider.
+         *
+         * @apiSuccess {String} message Message de confirmation.
+         * @apiSuccess {Object} data Données de la note mise à jour.
+         * @apiSuccess {Number} data.id ID de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id État de la note.
+         * @apiSuccess {Number} data.etat_id.id ID de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "message": "Note has been rejected and marked as 'not controlled'.",
+         *       "data": {
+         *           "id": 1,
+         *           "commentaire": null,
+         *           "etat_id": {
+         *               "id": 3,
+         *               "nom": "not controlled",
+         *               "created_at": "2025-01-14T18:55:52.000000Z",
+         *               "updated_at": "2025-01-14T18:55:52.000000Z"
+         *           }
+         *       }
+         *     }
+         *
+
+         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
+         * @apiErrorExample {json} Non autorisé:
+         *     HTTP/1.1 403 Forbidden
+         *     {
+         *       "message": "You are not the validator of this note."
+         *     }
+         */
+        Route::post('/{note}/reject', 'reject');
+
+        /**
+         * @api {post} /note/:id/cancel Annuler une note de frais
+         * @apiName CancelNote
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID de la note de frais à valider.
+         *
+         * @apiSuccess {String} message Message de confirmation.
+         * @apiSuccess {Object} data Données de la note mise à jour.
+         * @apiSuccess {Number} data.id ID de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id État de la note.
+         * @apiSuccess {Number} data.etat_id.id ID de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "message": "Note has been canceled and marked as 'not controlled'.",
+         *       "data": {
+         *           "id": 1,
+         *           "commentaire": null,
+         *           "etat_id": {
+         *               "id": 4,
+         *               "nom": "not controlled",
+         *               "created_at": "2025-01-14T18:55:52.000000Z",
+         *               "updated_at": "2025-01-14T18:55:52.000000Z"
+         *           }
+         *       }
+         *     }
+         *
+
+         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
+         * @apiErrorExample {json} Non autorisé:
+         *     HTTP/1.1 403 Forbidden
+         *     {
+         *       "message": "You are not the validator of this note."
+         *     }
+         */
+        Route::post('/{note}/cancel', 'cancel');
+
     });
 });
     
