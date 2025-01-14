@@ -36,7 +36,7 @@ class NoteController extends Controller
         $note = Note::create([
             "validateur_id" => $validators[0]->id,
             "etat_id" => 0,
-            "user_id" =>  $request->user->id
+            "user_id" =>  $request->user()->id
         ]);
 
         $note->save();
