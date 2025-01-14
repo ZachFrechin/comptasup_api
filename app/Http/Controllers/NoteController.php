@@ -33,13 +33,15 @@ class NoteController extends Controller
     public function store(NoteCreateRequest $request)
     {
         $validators = Role::find(2)->users;
+
+        $creator_id = $request->user()->id;
         $note = Note::create([
+            "user_id" => $creator_id,
             "validateur_id" => $validators[0]->id,
-            "etat_id" => 0,
-            "user_id" =>  $request->user()->id
+            "etat_id" => 1,
         ]);
 
-        $note->save();
+        dd($note);
         return response()->json(["data" => new NoteResource($note)] ,201);
     }
 
