@@ -25,4 +25,12 @@ class Note extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function validateur() {
+        return $this->belongsTo(User::class, 'validateur_id');
+    }
+
+    public function controleur() {
+        return $this->belongsTo(User::class, 'controleur_id');
+    }
 }

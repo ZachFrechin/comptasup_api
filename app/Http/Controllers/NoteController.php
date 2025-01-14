@@ -14,9 +14,13 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(["data" => NoteResource::collection(Note::all())]);
+        return response()->json(["data" => NoteResource::collection(Note::where(["user_id" => $request->user()->id])->get())] ,200);
+    }
+
+    public function indexByValidator(Request $request) {
+        return response()->json(["data" => NoteResource::collection(Note::where(["validateur_id" => $request->user()->id])->get())] ,200);
     }
 
     /**
@@ -33,13 +37,11 @@ class NoteController extends Controller
     public function store(NoteCreateRequest $request)
     {
         $validators = Role::find(2)->users;
+        $note = Note::create($request->validated());
+        $note->validateur_id = $validators[0]->id;
+        $note->user_id = $request->user()->id;
+        $note->save();
 
-        $creator_id = $request->user()->id;
-        $note = Note::create([
-            "user_id" => $creator_id,
-            "validateur_id" => $validators[0]->id,
-            "etat_id" => 1,
-        ]);
 
         return response()->json(["data" => new NoteResource($note)] ,201);
     }

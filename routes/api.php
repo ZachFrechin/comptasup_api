@@ -783,13 +783,34 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
         Route::get('/','index');
 
         /**
+         * @api {get} /note/byValidator Liste des notes par validateur
+         * @apiName GetNotesByValidator
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiSuccess {Object[]} data Liste des notes.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "data": [
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "etat_id": null
+                    }
+                ]
+         *     }
+         */
+        Route::get('/byValidator','indexByValidator');
+
+        /**
          * @api {post} /note/store Créer une nouvelle note
-         * @apiName StoreNote
+         * @apiName StoreNote / store une note de frai, la retourne et ajoute un état de base et attribue la note au validateur
          * @apiGroup Note
          * @apiVersion 0.1.0
          *
          * @apiHeader {Bearer} token Token d'authentification
-         * @apiBody {String} contenu Contenu de la note.
+         * @apiBody {String} commentaire Contenu de la note.
          *
          * @apiSuccess {Object} data Détails de la note créée.
          * @apiSuccessExample {json} Succès:
