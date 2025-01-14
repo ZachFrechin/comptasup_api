@@ -41,7 +41,6 @@ class NoteController extends Controller
             "etat_id" => 1,
         ]);
 
-        dd($note);
         return response()->json(["data" => new NoteResource($note)] ,201);
     }
 
