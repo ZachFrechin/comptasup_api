@@ -10,6 +10,7 @@
     use Illuminate\Support\Facades\Hash;
     use App\Models\Permission;
     use App\Models\Service;
+    use App\Models\Etat;
 
     class DatabaseSeeder extends Seeder
     {
@@ -86,5 +87,10 @@
             }
 
             Nature::create(["nom" => "Nature", "numero" => "1", "descriptor" => "{\"file\":{\"type\":\"file\",\"title\":\"Justificatif\",\"size\":10,\"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\"required\":true}}"]);
+
+            Etat::create(["nom" => "not validated"]);
+            Etat::create(["nom" => "not controlled"]);
+            Etat::create(["nom" => "correct"]);
+            Etat::create(["nom" => "archived"]);
         }
     }

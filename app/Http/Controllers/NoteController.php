@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Note;
 use App\Http\Requests\NoteCreateRequest;
 use App\Http\Resources\NoteResource;
+use App\Models\Role;
+use App\Models\User;
 
 class NoteController extends Controller
 {
@@ -30,7 +32,13 @@ class NoteController extends Controller
      */
     public function store(NoteCreateRequest $request)
     {
+        $validators = Role::find(2)->users;
         $note = Note::create($request->validated());
+        $note->validateur_id = $validators[0]->id;
+        $note->etat_id = 0;
+        $note->user_id = $request->user->id;
+
+        $note->save();
         return response()->json(["data" => new NoteResource($note)] ,201);
     }
 

@@ -31,12 +31,10 @@ class DepenseResource extends JsonResource
             "fichiers" => $this->getFichiersUrls(),
         ];
     }
-
     private function getFichiersUrls(): array
     {
         $directory = 'public/depenses/' . $this->id;
-        $files = Storage::files($directory); // Liste des fichiers dans le répertoire
-
+        $files = Storage::files($directory); // Liste des fichiers dans le répertoire       
         return array_map(fn($file) => Storage::url($file), $files); // Génération des URLs
     }
 }

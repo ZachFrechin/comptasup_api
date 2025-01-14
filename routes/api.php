@@ -32,7 +32,7 @@ use App\Http\Controllers\NoteController;
  */
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::controller(UserController::class)->group(function () {
         /**
          * $ UP TO DATE
@@ -277,7 +277,7 @@ Route::prefix('user')->group(function () {
     });
 });
 
-Route::prefix('role')->group(function () {
+Route::prefix('role')->middleware('auth:sanctum')->group(function () {
     Route::controller(RoleController::class)->group(function () {
 
         /**
@@ -423,7 +423,7 @@ Route::prefix('role')->group(function () {
     });
 });
 
-Route::prefix('service')->group(function () {
+Route::prefix('service')->middleware('auth:sanctum')->group(function () {
     Route::controller(ServiceController::class)->group(function () {
         /**
          * $ UP TO DATE
@@ -569,7 +569,7 @@ Route::prefix('service')->group(function () {
     });
 });
 
-Route::prefix('nature')->group(function () {
+Route::prefix('nature')->middleware('auth:sanctum')->group(function () {
     Route::controller(NatureController::class)->group(function () {
         /**
          * @api {get} /nature Liste des natures
@@ -636,7 +636,7 @@ Route::prefix('nature')->group(function () {
     });
 });
 
-Route::prefix('depense')->group(function () {
+Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
     Route::controller(DepenseController::class)->group(function () {
         /**
          * @api {get} /depense Liste des dépenses
@@ -759,7 +759,7 @@ Route::prefix('depense')->group(function () {
     });
 });
 
-Route::prefix('note')->group(function () {
+Route::prefix('note')->middleware('auth:sanctum')->group(function () {
     Route::controller(NoteController::class)->group(function () {
         /**
          * @api {get} /note Liste des notes
