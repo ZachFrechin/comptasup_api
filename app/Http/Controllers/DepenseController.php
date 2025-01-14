@@ -69,10 +69,63 @@ class DepenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Depense $depense)
     {
-        //
+        // Define validation rules, but don't validate 'nature_id' if it's not present
+        $validated = $request->validate([
+            'totalTTC' => 'numeric|min:0',
+            'date' => 'date',
+            'tiers' => 'string|max:255',
+            'nature_id' => 'nullable|exists:natures,id', // Make it nullable to allow skipping
+            'details' => 'json'
+        ]);
+
+        // If details are provided and changed, handle related file uploads
+        if ($request->has('details') && $request->input('details') !== json_decode($depense->details, true)) {
+            $nature = Nature::findOrFail($validated['nature_id'] ?? $depense->nature_id);
+            $natureDescriptor = json_decode($nature->descriptor, true);
+
+            foreach ($natureDescriptor as $key => $value) {
+                if ($value["type"] === "file") {
+                    $name = json_decode($depense->details, true)[$key] ?? null;
+
+                    // Delete old file if it exists
+                    if ($name) {
+                        $filePath = storage_path('app/public/depenses/' . $depense->id . '/' . $name);
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+
+                    // Store new file if it exists in the request
+                    if ($request->hasFile($key)) {
+                        $request->file($key)->storeAs('public/depenses/' . $depense->id, $name);
+                    }
+                }
+            }
+        }
+
+        // Update only provided fields or skip if not present
+        foreach ($validated as $key => $value) {
+            if ($value !== null) {
+                $depense->$key = $value;
+            }
+        }
+
+        // Save the updated depense
+        $depense->save();
+
+        // Update the related note if necessary
+        $note = $depense->note;
+        if ($note) {
+            $note->etat_id = 1;
+            $note->save();
+        }
+
+        // Return the updated depense in the response
+        return response()->json(["data" => DepenseResource::make($depense)], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

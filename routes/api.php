@@ -756,6 +756,55 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
             }
          */
         Route::get('/{depense}','show');
+
+        /**
+         * @api {put} /depenses/:id Mettre à jour une dépense
+         * @apiName UpdateDepense
+         * @apiDescription Mettre à jour une dépense inclu la remise en état de base la note de fraie affiliée
+         * @apiGroup Depense
+         * @apiVersion 0.1.0
+         *
+         * @apiParam {Number} id ID unique de la dépense.
+         *
+         * @apiBody {Number} totalTTC Montant total TTC de la dépense.
+         * @apiBody {String} date Date de la dépense.
+         * @apiBody {String} tiers Nom du tiers.
+         * @apiBody {Number} nature_id ID de la nature de la dépense.
+         * @apiBody {String} details Détails supplémentaires de la dépense (au format JSON).
+         *
+         * @apiSuccess {Object} data Détails de la dépense mise à jour.
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": {
+         *             "id": 4,
+         *             "totalTTC": 50,
+         *             "date": "2003-08-06",
+         *             "tiers": "zeubiii",
+         *             "nature_id": 1,
+         *             "details": "{\"reason\":\"string\", \"price\":100, \"totalKm\":30.5}",
+         *             "note": {
+         *                 "id": 1,
+         *                 "commentaire": null,
+         *                 "etat_id": 1
+         *             },
+         *             "nature": {
+         *                 "id": 1,
+         *                 "commentaire": null,
+         *                 "etat_id": null
+         *             }
+         *         }
+         *     }
+         *
+         *
+         * @apiError ValidationFailed Les données de la requête ne sont pas valides.
+         * @apiErrorExample {json} Erreur:
+         *     HTTP/1.1 400 Bad Request
+         *     {
+         *         "error": "Validation failed"
+         *     }
+         */
+        Route::put('/{depense}', [DepenseController::class, 'update']);
     });
 });
 

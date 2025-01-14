@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\DepenseResource;
 
 class NoteResource extends JsonResource
 {
@@ -17,7 +18,8 @@ class NoteResource extends JsonResource
         return [
             "id"=> $this->id,
             "commentaire" => $this->commentaire,
-            "etat_id" => $this->etat
+            "etat_id" => $this->etat,
+            "depenses"=> DepenseResource::collection($this->depenses)
         ];
     }
 }

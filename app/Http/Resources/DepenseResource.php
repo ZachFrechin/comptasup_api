@@ -23,7 +23,7 @@ class DepenseResource extends JsonResource
         return [
             "id"=> $this->id,
             "details" => $this->details,
-            "note" => NoteResource::make($this->note),
+            "note" => $this->note_id,
             "nature" => NatureResource::make($this->nature),
             "totalTTC" => $this->totalTTC,
             "date" => $this->date,

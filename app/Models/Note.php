@@ -33,4 +33,5 @@ class Note extends Model
     public function controleur() {
         return $this->belongsTo(User::class, 'controleur_id');
     }
+
 }
