@@ -100,6 +100,11 @@
                         "min" => 0.5,
                         "max" => 10
                     ],
+                    "quantite" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Quantité",
+                    ],
                     "distance" => [
                         "type" => "number",
                         "position" => 1,
@@ -407,16 +412,30 @@
             Depense::create([
                 "nom" => "exemple",
                 "note_id" => 1,
-                "totalTTC" => 5,
+                "totalTTC" => 360,
                 "date" => "2025/01/01",
                 "tiers" => "riotGame",
                 "nature_id" => 1,
                 "details" => json_encode([
-                        "dateDebut" => "2025/01/01",
-                        "dateFin" => "2025/02/01",
-                        "file" => "exemple.pdf"
+                        "prixAuLitre" => 2,
+                        "quantite" => 180,
+                        "distance" => 2,
+                        "file" => "zeubi.png"
                 ])
-            
+            ]);
+            Depense::create([
+                "nom" => "exemple",
+                "note_id" => 1,
+                "totalTTC" => 360,
+                "date" => "2025/01/01",
+                "tiers" => "riotGame",
+                "nature_id" => 1,
+                "details" => json_encode([
+                        "prixAuLitre" => 2,
+                        "quantite" => 180,
+                        "distance" => 2,
+                        "file" => "zeubi.png"
+                ])
             ]);
         }
     }
