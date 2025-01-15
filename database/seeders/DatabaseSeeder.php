@@ -89,49 +89,205 @@
             Nature::create([
                 "nom" => "Carburant",
                 "numero" => "1",
-                "descriptor" => "{\n    \"prixAuLitre\": {\n        \"type\": \"number\",\n        \"title\": \"Prix au litre\",\n        \"required\": true,\n        \"min\": 0.5,\n        \"max\": 10\n    },\n    \"distance\": {\n        \"type\": \"number\",\n        \"title\": \"Distance\",\n        \"required\": true,\n        \"min\": 0,\n        \"max\": 100000\n    },\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Justificatif\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "prixAuLitre" => [
+                        "type" => "number",
+                        "position" => 0,
+                        "title" => "Prix au litre",
+                        "required" => true,
+                        "min" => 0.5,
+                        "max" => 10
+                    ],
+                    "distance" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Distance",
+                        "required" => true,
+                        "min" => 0,
+                        "max" => 100000
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 2,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Parking",
                 "numero" => "2",
-                "descriptor" => "{\n    \"dateDebut\": {\n        \"type\": \"date\",\n        \"title\": \"Date début stationnement\",\n        \"required\": true\n    },\n    \"dateFin\": {\n        \"type\": \"date\",\n        \"title\": \"Date fin stationnement\",\n        \"required\": true\n    },\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Justificatif\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" =>  json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début stationnement",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 1,
+                        "title" => "Date fin stationnement",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 2,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Péage",
                 "numero" => "3",
-                "descriptor" => "{\n    \"dateDebut\": {\n        \"type\": \"date\",\n        \"title\": \"Date début\",\n        \"required\": true\n    },\n    \"lieuDepart\": {\n        \"type\": \"text\",\n        \"title\": \"Lieu départ\",\n        \"size\": 50,\n        \"placeholder\": \"Ex: Annecy\",\n        \"required\": true\n    },\n    \"dateFin\": {\n        \"type\": \"date\",\n        \"title\": \"Date fin\",\n        \"required\": true\n    },\n    \"lieuArrivee\": {\n        \"type\": \"text\",\n        \"title\": \"Lieu arrivée\",\n        \"size\": 50,\n        \"placeholder\": \"Ex: Chambéry\",\n        \"required\": true\n    },\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Justificatif\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début",
+                        "required" => true
+                    ],
+                    "lieuDepart" => [
+                        "type" => "text",
+                        "position" => 1,
+                        "title" => "Lieu départ",
+                        "size" => 50,
+                        "placeholder" => "Ex: Annecy",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 2,
+                        "title" => "Date fin",
+                        "required" => true
+                    ],
+                    "lieuArrivee" => [
+                        "type" => "text",
+                        "position" => 3,
+                        "title" => "Lieu arrivée",
+                        "size" => 50,
+                        "placeholder" => "Ex: Chambéry",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 4,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Transport",
                 "numero" => "4",
-                "descriptor" => "{\n    \"dateDebut\": {\n        \"type\": \"date\",\n        \"title\": \"Date début\",\n        \"required\": true\n    },\n    \"lieuDepart\": {\n        \"type\": \"text\",\n        \"title\": \"Lieu départ\",\n        \"size\": 50,\n        \"placeholder\": \"Ex: Annecy\",\n        \"required\": true\n    },\n    \"dateFin\": {\n        \"type\": \"date\",\n        \"title\": \"Date fin\",\n        \"required\": true\n    },\n    \"lieuArrivee\": {\n        \"type\": \"text\",\n        \"title\": \"Lieu arrivée\",\n        \"size\": 50,\n        \"placeholder\": \"Ex: Chambéry\",\n        \"required\": true\n    },\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Ticket\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début",
+                        "required" => true
+                    ],
+                    "lieuDepart" => [
+                        "type" => "text",
+                        "position" => 1,
+                        "title" => "Lieu départ",
+                        "size" => 50,
+                        "placeholder" => "Ex: Annecy",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 2,
+                        "title" => "Date fin",
+                        "required" => true
+                    ],
+                    "lieuArrivee" => [
+                        "type" => "text",
+                        "position" => 3,
+                        "title" => "Lieu arrivée",
+                        "size" => 50,
+                        "placeholder" => "Ex: Chambéry",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 4,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Fourniture - Administratif",
                 "numero" => "5",
-                "descriptor" => "{\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Ticket\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Entretien véhicule",
                 "numero" => "6",
-                "descriptor" => "{\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Ticket\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Equipement stock",
                 "numero" => "7",
-                "descriptor" => "{\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Ticket\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Nature::create([
                 "nom" => "Autre",
                 "numero" => "8",
-                "descriptor" => "{\n    \"file\": {\n        \"type\":\"file\",\n        \"title\":\"Ticket\",\n        \"size\":10,\n        \"ext\":[\"image/png\",\"image/jpeg\",\"application/pdf\"],\n        \"required\":true\n    }\n}"
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
             ]);
 
             Etat::create(["nom" => "not validated"]);
