@@ -65,10 +65,14 @@ class NoteController extends Controller
 
     public function validate(Request $request, Note $note) {
 
+
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
         }
 
+        $controlers = Role::find(3)->users;
+        $note->validateur_id = $controlers[0]->id;
+        $note->save();
         $note->etat_id = Etat::NOT_CONTROLED;
         $note->save();
 
