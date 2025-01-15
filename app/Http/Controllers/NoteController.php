@@ -71,7 +71,7 @@ class NoteController extends Controller
         }
 
         $controlers = Role::find(3)->users;
-        $note->validateur_id = $controlers[0]->id;
+        $note->controleur_id = $controlers[0]->id;
         $note->save();
         $note->etat_id = Etat::NOT_CONTROLED;
         $note->save();
