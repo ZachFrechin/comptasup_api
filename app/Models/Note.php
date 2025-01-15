@@ -11,7 +11,8 @@ class Note extends Model
     protected $fillable = [
         'commentaire',
         'etat_id',
-        'user_id'
+        'user_id',
+        'validateur_id'
     ];
 
     public function depenses() {

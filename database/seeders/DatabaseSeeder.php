@@ -11,6 +11,8 @@
     use App\Models\Permission;
     use App\Models\Service;
     use App\Models\Etat;
+    use App\Models\Note;
+    use App\Models\Depense;
 
     class DatabaseSeeder extends Seeder
     {
@@ -387,11 +389,34 @@
                 ])
             ]);
 
+
+
             Etat::create(["nom" => "not validated"]);
             Etat::create(["nom" => "rejected"]);
             Etat::create(["nom" => "canceled"]);
             Etat::create(["nom" => "not_controled"]);
             Etat::create(["nom" => "validated"]);
             Etat::create(["nom" => "archived"]);
+
+            Note::create([
+                "commentaire" => "",
+                "user_id" => 1,
+                "etat_id" => 1,
+                "validateur_id" => 1
+            ]);
+            Depense::create([
+                "nom" => "exemple",
+                "note_id" => 1,
+                "totalTTC" => 5,
+                "date" => "2025/01/01",
+                "tiers" => "riotGame",
+                "nature_id" => 1,
+                "details" => json_encode([
+                        "dateDebut" => "2025/01/01",
+                        "dateFin" => "2025/02/01",
+                        "file" => "exemple.pdf"
+                ])
+            
+            ]);
         }
     }
