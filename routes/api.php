@@ -890,6 +890,47 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
         Route::get('/byValidator','indexByValidator');
 
         /**
+         * @api {get} /note/byControler Liste des notes par controler
+         * @apiName GetNotesByControler
+         * @apiGroup Note
+         * @apiVersion 0.1.0
+         *
+         * @apiDescription Récupère la liste des notes associées au controleur connecté.
+         * Vous pouvez ajouter un paramètre optionnel `etat` pour filtrer les notes en fonction de leur état.
+         *
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
+         *
+         * @apiSuccess {Object[]} data Liste des notes.
+         * @apiSuccess {Number} data.id ID unique de la note.
+         * @apiSuccess {String} data.commentaire Commentaire de la note.
+         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
+         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
+         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
+         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
+         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         *
+         * @apiSuccessExample {json} Succès:
+         *     HTTP/1.1 200 OK
+         *     {
+         *         "data": [
+         *             {
+         *                 "id": 1,
+         *                 "commentaire": null,
+         *                 "etat_id": {
+         *                     "id": 1,
+         *                     "nom": "not validated",
+         *                     "created_at": "2025-01-14T18:55:52.000000Z",
+         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
+         *                 }
+         *             }
+         *         ]
+         *     }
+         */
+        Route::get('/byControler','indexByControler');
+
+
+
+        /**
          * @api {post} /note/store Créer une nouvelle note
          * @apiName StoreNote / store une note de frai, la retourne et ajoute un état de base et attribue la note au validateur
          * @apiGroup Note

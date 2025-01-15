@@ -32,7 +32,7 @@ class NoteController extends Controller
     }
 
     public function indexByValidator(Request $request) {
-       $userId = $request->user()->id;
+        $userId = $request->user()->id;
 
         $etatId = $request->query('etat');
 
@@ -47,6 +47,21 @@ class NoteController extends Controller
         return response()->json(['data' => $notes], 200);
     }
 
+    public function indexByControler(Request $request) {
+        $userId = $request->user()->id;
+
+        $etatId = $request->query('etat');
+
+        $query = Note::where('controleur_id', $userId);
+
+        if ($etatId) {
+            $query->where('etat_id', $etatId);
+        }
+        
+        $notes = NoteResource::collection($query->get());
+
+        return response()->json(['data' => $notes], 200);
+    }
 
     public function validate(Request $request, Note $note) {
     
