@@ -41,7 +41,7 @@ class NoteController extends Controller
         if ($etatId) {
             $query->where('etat_id', $etatId);
         }
-        
+
         $notes = NoteResource::collection($query->get());
 
         return response()->json(['data' => $notes], 200);
@@ -57,21 +57,21 @@ class NoteController extends Controller
         if ($etatId) {
             $query->where('etat_id', $etatId);
         }
-        
+
         $notes = NoteResource::collection($query->get());
 
         return response()->json(['data' => $notes], 200);
     }
 
     public function validate(Request $request, Note $note) {
-    
+
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
         }
-    
+
         $note->etat_id = Etat::NOT_CONTROLED;
         $note->save();
-    
+
         return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
     }
 
@@ -80,33 +80,33 @@ class NoteController extends Controller
         if($request->comment) {
             $note->comment = $request->comment;
         }
-    
+
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
         }
-    
+
         $note->etat_id = Etat::REJECTED;
         $note->save();
-    
+
         return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
     }
 
     public function cancel(Request $request, Note $note) {
-    
+
         if($request->comment) {
             $note->comment = $request->comment;
         }
-        
+
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
         }
-    
+
         $note->etat_id = Etat::CANCELED;
         $note->save();
-    
+
         return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -135,7 +135,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        return response()->json(new NoteResource($note) ,200);
+        return response()->json(["data" => new NoteResource($note)],200);
     }
 
     /**
