@@ -34,7 +34,10 @@ class DepenseResource extends JsonResource
     private function getFichiersUrls(): array
     {
         $directory = 'public/depenses/' . $this->id;
-        $files = Storage::files($directory); // Liste des fichiers dans le répertoire       
-        return array_map(fn($file) => Storage::url($file), $files); // Génération des URLs
+        $files = Storage::files($directory); // Liste des fichiers dans le répertoire
+        
+        // Retourne uniquement les noms des fichiers
+        return array_map(fn($file) => basename($file), $files); // Utilisation de basename pour obtenir uniquement le nom du fichier
     }
+
 }

@@ -58,6 +58,19 @@ class DepenseController extends Controller
         return response()->json(["data"=> DepenseResource::make(parameters: $depense) ] ,200);
     }
 
+        
+    public function getFile(Depense $depense, string $filename)
+    {
+        $filePath = storage_path('app/private/public/depenses/' . $depense->id . '/' . $filename);
+
+
+        // Vérifiez si le fichier existe
+        if (file_exists($filePath)) {
+            return response()->file($filePath);
+        } else {
+            return response()->json(['message' => 'File not found'], 404);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      */
