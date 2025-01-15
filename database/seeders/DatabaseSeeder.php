@@ -251,7 +251,7 @@
                     ]
                 ])
             ]);
-            
+
             Nature::create([
                 "nom" => "Repas salarié",
                 "numero" => "6",
@@ -300,12 +300,12 @@
                             ]
                         ]
                     ]
-                    
+
                 ])
             ]);
-            
+
             Nature::create([
-                "nom" => "Repas salarié",
+                "nom" => "Repas invité",
                 "numero" => "6",
                 "descriptor" => json_encode([
                     "accompagnement" => [
