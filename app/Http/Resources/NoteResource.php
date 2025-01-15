@@ -18,7 +18,8 @@ class NoteResource extends JsonResource
         return [
             "id"=> $this->id,
             "commentaire" => $this->commentaire,
-            "etat_id" => $this->etat,
+            "etat" => $this->etat,
+            "user_id" => $this->user_id,
             "depenses"=> DepenseResource::collection($this->depenses),
             "totalTTC" => $this->depenses->sum("totalTTC")
         ];
