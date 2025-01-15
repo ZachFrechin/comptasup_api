@@ -244,6 +244,103 @@
                     ]
                 ])
             ]);
+            
+            Nature::create([
+                "nom" => "Repas salarié",
+                "numero" => "6",
+                "descriptor" => json_encode([
+                    "accompagnement" => [
+                        "type" => "checkbox",
+                        "position" => 0,
+                        "number" => 2,
+                        "option" => [
+                            "seul", "accompagne"
+                        ],
+                        "required" => true
+                    ],
+                    "nombre" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre de salarié présent",
+                        "size" => 25,
+                        "required" => true,
+                        "need" => [
+                            "type" => "checkbox",
+                            "name" => "accompagnement",
+                            "option" => "accompagne",
+                        ]
+                    ],
+                    "salarie" => [
+                        "type" => "generated",
+                        "position" => 2,
+                        "need" => [
+                            "type" => "checkbox",
+                            "name" => "accompagnement",
+                            "option" => "accompagne",
+                        ],
+                        "scope" => [
+                            "name" => "api",
+                            "model" => "user",
+                        ],
+                        "content-type" => "text,checkbox",
+                        "content-max" => [
+                            "scope" => "nombre",
+                            "type" => "number"
+                        ],
+                        "content" => [
+                            "name" => [
+                                "type" => "text",
+                            ]
+                        ]
+                    ]
+                    
+                ])
+            ]);
+            
+            Nature::create([
+                "nom" => "Repas salarié",
+                "numero" => "6",
+                "descriptor" => json_encode([
+                    "accompagnement" => [
+                        "type" => "checkbox",
+                        "position" => 0,
+                        "title" => "seul | accompagné",
+                        "required" => true
+                    ],
+                    "nombreSalarie" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre de salarié",
+                        "size" => 25,
+                        "required" => true
+                    ],
+                    "nombreInvite" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre d'invité(s)",
+                        "size" => 25,
+                        "required" => true
+                    ],
+                    "info" => [
+                        "type" => "generated",
+                        "scope" => [
+                            "name" => "nombreInvite",
+                            "type" => "number"
+                        ],
+                        "content" => [
+                            "name"=> [
+                                "type" => "text"
+                            ],
+                            "company" => [
+                                "type" => "text",
+                            ],
+                            "siret" => [
+                                "type" => "text"
+                            ]
+                        ]
+                    ]
+                ])
+            ]);
 
             Nature::create([
                 "nom" => "Entretien véhicule",
