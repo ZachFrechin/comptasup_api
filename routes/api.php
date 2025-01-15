@@ -806,7 +806,7 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
          */
         Route::put('/{depense}', [DepenseController::class, 'update']);
 
-        Route::get("/getFile/{depense}/{filename}", [DepenseController::class, 'getFile']);
+        Route::get("/getfile/{depense}/{filename}", [DepenseController::class, 'getFile']);
     });
 });
 
