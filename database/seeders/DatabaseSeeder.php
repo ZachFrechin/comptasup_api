@@ -5,11 +5,14 @@
     use App\Models\Profil;
     use App\Models\Role;
     use App\Models\User;
+    use App\Models\Nature;
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\Hash;
     use App\Models\Permission;
     use App\Models\Service;
+    use App\Models\Etat;
     use App\Models\Note;
+    use App\Models\Depense;
 
     class DatabaseSeeder extends Seeder
     {
@@ -58,7 +61,7 @@
             $delete_user = Permission::create(["nom" => "delete_users"]);
             $manage_user = Permission::create(["nom" => "manage_users"]);
             $administrator_permission = Permission::create(["nom" => "administrator"]);
-            
+
             $employee = Role::create(["nom" => "Employé", "color" => "#FF6352"]);
             $validator = Role::create(["nom" => "Validateur", "color" => "#95E01C"]);
             $controller = Role::create(["nom" => "Contrôleur", "color" => "#FFD600"]);
@@ -86,9 +89,353 @@
                 $user->roles()->attach($employee->id);
             }
 
-            $note = Note::create(["user_id" => 1]);
+            Nature::create([
+                "nom" => "Carburant",
+                "numero" => "1",
+                "descriptor" => json_encode([
+                    "prixAuLitre" => [
+                        "type" => "number",
+                        "position" => 0,
+                        "title" => "Prix au litre",
+                        "required" => true,
+                        "min" => 0.5,
+                        "max" => 10
+                    ],
+                    "quantite" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Quantité",
+                    ],
+                    "distance" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Distance",
+                        "required" => true,
+                        "min" => 0,
+                        "max" => 100000
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 2,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Parking",
+                "numero" => "2",
+                "descriptor" =>  json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début stationnement",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 1,
+                        "title" => "Date fin stationnement",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 2,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Péage",
+                "numero" => "3",
+                "descriptor" => json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début",
+                        "required" => true
+                    ],
+                    "lieuDepart" => [
+                        "type" => "text",
+                        "position" => 1,
+                        "title" => "Lieu départ",
+                        "size" => 50,
+                        "placeholder" => "Ex: Annecy",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 2,
+                        "title" => "Date fin",
+                        "required" => true
+                    ],
+                    "lieuArrivee" => [
+                        "type" => "text",
+                        "position" => 3,
+                        "title" => "Lieu arrivée",
+                        "size" => 50,
+                        "placeholder" => "Ex: Chambéry",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 4,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Transport",
+                "numero" => "4",
+                "descriptor" => json_encode([
+                    "dateDebut" => [
+                        "type" => "date",
+                        "position" => 0,
+                        "title" => "Date début",
+                        "required" => true
+                    ],
+                    "lieuDepart" => [
+                        "type" => "text",
+                        "position" => 1,
+                        "title" => "Lieu départ",
+                        "size" => 50,
+                        "placeholder" => "Ex: Annecy",
+                        "required" => true
+                    ],
+                    "dateFin" => [
+                        "type" => "date",
+                        "position" => 2,
+                        "title" => "Date fin",
+                        "required" => true
+                    ],
+                    "lieuArrivee" => [
+                        "type" => "text",
+                        "position" => 3,
+                        "title" => "Lieu arrivée",
+                        "size" => 50,
+                        "placeholder" => "Ex: Chambéry",
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 4,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Fourniture - Administratif",
+                "numero" => "5",
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Repas salarié",
+                "numero" => "6",
+                "descriptor" => json_encode([
+                    "accompagnement" => [
+                        "type" => "dropdown",
+                        "position" => 0,
+                        "options" => [
+                            "Seul", "Accompagné"
+                        ],
+                        "required" => true
+                    ],
+                    "nombre" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre de salarié(s) présent(s)",
+                        "size" => 25,
+                        "required" => true,
+                        "need" => [
+                            "type" => "checkbox",
+                            "name" => "accompagnement",
+                            "option" => "accompagne",
+                        ]
+                    ],
+                    "salarie" => [
+                        "type" => "generated",
+                        "position" => 2,
+                        "need" => [
+                            "type" => "checkbox",
+                            "name" => "accompagnement",
+                            "option" => "accompagne",
+                        ],
+                        "scope" => [
+                            "name" => "api",
+                            "model" => "user",
+                        ],
+                        "content-type" => "text,checkbox",
+                        "content-max" => [
+                            "scope" => "nombre",
+                            "type" => "number"
+                        ],
+                        "content" => [
+                            "name" => [
+                                "type" => "text",
+                            ]
+                        ]
+                    ]
+
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Repas invité",
+                "numero" => "6",
+                "descriptor" => json_encode([
+                    "accompagnement" => [
+                        "type" => "checkbox",
+                        "position" => 0,
+                        "title" => "seul | accompagné",
+                        "required" => true
+                    ],
+                    "nombreSalarie" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre de salarié",
+                        "size" => 25,
+                        "required" => true
+                    ],
+                    "nombreInvite" => [
+                        "type" => "number",
+                        "position" => 1,
+                        "title" => "Nombre d'invité(s)",
+                        "size" => 25,
+                        "required" => true
+                    ],
+                    "info" => [
+                        "type" => "generated",
+                        "scope" => [
+                            "name" => "nombreInvite",
+                            "type" => "number"
+                        ],
+                        "content" => [
+                            "name"=> [
+                                "type" => "text"
+                            ],
+                            "company" => [
+                                "type" => "text",
+                            ],
+                            "siret" => [
+                                "type" => "text"
+                            ]
+                        ]
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Entretien véhicule",
+                "numero" => "6",
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Equipement stock",
+                "numero" => "7",
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
+
+            Nature::create([
+                "nom" => "Autre",
+                "numero" => "8",
+                "descriptor" => json_encode([
+                    "file" => [
+                        "type" => "file",
+                        "position" => 0,
+                        "title" => "Ticket",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
+                    ]
+                ])
+            ]);
 
 
 
+            Etat::create(["nom" => "not validated"]);
+            Etat::create(["nom" => "rejected"]);
+            Etat::create(["nom" => "canceled"]);
+            Etat::create(["nom" => "not_controled"]);
+            Etat::create(["nom" => "validated"]);
+            Etat::create(["nom" => "archived"]);
+
+            Note::create([
+                "commentaire" => "",
+                "user_id" => 1,
+                "etat_id" => 1,
+                "validateur_id" => 1
+            ]);
+            Depense::create([
+                "nom" => "exemple",
+                "note_id" => 1,
+                "totalTTC" => 360,
+                "date" => "2025/01/01",
+                "tiers" => "riotGame",
+                "nature_id" => 1,
+                "details" => json_encode([
+                        "prixAuLitre" => 2,
+                        "quantite" => 180,
+                        "distance" => 2,
+                        "file" => "zeubi.png"
+                ])
+            ]);
+            Depense::create([
+                "nom" => "exemple",
+                "note_id" => 1,
+                "totalTTC" => 360,
+                "date" => "2025/01/01",
+                "tiers" => "riotGame",
+                "nature_id" => 1,
+                "details" => json_encode([
+                        "prixAuLitre" => 2,
+                        "quantite" => 180,
+                        "distance" => 2,
+                        "file" => "zeubi.png"
+                ])
+            ]);
         }
     }
