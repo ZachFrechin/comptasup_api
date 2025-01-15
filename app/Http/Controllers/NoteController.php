@@ -76,6 +76,10 @@ class NoteController extends Controller
     }
 
     public function reject(Request $request, Note $note) {
+
+        if($request->comment) {
+            $note->comment = $request->comment;
+        }
     
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
@@ -89,6 +93,10 @@ class NoteController extends Controller
 
     public function cancel(Request $request, Note $note) {
     
+        if($request->comment) {
+            $note->comment = $request->comment;
+        }
+        
         if ($note->validateur_id !== $request->user()->id) {
             return response()->json(["message" => "You are not the validator of this note."], 403);
         }

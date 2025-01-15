@@ -1023,8 +1023,9 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          * @apiGroup Note
          * @apiVersion 0.1.0
          *
-         * @apiParam {Number} id ID de la note de frais à valider.
+         * @apiParam {Number} id ID de la note de frais à rejeter.
          *
+         * @apiBody {comment} comment Commentaire de la note (optionel).
          * @apiSuccess {String} message Message de confirmation.
          * @apiSuccess {Object} data Données de la note mise à jour.
          * @apiSuccess {Number} data.id ID de la note.
@@ -1067,7 +1068,8 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          * @apiGroup Note
          * @apiVersion 0.1.0
          *
-         * @apiParam {Number} id ID de la note de frais à valider.
+         * @apiParam {Number} id ID de la note de frais à annuler.
+         * @apiBody {comment} comment Commentaire de la note (optionel).
          *
          * @apiSuccess {String} message Message de confirmation.
          * @apiSuccess {Object} data Données de la note mise à jour.
