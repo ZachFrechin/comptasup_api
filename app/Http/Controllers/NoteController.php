@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Note;
-use App\Http\Requests\NoteCreateRequest;
+use App\Http\Requests\Note\NoteCreateRequest;
 use App\Http\Resources\NoteResource;
 use App\Models\Role;
 use App\Models\Etat;
@@ -131,7 +131,7 @@ class NoteController extends Controller
         $note->save();
 
 
-        return response()->json(["data" => new NoteResource($note)] ,201);
+        return response()->resourceCreated(new NoteResource($note));
     }
 
     /**
