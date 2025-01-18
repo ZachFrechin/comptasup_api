@@ -18,7 +18,8 @@ class NatureResource extends JsonResource
         return [
             "id"=> $this->id,
             "nom" => $this->nom,
-            "descriptor" => $this->descriptor
+            "descriptor" => $this->descriptor,
+            "user" => $this->user()
         ];
     }
 }

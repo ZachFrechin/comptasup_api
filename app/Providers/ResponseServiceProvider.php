@@ -49,6 +49,33 @@ class ResponseServiceProvider extends ServiceProvider
             return Response::make(["data" => $resource], 200);
         });
 
+        Response::macro('resourceUpdated', function (JsonResource $resource) {
+            return Response::make(["data" => $resource], 201);
+        });
+
+        Response::macro('resourceDeleted', function () {
+            return Response::make(["data" => "Resource has been deleted"], 200);
+        });
+
+        Response::macro('noteValidation', function (JsonResource $resource) {
+            return Response::make(["data" => "Note has been validated and marked as not controlled",
+                                            "note" => $resource ], 201);
+        });
+
+        Response::macro('noteRejection', function (JsonResource $resource) {
+            return Response::make(["data" => "Note has been rejected and marked as rejected",
+                                            "note" => $resource ], 201);
+        });
+
+        Response::macro('noteCanceltion', function (JsonResource $resource) {
+            return Response::make(["data" => "Note has been canceled and marked as canceled",
+                                            "note" => $resource ], 201);
+        });
+
+        Response::macro('notValidator', function () {
+            return Response::make(["data" => "You are not the validator of this note"], 403);
+        });
+
         Response::macro('fileNotFound', function () {
             return Response::make(["data" => "File not found"], 404);
         });

@@ -41,7 +41,7 @@ class DepenseController extends Controller
             }
         }
 
-        return response()->resourceCreated(new DepenseResource($depense));
+        return response()->resourceCreated(DepenseResource::make($depense));
     }
 
     /**
@@ -53,7 +53,7 @@ class DepenseController extends Controller
      */
     public function show(Depense $depense)
     {
-        return response()->resource(new DepenseResource($depense));
+        return response()->resource(DepenseResource::make($depense));
     }
 
     /**
@@ -94,7 +94,7 @@ class DepenseController extends Controller
         $this->updateDepense($depense, $validated);
         $this->updateNoteState($depense);
 
-        return response()->json(['data' => new DepenseResource($depense)], 200);
+        return response()->resourceUpdated(DepenseResource::make($depense));
     }
 
     // !--------------------------------------------------------------------------------------------------------------------

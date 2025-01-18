@@ -10,61 +10,48 @@ use App\Http\Resources\RoleResource;
 class RoleController extends Controller
 {
 
+    /**
+     * Display a listing of the roles.
+     *
+     * @return \Illuminate\Http\JsonResponse The response containing a collection of Role resources.
+     */
     public function index()
     {
-        return response()->json(["data" => RoleResource::collection(Role::all())] ,200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->resourceCollection(RoleResource::collection(Role::all()));
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse The response containing the newly created Role resource.
      */
     public function store(RoleCreateRequest $request)
     {
-        $role = new Role();
-        $role->nom = $request->nom;
-        $role->color = $request->color;
-        $role->save();
+        $role = Role::create($request->only(['nom', 'color']));
         $role->permissions()->sync($request->permissions);
-        return response()->json(["data" => RoleResource::make($role)] ,201);
+        return response()->resourceCreated(RoleResource::make($role));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified role resource.
+     *
+     * @param \App\Models\Role $role The role instance to display.
+     * @return \Illuminate\Http\JsonResponse The response containing the role resource.
      */
     public function show(Role $role)
     {
-        return response()->json(["data" => RoleResource::make($role)] ,200);
+        return response()->resource(RoleResource::make($role));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Role $role)
     {
-        //
+        // TODO
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Role $role)
     {
-        //
+        // TODO
     }
 }

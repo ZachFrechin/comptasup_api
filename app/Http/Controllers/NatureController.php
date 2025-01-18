@@ -2,65 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Nature;
-use App\Http\Requests\NatureCreateRequest;
+use Illuminate\Http\Request;
 use App\Http\Resources\NatureResource;
-use Storage;
+use App\Http\Requests\Nature\NatureCreateRequest;
+
 
 class NatureController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Afficher la liste de toutes les natures.
+     *
+     * @api
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return response()->json(["data" => NatureResource::collection(Nature::all())] ,200);
+        return response()->resourceCollection(NatureResource::collection(Nature::all()));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created nature in storage.
+     *
+     * @api
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
-
     public function store(NatureCreateRequest $request)
     {
-        $nature = Nature::create($request->only('nom', 'numero', 'descriptor'));
-        return response()->json(['data'=> new NatureResource($nature) ,201]);
+        $nature = Nature::create(array_merge(
+            $request->validated(), 
+            ['user_id' => $request->user()->id]
+        ));
+        return response()->resourceCreated(NatureResource::make($nature));
     }
 
     /**
-     * Display the specified resource.
+     * Afficher une nature en particulier.
+     *
+     * @api
+     * @param  \App\Models\Nature  $nature
+     * @return \Illuminate\Http\Response
      */
     public function show(Nature $nature)
     {
-        return response()->json(['data'=> new NatureResource($nature)] ,200);
+        return response()->resource(NatureResource::make($nature));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        // TODO
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        // TODO
     }
 }

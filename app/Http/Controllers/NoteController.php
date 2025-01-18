@@ -2,167 +2,174 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Note;
-use App\Http\Requests\Note\NoteCreateRequest;
-use App\Http\Resources\NoteResource;
 use App\Models\Role;
 use App\Models\Etat;
+use App\Models\Note;
+use Illuminate\Http\Request;
+use App\Http\Resources\NoteResource;
+use App\Http\Requests\Note\NoteCreateRequest;
+
+
 
 class NoteController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $userId = $request->user()->id;
-
-        $etatId = $request->query('etat');
-
-        $query = Note::where('user_id', $userId);
-
-        if ($etatId) {
-            $query->where('etat_id', $etatId);
-        }
-
-        $notes = NoteResource::collection($query->get());
-
-        return response()->json(['data' => $notes], 200);
+        return response()->resourceCollection(
+            NoteResource::collection(
+                Note::where('user_id', $request->user()->id)
+                    ->when($request->query('etat'), function ($query, int $etatId) {
+                        $query->where('etat_id', $etatId);
+                    })
+                    ->get()
+            )
+        );
     }
 
-    public function indexByValidator(Request $request) {
-        $userId = $request->user()->id;
-
-        $etatId = $request->query('etat');
-
-        $query = Note::where('validateur_id', $userId);
-
-        if ($etatId) {
-            $query->where('etat_id', $etatId);
-        }
-
-        $notes = NoteResource::collection($query->get());
-
-        return response()->json(['data' => $notes], 200);
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function indexByValidator(Request $request)
+    {
+        return response()->resourceCollection(
+            NoteResource::collection(
+                Note::where('validateur_id', $request->user()->id)
+                    ->when($request->query('etat'), function ($query, int $etatId) {
+                        $query->where('etat_id', $etatId);
+                    })
+                    ->get()
+            )
+        );
     }
 
-    public function indexByControler(Request $request) {
-        $userId = $request->user()->id;
-
-        $etatId = $request->query('etat');
-
-        $query = Note::where('controleur_id', $userId);
-
-        if ($etatId) {
-            $query->where('etat_id', $etatId);
-        }
-
-        $notes = NoteResource::collection($query->get());
-
-        return response()->json(['data' => $notes], 200);
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function indexByControler(Request $request)
+    {
+        return response()->resourceCollection(
+            NoteResource::collection(
+                Note::select('id', 'user_id', 'validateur_id', 'controleur_id', 'etat_id')
+                    ->where('controleur_id', $request->user()->id)
+                    ->when($request->query('etat'), function ($query, $etatId) {
+                        $query->where('etat_id', $etatId);
+                    })
+                    ->get()
+            )
+        );
     }
 
-    public function validate(Request $request, Note $note) {
-
-
+    /**
+     * Valide une note.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Note $note
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function validate(Request $request, Note $note)
+    {
         if ($note->validateur_id !== $request->user()->id) {
-            return response()->json(["message" => "You are not the validator of this note."], 403);
+            return response()->notValidator();
         }
 
-        $controlers = Role::find(3)->users;
-        $note->controleur_id = $controlers[0]->id;
-        $note->save();
-        $note->etat_id = Etat::NOT_CONTROLED;
-        $note->save();
+        $controlers = Role::find(3)->users->pluck('id')->first();
+        $note->update(['controleur_id' => $controlers, 'etat_id' => Etat::NOT_CONTROLED]);
 
-        return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
+        return response()->noteValidation(NoteResource::make($note));
     }
 
+    /**
+     * Rejette une note.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Note $note
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function reject(Request $request, Note $note) {
 
-        if($request->comment) {
-            $note->comment = $request->comment;
-        }
-
         if ($note->validateur_id !== $request->user()->id) {
-            return response()->json(["message" => "You are not the validator of this note."], 403);
+            return response()->notValidator();
         }
 
-        $note->etat_id = Etat::REJECTED;
-        $note->save();
+        $note->fill([
+            'comment' => $request->comment ?? $note->comment,
+            'etat_id' => Etat::REJECTED,
+        ])->save();
 
-        return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
-    }
-
-    public function cancel(Request $request, Note $note) {
-
-        if($request->comment) {
-            $note->comment = $request->comment;
-        }
-
-        if ($note->validateur_id !== $request->user()->id) {
-            return response()->json(["message" => "You are not the validator of this note."], 403);
-        }
-
-        $note->etat_id = Etat::CANCELED;
-        $note->save();
-
-        return response()->json(["message" => "Note has been validated and marked as 'not controlled'.", "data" => new NoteResource($note)], 200);
+        return response()->noteRejection(NoteResource::make($note));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Annule une note.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Note $note
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
+    public function cancel(Request $request, Note $note) {
+        if ($note->validateur_id !== $request->user()->id) {
+            return response()->notValidator();
+        }
+
+        $note->fill([
+            'comment' => $request->comment ?? $note->comment,
+            'etat_id' => Etat::CANCELED,
+        ])->save();
+
+        return response()->noteCanceltion(NoteResource::make($note));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created note in storage.
+     *
+     * @param \App\Http\Requests\Note\NoteCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(NoteCreateRequest $request)
     {
-        $validators = Role::find(2)->users;
-        $note = Note::create($request->validated());
-        $note->validateur_id = $validators[0]->id;
-        $note->user_id = $request->user()->id;
-        $note->save();
+        $validatorId = Role::find(2)->users()->pluck('id')->first();
 
+        $note = Note::create(array_merge(
+            $request->validated(),
+            [
+                'validateur_id' => $validatorId,
+                'user_id' => $request->user()->id,
+            ]
+        ));
 
-        return response()->resourceCreated(new NoteResource($note));
+        return response()->resourceCreated(NoteResource::make($note));
     }
 
     /**
-     * Display the specified resource.
+     * Affiche une note de frais.
+     *
+     * @param \App\Models\Note $note
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Note $note)
     {
-        return response()->json(["data" => new NoteResource($note)],200);
+        return response()->resource(NoteResource::make($note));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        // TODO
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        // TODO
     }
 }

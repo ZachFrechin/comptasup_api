@@ -42,6 +42,6 @@ class AuthController extends Controller
             ->toArray();
 
         // return auth success response
-        return response()->authSuccess(new UserResource($user), $user->createToken($user->id, $permissions)->plainTextToken,);
+        return response()->authSuccess(UserResource::make($user), $user->createToken($user->id, $permissions)->plainTextToken,);
     }
 }
