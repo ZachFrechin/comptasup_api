@@ -86,6 +86,9 @@ class DepenseController extends Controller
     public function update(DepenseUpdateRequest $request, Depense $depense)
     {
         $validated = $request->validated();
+        if($request->validated() == []) {
+            return response()->resourceUpdateMissingField(DepenseResource::make($depense));
+        }
 
         if ($this->needsFileUpdate($request, $depense)) {
             $this->handleFileUpdates($request, $depense, $validated['nature_id'] ?? $depense->nature_id);

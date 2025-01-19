@@ -53,6 +53,10 @@ class ResponseServiceProvider extends ServiceProvider
             return Response::make(["data" => $resource], 201);
         });
 
+        Response::macro('resourceUpdateMissingField', function (JsonResource $resource) {
+            return Response::make(["data" => $resource], 422);
+        });
+
         Response::macro('resourceDeleted', function () {
             return Response::make(["data" => "Resource has been deleted"], 200);
         });
