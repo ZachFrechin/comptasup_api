@@ -80,7 +80,7 @@
                 $adminRole
             ];
 
-            
+
 
             $j = 0;
             for ($i = 0; $i < 10; $i++) {
@@ -260,47 +260,28 @@
                     "accompagnement" => [
                         "type" => "dropdown",
                         "position" => 0,
+                        "title" => "Accompagnement",
                         "options" => [
-                            "Seul", "Accompagné"
+                            [
+                                "key" => "seul",
+                                "value" => "Seul",
+                            ],
+                            [
+                                "key" => "accompagne",
+                                "value" => "Accompagné",
+                            ]
                         ],
                         "required" => true
                     ],
-                    "nombre" => [
-                        "type" => "number",
-                        "position" => 1,
-                        "title" => "Nombre de salarié(s) présent(s)",
-                        "size" => 25,
-                        "required" => true,
-                        "need" => [
-                            "type" => "checkbox",
-                            "name" => "accompagnement",
-                            "option" => "accompagne",
-                        ]
-                    ],
                     "salarie" => [
-                        "type" => "generated",
+                        "type" => "collaborateur",
+                        "title" => "Accompagnant(s)",
                         "position" => 2,
                         "need" => [
-                            "type" => "checkbox",
-                            "name" => "accompagnement",
-                            "option" => "accompagne",
-                        ],
-                        "scope" => [
-                            "name" => "api",
-                            "model" => "user",
-                        ],
-                        "content-type" => "text,checkbox",
-                        "content-max" => [
-                            "scope" => "nombre",
-                            "type" => "number"
-                        ],
-                        "content" => [
-                            "name" => [
-                                "type" => "text",
-                            ]
+                            "key" => "accompagnement",
+                            "value" => "accompagne",
                         ]
                     ]
-
                 ])
             ]);
 
