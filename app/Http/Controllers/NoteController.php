@@ -82,7 +82,7 @@ class NoteController extends Controller
     public function reject(Request $request, Note $note) {
 
         if($request->comment) {
-            $note->comment = $request->comment;
+            $note->commentaire = $request->comment;
         }
 
         if ($note->validateur_id !== $request->user()->id) {
