@@ -273,7 +273,7 @@
                         ],
                         "required" => true
                     ],
-                    "salarie" => [
+                    "collaborateurs" => [
                         "type" => "collaborateur",
                         "title" => "Accompagnant(s)",
                         "position" => 2,
@@ -289,43 +289,51 @@
                 "nom" => "Repas invité",
                 "numero" => "6",
                 "descriptor" => json_encode([
-                    "accompagnement" => [
-                        "type" => "checkbox",
+                    "collaborateurs_present" => [
+                        "type" => "dropdown",
                         "position" => 0,
-                        "title" => "seul | accompagné",
-                        "required" => true
-                    ],
-                    "nombreSalarie" => [
-                        "type" => "number",
-                        "position" => 1,
-                        "title" => "Nombre de salarié",
-                        "size" => 25,
-                        "required" => true
-                    ],
-                    "nombreInvite" => [
-                        "type" => "number",
-                        "position" => 1,
-                        "title" => "Nombre d'invité(s)",
-                        "size" => 25,
-                        "required" => true
-                    ],
-                    "info" => [
-                        "type" => "generated",
-                        "scope" => [
-                            "name" => "nombreInvite",
-                            "type" => "number"
-                        ],
-                        "content" => [
-                            "name"=> [
-                                "type" => "text"
+                        "title" => "Collaborateur(s) invité(s)",
+                        "options" => [
+                            [
+                                "key" => "oui",
+                                "value" => "Oui",
                             ],
-                            "company" => [
-                                "type" => "text",
-                            ],
-                            "siret" => [
-                                "type" => "text"
+                            [
+                                "key" => "non",
+                                "value" => "Non",
                             ]
+                        ],
+                        "required" => true
+                    ],
+                    "collaborateurs" => [
+                        "type" => "collaborateur",
+                        "title" => "Accompagnant(s)",
+                        "position" => 1,
+                        "need" => [
+                            "key" => "collaborateurs_present",
+                            "value" => "oui",
                         ]
+                    ],
+                    "invites" => [
+                        "type" => "invite-informations",
+                        "title" => "Invité(s) externe(s)",
+                        "position" => 2,
+                    ],
+                    "motif" => [
+                        "type" => "text",
+                        "position" => 3,
+                        "title" => "Motif du repas",
+                        "placeholder" => "",
+                        "size" => 80,
+                        "required" => true
+                    ],
+                    "file" => [
+                        "type" => "file",
+                        "position" => 4,
+                        "title" => "Justificatif",
+                        "size" => 10,
+                        "ext" => ["image/png", "image/jpeg", "application/pdf"],
+                        "required" => true
                     ]
                 ])
             ]);
