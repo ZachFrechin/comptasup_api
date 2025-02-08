@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Nature;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +25,6 @@ class NatureCreateRequest extends FormRequest
              "numero" =>"string|required",
              "nom" =>"string|required",
              "descriptor" => "json|required",
-             'user_id' => "int|exists:users,id",
         ];
     }
 

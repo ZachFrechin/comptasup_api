@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nom');
             $table->string('numero');
             $table->json('descriptor');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

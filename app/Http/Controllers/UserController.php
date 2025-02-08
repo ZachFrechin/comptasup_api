@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\User\UserControlRoleRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,115 +17,119 @@ use App\Models\Role;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Renvoie la liste de tous les utilisateurs
+     *
+     * @api
+     * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
-        return response()->json(["data" => UserResource::collection(User::all())] ,200);
+        return response()->resourceCollection(UserResource::collection(User::all()));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created user in storage.
+     *
+     * @param \App\Http\Requests\User\UserCreateRequest $request The request containing user creation data.
+     * @return \Symfony\Component\HttpFoundation\JsonResponse The response containing the newly created User resource.
      */
     public function store(UserCreateRequest $request): JsonResponse
     {
-        $user = new User();
-        $profil = new Profil();
+        $user = User::create([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
 
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
         $user->roles()->attach(Role::first());
 
-        $profil->nom = $request->nom;
-        $profil->prenom = $request->prenom;
-        $profil->naissance = $request->naissance;
-        $profil->telephone = $request->telephone;
-        $profil->code_postal = $request->code_postal;
-        $profil->ville = $request->ville;
-        $profil->pays = $request->pays;
-        $profil->rue = $request->rue;
-        $profil->numero_de_rue = $request->numero_de_rue;
-        $profil->user_id = $user->id;
-        $profil->service_id = $request->service_id;
-        
-        $profil->save();
+        $user->profil()->create([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'naissance' => $request->naissance,
+            'telephone' => $request->telephone,
+            'code_postal' => $request->code_postal,
+            'ville' => $request->ville,
+            'pays' => $request->pays,
+            'rue' => $request->rue,
+            'numero_de_rue' => $request->numero_de_rue,
+            'service_id' => $request->service_id,
+        ]);
 
-
-        
-        return response()->json(["data" => new UserResource($user)] ,200);
+        return response()->resourceCreated(UserResource::make($user));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user resource.
+     *
+     * @api
+     * @param \App\Models\User $user The user instance to display.
+     * @return \Illuminate\Http\JsonResponse The response containing the user resource.
      */
     public function show(User $user)
     {
-        return response()->json(["data" => new UserResource($user)]);
+        return response()->resource(UserResource::make($user));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified user resource in storage.
+     *
+     * @api
+     * @param \App\Http\Requests\User\UserUpdateRequest $request The request containing user update data.
+     * @param \App\Models\User $user The user instance to update.
+     * @return \Illuminate\Http\JsonResponse The response containing the updated User resource.
      */
-    public function edit(string $id)
+    public function update(UserUpdateRequest $request, User $user): JsonResponse
     {
-        //
-    }
+        $user->fill($request->only($user->fillable));
+        $user->profil->fill($request->only($user->profil->fillable))->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UserUpdateRequest $request, User $user) : JsonResponse
-    {
-        $profil = $user->profil;
-        $userField = $request->only($user->fillable);
-        $profilField = $request->only($profil->fillable);
-
-        $user->update($userField);
-        $profil->update($profilField);
-
-        if($request->has('password')) {
+        if ($request->has('password')) {
             $user->password = bcrypt($request->password);
-            $user->save();
         }
 
-        return response()->json(["data" => new UserResource($user)], 200);  
-    }
+        $user->save();
 
-    public function updateRole(Request $request, User $user): JsonResponse 
-    {
-        $request->validate([
-            "roles" => "required|array",
-            "roles.*" => "required|int|exists:roles,id"
-        ]);
-        $user->roles()->attach($request->roles);
-        return response()->json(["data" => new UserResource($user)], 200);
-    }
-
-    public function deleteRole(Request $request, User $user): JsonResponse 
-    {
-        $request->validate([
-            "roles" => "required|array",
-            "roles.*" => "required|int|exists:roles,id"
-        ]);
-        $user->roles()->detach($request->roles);
-        return response()->json(["data" => new UserResource($user)], 200);
+        return response()->resourceUpdated(UserResource::make($user));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the roles of a user.
+     *
+     * @api
+     * @param \App\Http\Requests\User\UserControlRoleRequest $request The request containing roles to attach.
+     * @param \App\Models\User $user The user instance to update.
+     * @return \Illuminate\Http\JsonResponse The response containing the updated User resource.
+     */
+    public function updateRole(UserControlRoleRequest $request, User $user)
+    {
+        $user->roles()->attach($request->roles);
+        return response()->resourceUpdated(UserResource::make($user));
+    }
+
+    /**
+     * Detach the specified roles from the user.
+     *
+     * @api
+     * @param \App\Http\Requests\User\UserControlRoleRequest $request The request containing roles to detach.
+     * @param \App\Models\User $user The user instance to update.
+     * @return \Illuminate\Http\JsonResponse The response containing the updated User resource.
+     */
+    public function deleteRole(UserControlRoleRequest $request, User $user)
+    {
+        $user->roles()->detach($request->roles);
+        return response()->resourceUpdated(UserResource::make($user));
+    }
+
+    /**
+     * Remove the specified user resource from storage.
+     *
+     * @api
+     * @param \App\Models\User $user The user instance to delete.
+     * @return \Illuminate\Http\JsonResponse The response confirming the user deletion.
      */
     public function destroy(User $user): JsonResponse
     {
         $user->delete();
-        return response()->json(["data"=> "ok"],200);
+        return response()->resourceDeleted();
     }
 }

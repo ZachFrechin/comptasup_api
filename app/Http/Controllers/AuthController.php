@@ -2,48 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Models\Profil;
-use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\NewAccessToken;
 use App\Http\Resources\UserResource;
-
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request) : JsonResponse{
-        $credentials = $request->validated();
+    /**
+     * Handle a login request to the application.
+     *
+     * This method attempts to authenticate the user using the provided credentials.
+     * If authentication is successful, it generates a token with the user's permissions
+     * and returns a successful authentication response. Otherwise, it returns a credentials
+     * error response.
+     *
+     * @param LoginRequest $request The login request containing user credentials.
+     * @return JsonResponse The response indicating authentication success or failure.
+     */
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'message' => 'Les identifiants de connexion sont incorrects'
-            ], 401);
+    public function login(LoginRequest $request) : JsonResponse{
+
+        // attempt to auth user
+        if (!Auth::attempt($request->validated()))
+        {
+            // return credentials error response
+            return response()->authCredentials();
         }
     
-        /** @var \App\Models\User $user */
+        // setup array of permissions for the user's token
         $user = Auth::user();
-    
-        // Récupérer toutes les permissions via les rôles de l'utilisateur
         $permissions = $user->roles()
-            ->with('permissions') // Charger les permissions des rôles
+            ->with('permissions')
             ->get()
-            ->pluck('permissions') // Obtenir la collection des permissions pour chaque rôle
-            ->flatten() // Aplatir les résultats en une seule collection
-            ->pluck('nom') // Obtenir les noms des permissions
-            ->unique() // Supprimer les doublons
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('nom')
+            ->unique()
             ->toArray();
-    
-        $token = $user->createToken($user->id, $permissions);
-        $userResource = new UserResource($user);
-    
-        return response()->json([
-            "token" => $token->plainTextToken,
-            "user" => $userResource
-        ]);
+
+        // return auth success response
+        return response()->authSuccess(UserResource::make($user), $user->createToken($user->id, $permissions)->plainTextToken,);
     }
 }

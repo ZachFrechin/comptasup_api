@@ -10,62 +10,62 @@ use App\Models\Service;
 
 class ServiceController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the services.
+     *
+     * @return \Illuminate\Http\JsonResponse The response containing a collection of Service resources.
      */
     public function index()
     {
-        return response()->json(["data" => ServiceResource::collection(Service::all())] ,200);
+        return response()->resourceCollection(ServiceResource::collection(Service::all()));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created service in storage.
+     *
+     * @param  \App\Http\Requests\ServiceCreateRequest  $request
+     * @return \Illuminate\Http\JsonResponse The response containing the newly created Service resource.
      */
     public function store(ServiceCreateRequest $request)
     {
         $service = Service::create($request->validated());
-        return response()->json(["data"=> new ServiceResource($service) ] ,201);
+        return response()->resourceCreated(ServiceResource::make($service));
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified service.
+     *
+     * @param  \App\Models\Service  $service
+     * @return \Illuminate\Http\JsonResponse The response containing the Service resource.
      */
     public function show(Service $service)
     {
-        return response()->json(["data" => ServiceResource::make($service)] ,200);
+        return response()->resource(ServiceResource::make($service));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update the specified service in storage.
+     *
+     * @param  \App\Http\Requests\ServiceUpdateRequest  $request
+     * @param  \App\Models\Service  $service
+     * @return \Illuminate\Http\JsonResponse The response containing the updated Service resource.
      */
     public function update(ServiceUpdateRequest $request, Service $service)
     {
         $service->update($request->validated());
-        return response()->json(["data" => ServiceResource::make($service)] ,200);
+        return response()->resourceUpdated(ServiceResource::make($service));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified service from storage.
+     *
+     * @param \App\Models\Service $service The service instance to be deleted.
+     * @return \Illuminate\Http\JsonResponse The response confirming the service deletion.
      */
     public function destroy(Service $service)
     {
         $service->delete();
-        return response()->json(["data"=> "ok" ] ,200);
+        return response()->resourceDeleted();
     }
 }
