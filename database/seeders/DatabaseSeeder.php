@@ -46,7 +46,7 @@
         {
 
             $serviceCompta = Service::create(["nom" => "Comptabilité", "description" => "Comptabilité", "numero" => "01"]);
-            $serviceMangement = Service::create(["nom" => "Mangement", "description" => "Mangement", "numero" => "02"]);
+            $serviceMangement = Service::create(["nom" => "Management", "description" => "Mangement", "numero" => "02"]);
 
             $payload = [$serviceCompta, $serviceMangement];
 
@@ -73,21 +73,25 @@
             $manager->permissions()->attach([$select_user->id, $select_role->id]);
             $adminRole->permissions()->attach($administrator_permission->id);
 
-            $roleArray = [
-                $validator,
-                $controller,
-                $manager,
-                $adminRole
-            ];
+//            $roleArray = [
+//                $validator,
+//                $controller,
+//                $manager,
+//                $adminRole
+//            ];
+//
+//
+//
+//            $j = 0;
+//            for ($i = 0; $i < 10; $i++) {
+//                $user = $this->createAdmin($i, $payload);
+//                $user->roles()->attach($roleArray[$j++ % 4]->id);
+//                $user->roles()->attach($employee->id);
+//            }
 
-
-
-            $j = 0;
-            for ($i = 0; $i < 10; $i++) {
-                $user = $this->createAdmin($i, $payload);
-                $user->roles()->attach($roleArray[$j++ % 4]->id);
-                $user->roles()->attach($employee->id);
-            }
+            $this->call([
+                UserSeeder::class,
+            ]);
 
             Nature::create([
                 "nom" => "Carburant",
@@ -392,39 +396,39 @@
             Etat::create(["nom" => "validated"]);
             Etat::create(["nom" => "archived"]);
 
-            Note::create([
-                "commentaire" => "",
-                "user_id" => 1,
-                "etat_id" => 1,
-                "validateur_id" => 1
-            ]);
-            Depense::create([
-                "nom" => "exemple",
-                "note_id" => 1,
-                "totalTTC" => 360,
-                "date" => "2025/01/01",
-                "tiers" => "riotGame",
-                "nature_id" => 1,
-                "details" => json_encode([
-                        "prixAuLitre" => 2,
-                        "quantite" => 180,
-                        "distance" => 2,
-                        "file" => "zeubi.png"
-                ])
-            ]);
-            Depense::create([
-                "nom" => "exemple",
-                "note_id" => 1,
-                "totalTTC" => 360,
-                "date" => "2025/01/01",
-                "tiers" => "riotGame",
-                "nature_id" => 1,
-                "details" => json_encode([
-                        "prixAuLitre" => 2,
-                        "quantite" => 180,
-                        "distance" => 2,
-                        "file" => "zeubi.png"
-                ])
-            ]);
+//            Note::create([
+//                "commentaire" => "",
+//                "user_id" => 1,
+//                "etat_id" => 1,
+//                "validateur_id" => 1
+//            ]);
+//            Depense::create([
+//                "nom" => "exemple",
+//                "note_id" => 1,
+//                "totalTTC" => 360,
+//                "date" => "2025/01/01",
+//                "tiers" => "riotGame",
+//                "nature_id" => 1,
+//                "details" => json_encode([
+//                        "prixAuLitre" => 2,
+//                        "quantite" => 180,
+//                        "distance" => 2,
+//                        "file" => "zeubi.png"
+//                ])
+//            ]);
+//            Depense::create([
+//                "nom" => "exemple",
+//                "note_id" => 1,
+//                "totalTTC" => 360,
+//                "date" => "2025/01/01",
+//                "tiers" => "riotGame",
+//                "nature_id" => 1,
+//                "details" => json_encode([
+//                        "prixAuLitre" => 2,
+//                        "quantite" => 180,
+//                        "distance" => 2,
+//                        "file" => "zeubi.png"
+//                ])
+//            ]);
         }
     }
