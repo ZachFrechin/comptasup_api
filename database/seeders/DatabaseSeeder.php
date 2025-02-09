@@ -115,7 +115,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
