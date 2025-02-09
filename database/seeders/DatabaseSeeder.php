@@ -19,29 +19,6 @@
         /**
          * Seed the application's database.
          */
-
-        public function createAdmin(int $nb, array $payload) : User {
-            $user = User::factory()->create([
-                'email' => 'example' .$nb .'@example.com',
-                'password' => Hash::make('password'),
-            ]);
-
-            Profil::create([
-                'nom' => 'nomExample',
-                'prenom' => 'prenomExample',
-                'naissance' => '1980-01-01',
-                'telephone' => '0612345678',
-                'code_postal' => '73000',
-                'ville' => 'Chambéry',
-                'pays' => 'France',
-                'rue' => 'rue Sommeiller',
-                'numero_de_rue' => 1,
-                'user_id' => $user->id,
-                'service_id'=> $payload[$nb % 2]->id,
-            ]);
-
-            return $user;
-        }
         public function run(): void
         {
 
@@ -72,22 +49,6 @@
             $controller->permissions()->attach($select_user->id);
             $manager->permissions()->attach([$select_user->id, $select_role->id]);
             $adminRole->permissions()->attach($administrator_permission->id);
-
-//            $roleArray = [
-//                $validator,
-//                $controller,
-//                $manager,
-//                $adminRole
-//            ];
-//
-//
-//
-//            $j = 0;
-//            for ($i = 0; $i < 10; $i++) {
-//                $user = $this->createAdmin($i, $payload);
-//                $user->roles()->attach($roleArray[$j++ % 4]->id);
-//                $user->roles()->attach($employee->id);
-//            }
 
             $this->call([
                 UserSeeder::class,
@@ -126,7 +87,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -196,7 +158,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -239,7 +202,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -254,7 +218,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -286,7 +251,8 @@
                             "value" => "accompagne",
                         ]
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -339,7 +305,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -354,7 +321,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -369,7 +337,8 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
 
             Nature::create([
@@ -384,10 +353,9 @@
                         "ext" => ["image/png", "image/jpeg", "application/pdf"],
                         "required" => true
                     ]
-                ])
+                ]),
+                "user_id" => User::find(1)->id,
             ]);
-
-
 
             Etat::create(["nom" => "not validated"]);
             Etat::create(["nom" => "rejected"]);
@@ -396,39 +364,5 @@
             Etat::create(["nom" => "validated"]);
             Etat::create(["nom" => "archived"]);
 
-//            Note::create([
-//                "commentaire" => "",
-//                "user_id" => 1,
-//                "etat_id" => 1,
-//                "validateur_id" => 1
-//            ]);
-//            Depense::create([
-//                "nom" => "exemple",
-//                "note_id" => 1,
-//                "totalTTC" => 360,
-//                "date" => "2025/01/01",
-//                "tiers" => "riotGame",
-//                "nature_id" => 1,
-//                "details" => json_encode([
-//                        "prixAuLitre" => 2,
-//                        "quantite" => 180,
-//                        "distance" => 2,
-//                        "file" => "zeubi.png"
-//                ])
-//            ]);
-//            Depense::create([
-//                "nom" => "exemple",
-//                "note_id" => 1,
-//                "totalTTC" => 360,
-//                "date" => "2025/01/01",
-//                "tiers" => "riotGame",
-//                "nature_id" => 1,
-//                "details" => json_encode([
-//                        "prixAuLitre" => 2,
-//                        "quantite" => 180,
-//                        "distance" => 2,
-//                        "file" => "zeubi.png"
-//                ])
-//            ]);
         }
     }
