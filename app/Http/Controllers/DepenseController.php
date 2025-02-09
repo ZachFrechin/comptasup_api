@@ -36,7 +36,7 @@ class DepenseController extends Controller
 
         $files = $request->file();
         foreach ($natureDescriptor as $field => $descriptor) {
-            if ($descriptor['type'] === 'file' && isset($files[$field])) {
+            if ($descriptor['type'] === 'file' && $request->has($depense->details[$field])) {
                 $files[$field]->storeAs("public/depenses/{$depense->id}", $depense->details[$field] ?? null);
             }
         }
