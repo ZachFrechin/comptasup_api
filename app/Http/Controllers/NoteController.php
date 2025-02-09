@@ -143,7 +143,8 @@ class NoteController extends Controller
      */
     public function store(NoteCreateRequest $request)
     {
-        $validatorId = Role::find(2)->users()->pluck('id')->first();
+
+        $validatorId = Role::find(2)->users()->pluck('users.id')->first();
 
         $note = Note::create(array_merge(
             $request->validated(),
