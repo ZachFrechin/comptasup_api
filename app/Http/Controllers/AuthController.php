@@ -29,7 +29,7 @@ class AuthController extends Controller
             // return credentials error response
             return response()->authCredentials();
         }
-    
+
         // setup array of permissions for the user's token
         $user = Auth::user();
         $permissions = $user->roles()
@@ -41,7 +41,8 @@ class AuthController extends Controller
             ->unique()
             ->toArray();
 
+
         // return auth success response
-        return response()->authSuccess(UserResource::make($user), $user->createToken($user->id, $permissions)->plainTextToken,);
+        return response()->authSuccess(UserResource::make($user), $user->createToken($user->id, $permissions)->plainTextToken);
     }
 }

@@ -25,7 +25,7 @@ class ResponseServiceProvider extends ServiceProvider
     {
 
         Response::macro('authSuccess', function (JsonResource $resource, string $token) {
-            return Response::make([
+            return Response::json([
                 "user" => $resource,
                 "token" => $token,
                 "message" => "Authentification successful"
@@ -33,55 +33,55 @@ class ResponseServiceProvider extends ServiceProvider
         });
 
         Response::macro('authCredentials', function () {
-            return Response::make(["data" => "Invalid credentials"], 401);
+            return Response::json(["data" => "Invalid credentials"], 401);
         });
-        
+
 
         Response::macro('resourceCreated', function (JsonResource $resource) {
-            return Response::make(["data" => $resource], 201);
+            return Response::json(["data" => $resource], 201);
         });
 
         Response::macro('resource', function (JsonResource $resource) {
-            return Response::make(["data" => $resource], 200);
+            return Response::json(["data" => $resource], 200);
         });
 
         Response::macro('resourceCollection', function (AnonymousResourceCollection $resource) {
-            return Response::make(["data" => $resource], 200);
+            return Response::json(["data" => $resource], 200);
         });
 
         Response::macro('resourceUpdated', function (JsonResource $resource) {
-            return Response::make(["data" => $resource], 201);
+            return Response::json(["data" => $resource], 201);
         });
 
         Response::macro('resourceUpdateMissingField', function (JsonResource $resource) {
-            return Response::make(["data" => $resource], 422);
+            return Response::json(["data" => $resource], 422);
         });
 
         Response::macro('resourceDeleted', function () {
-            return Response::make(["data" => "Resource has been deleted"], 200);
+            return Response::json(["data" => "Resource has been deleted"], 200);
         });
 
         Response::macro('noteValidation', function (JsonResource $resource) {
-            return Response::make(["data" => "Note has been validated and marked as not controlled",
+            return Response::json(["data" => "Note has been validated and marked as not controlled",
                                             "note" => $resource ], 201);
         });
 
         Response::macro('noteRejection', function (JsonResource $resource) {
-            return Response::make(["data" => "Note has been rejected and marked as rejected",
+            return Response::json(["data" => "Note has been rejected and marked as rejected",
                                             "note" => $resource ], 201);
         });
 
         Response::macro('noteCanceltion', function (JsonResource $resource) {
-            return Response::make(["data" => "Note has been canceled and marked as canceled",
+            return Response::json(["data" => "Note has been canceled and marked as canceled",
                                             "note" => $resource ], 201);
         });
 
         Response::macro('notValidator', function () {
-            return Response::make(["data" => "You are not the validator of this note"], 403);
+            return Response::json(["data" => "You are not the validator of this note"], 403);
         });
 
         Response::macro('fileNotFound', function () {
-            return Response::make(["data" => "File not found"], 404);
+            return Response::json(["data" => "File not found"], 404);
         });
     }
 }
