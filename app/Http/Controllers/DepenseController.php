@@ -34,10 +34,12 @@ class DepenseController extends Controller
         $depense = Depense::create($request->validated());
         $natureDescriptor = json_decode(Nature::findOrFail($request->nature_id)->descriptor, true);
 
-        $files = $request->file();
         foreach ($natureDescriptor as $field => $descriptor) {
-            if ($descriptor['type'] === 'file' && $request->has(json_decode($depense->details, true)[$field])) {
-                $files[$field]->storeAs("public/depenses/{$depense->id}", json_decode($depense->details, true)[$field]);
+            if ($descriptor['type'] === 'file') {
+                $name = json_decode($depense->details, true)[$field];
+                if($request->hasFile($field)) {
+                    $request->file($field)->storeAs('public/depenses/'.$depense->id, $name);
+                }
             }
         }
 
