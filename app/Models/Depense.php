@@ -14,6 +14,7 @@ class Depense extends Model
         'totalTTC',
         'date',
         'tiers',
+        'SIRET',
         'nature_id',
         'details'
     ];

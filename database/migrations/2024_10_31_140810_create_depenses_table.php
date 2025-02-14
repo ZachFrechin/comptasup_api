@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('totalTTC');
             $table->date('date');
             $table->string('tiers')->nullable();
+            $table->string('SIRET')->nullable();
             $table->json("details");
             $table->foreign('nature_id')->references('id')->on('natures');
             $table->foreign('note_id')->references('id')->on('notes');

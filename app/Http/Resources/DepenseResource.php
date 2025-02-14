@@ -28,16 +28,16 @@ class DepenseResource extends JsonResource
             "totalTTC" => $this->totalTTC,
             "date" => $this->date,
             "tiers" => $this->tiers,
+            'SIRET' => $this->SIRET,
             "fichiers" => $this->getFichiersUrls(),
         ];
     }
     private function getFichiersUrls(): array
     {
         $directory = 'public/depenses/' . $this->id;
-        $files = Storage::files($directory); // Liste des fichiers dans le répertoire
+        $files = Storage::files($directory);
         
-        // Retourne uniquement les noms des fichiers
-        return array_map(fn($file) => basename($file), $files); // Utilisation de basename pour obtenir uniquement le nom du fichier
+        return array_map(fn($file) => basename($file), $files);
     }
 
 }

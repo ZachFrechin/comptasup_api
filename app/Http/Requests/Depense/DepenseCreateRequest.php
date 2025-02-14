@@ -20,6 +20,10 @@ class DepenseCreateRequest extends FormRequest
             'totalTTC' => "numeric|required",
             'date' => "date|required",
             'tiers' => "string|nullable",
+            'SIRET' => [
+                "string",
+                "regex:/^[0-9]{14}$/",
+            ],
             'nature_id' => "int|exists:natures,id",
             "details" => "json|required"
         ];

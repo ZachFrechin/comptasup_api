@@ -35,11 +35,9 @@ class DepenseController extends Controller
         $natureDescriptor = json_decode(Nature::findOrFail($request->nature_id)->descriptor, true);
 
         foreach ($natureDescriptor as $field => $descriptor) {
-            if ($descriptor['type'] === 'file') {
+            if ($descriptor['type'] === 'file' && $request->hasFile($field)) {
                 $name = json_decode($depense->details, true)[$field];
-                if($request->hasFile($field)) {
-                    $request->file($field)->storeAs('public/depenses/'.$depense->id, $name);
-                }
+                $request->file($field)->storeAs('public/depenses/'.$depense->id, $name);
             }
         }
 
@@ -87,17 +85,18 @@ class DepenseController extends Controller
      */
     public function update(DepenseUpdateRequest $request, Depense $depense)
     {
-        $validated = $request->validated();
+        
         if($request->validated() == []) {
             return response()->resourceUpdateMissingField(DepenseResource::make($depense));
         }
+        $validated = $request->validated();
 
         if ($this->needsFileUpdate($request, $depense)) {
             $this->handleFileUpdates($request, $depense, $validated['nature_id'] ?? $depense->nature_id);
         }
 
         $this->updateDepense($depense, $validated);
-        $this->updateNoteState($depense);
+        $this->setNoteStateToNotValidated($depense);
 
         return response()->resourceUpdated(DepenseResource::make($depense));
     }
@@ -192,10 +191,10 @@ class DepenseController extends Controller
      *
      * @param \App\Models\Depense $depense La dépense concernée.
      */
-    private function updateNoteState(Depense $depense): void
+    private function setNoteStateToNotValidated(Depense $depense): void
     {
         if ($depense->note) {
-            $depense->note->update(['etat_id' => 1]);
+            $depense->note->update(['etat_id' => Etat::NOT_VALIDATED]);
         }
     }
 }
