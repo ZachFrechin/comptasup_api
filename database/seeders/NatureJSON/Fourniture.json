@@ -1,0 +1,15 @@
+{
+    "nom": "Fourniture - Administratif",
+    "numero": "5",
+    "descriptor": {
+      "file": {
+        "type": "file",
+        "position": 0,
+        "title": "Ticket",
+        "size": 10,
+        "ext": ["image/png", "image/jpeg", "application/pdf"],
+        "required": true
+      }
+    }
+}
+  

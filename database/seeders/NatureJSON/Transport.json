@@ -1,0 +1,43 @@
+{
+    "nom": "Transport",
+    "numero": "4",
+    "descriptor": {
+      "dateDebut": {
+        "type": "date",
+        "position": 0,
+        "title": "Date début",
+        "required": true
+      },
+      "lieuDepart": {
+        "type": "text",
+        "position": 1,
+        "title": "Lieu départ",
+        "size": 50,
+        "placeholder": "Ex: Annecy",
+        "required": true
+      },
+      "dateFin": {
+        "type": "date",
+        "position": 2,
+        "title": "Date fin",
+        "required": true
+      },
+      "lieuArrivee": {
+        "type": "text",
+        "position": 3,
+        "title": "Lieu arrivée",
+        "size": 50,
+        "placeholder": "Ex: Chambéry",
+        "required": true
+      },
+      "file": {
+        "type": "file",
+        "position": 4,
+        "title": "Ticket",
+        "size": 10,
+        "ext": ["image/png", "image/jpeg", "application/pdf"],
+        "required": true
+      }
+    }
+  }
+  

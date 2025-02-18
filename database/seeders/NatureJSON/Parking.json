@@ -1,0 +1,26 @@
+{
+    "nom": "Parking",
+    "numero": "2",
+    "descriptor": {
+        "dateDebut": {
+            "type": "date",
+            "position": 0,
+            "title": "Date début stationnement",
+            "required": true
+        },
+        "dateFin": {
+            "type": "date",
+            "position": 1,
+            "title": "Date fin stationnement",
+            "required": true
+        },
+        "file": {
+            "type": "file",
+            "position": 2,
+            "title": "Justificatif",
+            "size": 10,
+            "ext": ["image/png", "image/jpeg", "application/pdf"],
+            "required": true
+        }
+    }
+}

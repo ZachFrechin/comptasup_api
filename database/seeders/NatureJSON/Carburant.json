@@ -1,0 +1,35 @@
+{
+    "nom": "Carburant",
+    "numero": "1",
+    "descriptor": {
+        "prixAuLitre": {
+            "type": "number",
+            "position": 0,
+            "title": "Prix au litre",
+            "required": true,
+            "min": 0.5,
+            "max": 10
+        },
+        "quantite": {
+            "type": "number",
+            "position": 1,
+            "title": "Quantité"
+        },
+        "distance": {
+            "type": "number",
+            "position": 1,
+            "title": "Distance",
+            "required": true,
+            "min": 0,
+            "max": 100000
+        },
+        "file": {
+            "type": "file",
+            "position": 2,
+            "title": "Justificatif",
+            "size": 10,
+            "ext": ["image/png", "image/jpeg", "application/pdf"],
+            "required": true
+        }
+    }
+}

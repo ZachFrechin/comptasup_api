@@ -1,0 +1,32 @@
+{
+    "nom": "Repas salarié",
+    "numero": "6",
+    "descriptor": {
+      "accompagnement": {
+        "type": "dropdown",
+        "position": 0,
+        "title": "Accompagnement",
+        "options": [
+          {
+            "key": "seul",
+            "value": "Seul"
+          },
+          {
+            "key": "accompagne",
+            "value": "Accompagné"
+          }
+        ],
+        "required": true
+      },
+      "collaborateurs": {
+        "type": "collaborateur",
+        "title": "Accompagnant(s)",
+        "position": 2,
+        "need": {
+          "key": "accompagnement",
+          "value": "accompagne"
+        }
+      }
+    }
+  }
+  

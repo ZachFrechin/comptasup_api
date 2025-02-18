@@ -1,0 +1,15 @@
+{
+    "nom": "Autre",
+    "numero": "8",
+    "descriptor": {
+      "file": {
+        "type": "file",
+        "position": 0,
+        "title": "Ticket",
+        "size": 10,
+        "ext": ["image/png", "image/jpeg", "application/pdf"],
+        "required": true
+      }
+    }
+}
+  
