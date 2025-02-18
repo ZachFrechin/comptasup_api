@@ -19,6 +19,7 @@ return new class extends Migration
 
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->string('nom')->nullable();
             $table->text('commentaire')->nullable();
             $table->unsignedBigInteger('etat_id')->default(1)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

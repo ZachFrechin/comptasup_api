@@ -9,7 +9,6 @@ use App\Models\Nature;
 class Depense extends Model
 {
     protected $fillable = [
-        'nom',
         'note_id',
         'totalTTC',
         'date',

@@ -83,5 +83,9 @@ class ResponseServiceProvider extends ServiceProvider
         Response::macro('fileNotFound', function () {
             return Response::json(["data" => "File not found"], 404);
         });
+
+        Response::macro('noteHistories', function (JsonResource $resource) {
+            return Response::json(["data" => $resource], 200);
+        });
     }
 }

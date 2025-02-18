@@ -15,7 +15,6 @@ class DepenseCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => "string|required",
             'note_id' => "int|exists:notes,id|nullable",
             'totalTTC' => "numeric|required",
             'date' => "date|required",

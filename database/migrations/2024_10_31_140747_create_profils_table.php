@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('rue')->nullable();
             $table->integer('numero_de_rue')->nullable();
             $table->string('ressource')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('user_id')->references('id')->on('users');

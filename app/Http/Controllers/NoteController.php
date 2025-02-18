@@ -8,6 +8,8 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Http\Resources\NoteResource;
 use App\Http\Requests\Note\NoteCreateRequest;
+use App\Models\NoteHistoryState;
+use Illuminate\Http\JsonResponse;
 
 
 
@@ -78,16 +80,18 @@ class NoteController extends Controller
      * @param \App\Models\Note $note
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validate(Request $request, Note $note)
+    public function validate(Request $request, Note $note): JSONResponse
     {
-        if ($note->validateur_id !== $request->user()->id) {
-            return response()->notValidator();
-        }
+        return $this->noteService()->checkValideurID(
+            $request->user()->id,
+            $note,
+            [],
+            function (Note $note) : JsonResponse {
+                $controlerID = Role::find(3)->users->pluck('id')->first();
+                $note = $this->noteService()->changeControllerID($controlerID, $note, true);
 
-        $controlers = Role::find(3)->users->pluck('id')->first();
-        $note->update(['controleur_id' => $controlers, 'etat_id' => Etat::NOT_CONTROLED]);
-
-        return response()->noteValidation(NoteResource::make($note));
+                return response()->noteValidation(NoteResource::make($note));
+            });
     }
 
     /**
@@ -97,22 +101,18 @@ class NoteController extends Controller
      * @param \App\Models\Note $note
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reject(Request $request, Note $note) {
-
-        if($request->comment) {
-            $note->commentaire = $request->comment;
-        }
-
-        if ($note->validateur_id !== $request->user()->id) {
-            return response()->notValidator();
-        }
-
-        $note->fill([
-            'comment' => $request->comment ?? $note->comment,
-            'etat_id' => Etat::REJECTED,
-        ])->save();
-
-        return response()->noteRejection(NoteResource::make($note));
+    public function reject(Request $request, Note $note) : JsonResponse
+    {
+        return $this->noteService()->checkValideurID(
+            $request->user()->id,
+            $note,
+            ['request' => $request],
+            function (Note $note, $payload) {
+                $note = $this->noteService()->changeState(Etat::REJECTED, $note);
+                $note = $this->noteService()->update($payload['request']->all(), $note);
+                return response()->noteRejection(NoteResource::make($note));
+            }
+        );
     }
 
     /**
@@ -122,17 +122,18 @@ class NoteController extends Controller
      * @param \App\Models\Note $note
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cancel(Request $request, Note $note) {
-        if ($note->validateur_id !== $request->user()->id) {
-            return response()->notValidator();
-        }
-
-        $note->fill([
-            'comment' => $request->comment ?? $note->comment,
-            'etat_id' => Etat::CANCELED,
-        ])->save();
-
-        return response()->noteCanceltion(NoteResource::make($note));
+    public function cancel(Request $request, Note $note) : JsonResponse
+    {
+        return $this->noteService()->checkValideurID(
+            $request->user()->id,
+            $note,
+            ['request' => $request],
+            function (Note $note, $payload) {
+                $note = $this->noteService()->changeState(Etat::CANCELED, $note);
+                $note = $this->noteService()->update($payload['request']->all(), $note);
+                return response()->noteCanceltion(NoteResource::make($note));
+            }
+        );
     }
 
     /**
@@ -146,13 +147,7 @@ class NoteController extends Controller
 
         $validatorId = Role::find(2)->users()->pluck('users.id')->first();
 
-        $note = Note::create(array_merge(
-            $request->validated(),
-            [
-                'validateur_id' => $validatorId,
-                'user_id' => $request->user()->id,
-            ]
-        ));
+        $note = $this->noteService()->create($request->validated(), $validatorId, $request->user()->id);
 
         return response()->resourceCreated(NoteResource::make($note));
     }

@@ -9,6 +9,7 @@ use App\Models\Etat;
 class Note extends Model
 {
     protected $fillable = [
+        'nom',
         'commentaire',
         'etat_id',
         'user_id',

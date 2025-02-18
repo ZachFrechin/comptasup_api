@@ -22,6 +22,7 @@ class NoteCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'nom' => 'string|required',
             'commentaire' => "string|nullable",
             'etat_id' => "int|exists:etats,id|nullable",
         ];

@@ -8,6 +8,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\NatureController;
 use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\NoteHistoryController;
 
 /**
  * $ UP TO DATE
@@ -1114,4 +1115,11 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
     });
 });
     
+Route::prefix('noteHistory')->middleware('auth:sanctum')->group(function () 
+{
+    Route::controller(NoteHistoryController::class)->group(function () 
+    {
+        Route::get('/{note}', 'getNoteHistory');
+    });
+});
 
