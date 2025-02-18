@@ -13,4 +13,9 @@ class EtatService extends Service
     {
         return Etat::create(['nom' => $name]);
     }
+
+    public function getByName(string $name) : Etat | null
+    {
+        return Etat::where(['nom' => $name])->first();
+    }
 }

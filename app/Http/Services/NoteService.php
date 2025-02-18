@@ -64,4 +64,9 @@ class NoteService extends Service
             return response()->notValidator();
         }
     }
+
+    public function getyID(int $id) : Note | null
+    {
+        return Note::find($id);
+    }
 }
