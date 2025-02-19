@@ -33,7 +33,7 @@ class DepenseService extends Service
     
     public function storeFile(Depense $depense, DepenseCreateRequest $request) : void
     {
-        $nature = natureService()->findByID(id: $depense->nature_id);
+        $nature = $this->natureService()->findByID(id: $depense->nature_id);
         $details = json_decode($depense->details, true);
         foreach ($nature->descriptor as $field => $descriptor) {
             if ($descriptor['type'] === 'file' && $request->hasFile($field)) {
