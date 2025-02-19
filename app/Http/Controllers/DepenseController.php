@@ -31,12 +31,12 @@ class DepenseController extends Controller
 
     public function getFile(Depense $depense, string $filename)
     {
-        if($path = $this->depenseService()->getFile($depense, $filename) === null)
+        $path = $this->depenseService()->getFile($depense, $filename);
+        if( $path === null)
         {
             return response()->fileNotFound();
         } else
         {
-            dd($path);
             return response()->file($path);
         }
     }
