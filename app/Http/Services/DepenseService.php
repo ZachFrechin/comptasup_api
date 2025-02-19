@@ -35,7 +35,7 @@ class DepenseService extends Service
     {
         $nature = $this->natureService()->findByID(id: $depense->nature_id);
         $details = json_decode($depense->details, true);
-        foreach (json_decode($nature->descriptor) as $field => $descriptor) {
+        foreach (json_decode($nature->descriptor, true) as $field => $descriptor) {
             if ($descriptor['type'] === 'file' && $request->hasFile($field)) {
                 $name = $details[$field];
                 $request->file($field)->storeAs('public/depenses/'.$depense->id, $field);
