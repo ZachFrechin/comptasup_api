@@ -36,6 +36,7 @@ class DepenseController extends Controller
             return response()->fileNotFound();
         } else
         {
+            dd($path);
             return response()->file($path);
         }
     }
