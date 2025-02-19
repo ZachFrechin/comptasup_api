@@ -6,6 +6,7 @@ use App\Models\NoteHistory;
 use App\Http\Services\Service;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\Depense\DepenseCreateRequest;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Depense;
 use App\Traits\ServiceCallable;
 
@@ -31,7 +32,7 @@ class DepenseService extends Service
         return Depense::all();
     }
     
-    public function storeFile(Depense $depense, DepenseCreateRequest $request) : void
+    public function storeFile(Depense $depense, FormRequest $request) : void
     {
         $nature = $this->natureService()->findByID(id: $depense->nature_id);
         $details = json_decode($depense->details, true);
