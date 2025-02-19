@@ -38,7 +38,7 @@ class DepenseService extends Service
         foreach (json_decode($nature->descriptor, true) as $field => $descriptor) {
             if ($descriptor['type'] === 'file' && $request->hasFile($field)) {
                 $name = $details[$field];
-                $request->file($field)->storeAs('public/depenses/'.$depense->id, $field);
+                $request->file($field)->storeAs('public/depenses/'.$depense->id, $name);
             }
         }
     }
