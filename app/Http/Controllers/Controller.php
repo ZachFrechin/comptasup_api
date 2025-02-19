@@ -11,7 +11,7 @@ use App\Http\Services\EtatService;
 use App\Http\Services\RoleService;
 use App\Http\Services\PermissionService;
 use App\Http\Services\ServiceService;
-
+use App\Http\Services\DepenseService;
 abstract class Controller
 {
     use ServiceCallable;
@@ -27,6 +27,7 @@ abstract class Controller
             'roleService' => RoleService::class,
             'permissionService' => PermissionService::class,
             'serviceService' => ServiceService::class,
+            'depenseService' => DepenseService::class,
         ]);
     }
 }

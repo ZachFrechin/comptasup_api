@@ -30,4 +30,9 @@ class NatureService extends Service
             'user_id' => $this->userService()->getByID(1)->id
         ]);
     }
+
+    public function findByID(int $id) : Nature | null
+    {
+        return Nature::find($id);
+    }
 }

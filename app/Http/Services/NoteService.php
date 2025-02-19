@@ -75,4 +75,9 @@ class NoteService extends Service
             return response()->notController();
         }
     }
+
+    public function getByID(int $id) : Note | null
+    {
+        return Note::find($id);
+    }
 }
