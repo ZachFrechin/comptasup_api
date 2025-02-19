@@ -48,7 +48,6 @@ class UserController extends Controller
         return response()->resourceUpdated(UserResource::make($user));
     }
 
-
     public function updateRole(UserControlRoleRequest $request, User $user)
     {
         $user->roles()->attach($request->roles);
