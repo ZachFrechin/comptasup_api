@@ -20,7 +20,7 @@ Route::prefix('role')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": 
+                    "data":
                     [
                         {
                             "id": 1,
@@ -61,7 +61,7 @@ Route::prefix('role')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": 
+                    "data":
                     {
                         "id": 2,
                         "nom": "Valideur",
@@ -95,7 +95,7 @@ Route::prefix('role')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 201 Created
                 {
-                    "data": 
+                    "data":
                     {
                         "id": 6,
                         "nom": "zeuubi",

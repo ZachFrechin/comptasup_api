@@ -21,12 +21,6 @@ class ServiceController extends Controller
         return response()->resourceCollection(ServiceResource::collection(Service::all()));
     }
 
-    /**
-     * Store a newly created service in storage.
-     *
-     * @param  \App\Http\Requests\ServiceCreateRequest  $request
-     * @return \Illuminate\Http\JsonResponse The response containing the newly created Service resource.
-     */
     public function store(ServiceCreateRequest $request)
     {
         $service = Service::create($request->validated());
@@ -44,13 +38,6 @@ class ServiceController extends Controller
         return response()->resource(ServiceResource::make($service));
     }
 
-    /**
-     * Update the specified service in storage.
-     *
-     * @param  \App\Http\Requests\ServiceUpdateRequest  $request
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\JsonResponse The response containing the updated Service resource.
-     */
     public function update(ServiceUpdateRequest $request, Service $service)
     {
         $service->update($request->validated());
