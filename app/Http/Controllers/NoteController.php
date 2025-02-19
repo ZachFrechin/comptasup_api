@@ -15,12 +15,7 @@ use Illuminate\Http\JsonResponse;
 
 class NoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function index(Request $request)
     {
         return response()->resourceCollection(
@@ -34,12 +29,6 @@ class NoteController extends Controller
         );
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function indexByValidator(Request $request)
     {
         return response()->resourceCollection(
@@ -53,12 +42,6 @@ class NoteController extends Controller
         );
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function indexByControler(Request $request)
     {
         return response()->resourceCollection(
@@ -73,13 +56,6 @@ class NoteController extends Controller
         );
     }
 
-    /**
-     * Valide une note.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Note $note
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function validate(Request $request, Note $note): JSONResponse
     {
         return $this->noteService()->checkValideurID(
@@ -94,13 +70,6 @@ class NoteController extends Controller
             });
     }
 
-    /**
-     * Rejette une note.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Note $note
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function reject(Request $request, Note $note) : JsonResponse
     {
         return $this->noteService()->checkValideurID(
@@ -115,13 +84,6 @@ class NoteController extends Controller
         );
     }
 
-    /**
-     * Annule une note.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Note $note
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function cancel(Request $request, Note $note) : JsonResponse
     {
         return $this->noteService()->checkValideurID(
@@ -152,12 +114,6 @@ class NoteController extends Controller
         );
     }
 
-    /**
-     * Store a newly created note in storage.
-     *
-     * @param \App\Http\Requests\Note\NoteCreateRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(NoteCreateRequest $request)
     {
 
@@ -166,13 +122,7 @@ class NoteController extends Controller
 
         return response()->resourceCreated(NoteResource::make($note));
     }
-
-    /**
-     * Affiche une note de frais.
-     *
-     * @param \App\Models\Note $note
-     * @return \Illuminate\Http\JsonResponse
-     */
+    
     public function show(Note $note)
     {
         return response()->resource(NoteResource::make($note));
