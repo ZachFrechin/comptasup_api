@@ -22,7 +22,6 @@ class AuthController extends Controller
      */
 
     public function login(LoginRequest $request) : JsonResponse{
-
         // attempt to auth user
         if (!Auth::attempt($request->validated()))
         {

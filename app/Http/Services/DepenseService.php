@@ -7,9 +7,19 @@ use App\Http\Services\Service;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\Depense\DepenseCreateRequest;
 use App\Models\Depense;
+use App\Traits\ServiceCallable;
 
 class DepenseService extends Service
 {
+
+    use ServiceCallable;
+
+    public function __construct()
+    {
+        $this->registerServices([
+            'natureService' => NatureService::class,
+        ]);
+    }
 
     public function create(array $fields) : Depense
     {
@@ -23,7 +33,7 @@ class DepenseService extends Service
     
     public function storeFile(Depense $depense, DepenseCreateRequest $request) : void
     {
-        $nature = $this->natureService()->findByID($depense->nature_id);
+        $nature = natureService()->findByID(id: $depense->nature_id);
         $details = json_decode($depense->details, true);
         foreach ($nature->descriptor as $field => $descriptor) {
             if ($descriptor['type'] === 'file' && $request->hasFile($field)) {

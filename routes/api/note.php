@@ -6,28 +6,19 @@ use App\Http\Controllers\NoteController;
 Route::prefix('note')->middleware('auth:sanctum')->group(function () {
     Route::controller(NoteController::class)->group(function () {
         /**
-         * @api {get} /note Notes
+         * @api {get} /note Notes Utilisateur
          * @apiName GetNotes
+         * @apiDescription Retourne la liste des ressources des notes utilisateur.
          * @apiGroup Note
          * @apiVersion 1.0.1
          *
-         * @apiDescription Récupère la liste des notes de l'utilisateur connecté.
-         * Vous pouvez ajouter un paramètre optionnel dabs l'url `etat` pour filtrer les notes en fonction de leur état. ( id de l'état )
+         * @apiParam {Number} etat ID de l'état pour filtrer les notes (optionnel).
          *
-         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
-         *
-         * @apiSuccess {Object[]} data Liste des notes.
-         * @apiSuccess {Number} data.id ID unique de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
-         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         * @apiSuccess {Object} data Ressources des notes.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
+              HTTP/1.1 200 OK
+             {
          *         "data": [
          *             {
          *                 "id": 1,
@@ -40,7 +31,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          *                 }
          *             }
          *         ]
-         *     }
+            }
          */
         Route::get('/', 'index');
 
