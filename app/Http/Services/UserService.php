@@ -38,6 +38,24 @@ class UserService extends Service
         return $user;
     }
 
+    public function updateProfil(User $user, array $fields) : User
+    {
+        $user->profil()->update($fields);
+        return $user;
+    }
+
+    public function updateMail(User $user, string $mail) : User
+    {
+        $user->update(['email' => $mail]);
+        return $user;
+    }
+
+    public function updatePassword(User $user, string $password) : User
+    {
+        $user->update(['password' => Hash::make($password)]);
+        return $user;
+    }
+
     public function getByID(int $id) : User | null
     {
         return User::find($id);
@@ -52,6 +70,12 @@ class UserService extends Service
     {
         array_walk($roleName, [$this, 'arrayWalkRoleID']);
         $user->roles()->attach($roleName);
+        return $user;
+    }
+
+    public function addRolesByID(User $user, array $roleID) : User
+    {
+        $user->roles()->attach($roleID);
         return $user;
     }
 }

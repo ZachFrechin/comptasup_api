@@ -64,4 +64,15 @@ class NoteService extends Service
             return response()->notValidator();
         }
     }
+
+    public function checkControllerID(int $id, Note $note, array $payload, callable $callback) : JsonResponse
+    {
+        if($note->controleur_id === $id)
+        {
+            return $callback($note, $payload);
+        } else
+        {
+            return response()->notController();
+        }
+    }
 }

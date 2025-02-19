@@ -32,7 +32,7 @@ class NatureController extends Controller
     public function store(NatureCreateRequest $request)
     {
         $nature = Nature::create(array_merge(
-            $request->validated(), 
+            $request->validated(),
             ['user_id' => $request->user()->id]
         ));
         return response()->resourceCreated(NatureResource::make($nature));

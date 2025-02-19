@@ -11,6 +11,7 @@ class Nature extends Model
         'numero',
         'nom',
         'descriptor',
+        'user_id'
     ];
 
     public function depenses() {

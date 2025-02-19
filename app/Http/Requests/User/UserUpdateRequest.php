@@ -24,7 +24,7 @@ class UserUpdateRequest extends FormRequest
         return [
             "email" => [
                 "email",
-                "unique:users,email"
+                "unique:users,email",
             ],
             "password" => [
                 "string",
@@ -32,40 +32,20 @@ class UserUpdateRequest extends FormRequest
                 "confirmed",
                 "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{6,}$/",
             ],
-            "nom" => [
-                "string",
-                "max:255",
-            ],
-            "prenom" => [
-                "string",
-                "max:255",
-            ],
-            "naissance" => [
-                "date_format:Y-m-d",
-                "before:today",
-            ],
-            "telephone" => [
-                "string"
-            ],
-            "code_postal" => [
-                "string",
-                "regex:/^\d{5}$/",
-            ],
-            "ville" => [
-                "string",
-                "max:255",
-            ],
-            "pays" => [
-                "string",
-                "max:255",
-            ],
-            "rue" => [
-                "string",
-                "max:255",
-            ],
-            "numero_de_rue" => [
-                "integer",
-            ]
+            "roles" => "array",
+            "roles.*" => "int|exists:roles,id",
+        
+            "profil" => ["array"],
+            "profil.nom" => ["string", "max:255"],
+            "profil.prenom" => ["string", "max:255"],
+            "profil.naissance" => ["date_format:Y-m-d", "before:today"],
+            "profil.telephone" => ["string"],
+            "profil.code_postal" => ["nullable", "string", "regex:/^\d{5}$/"],
+            "profil.ville" => ["nullable", "string", "max:255"],
+            "profil.pays" => ["nullable", "string", "max:255"],
+            "profil.rue" => ["nullable", "string", "max:255"],
+            "profil.numero_de_rue" => ["nullable", "integer"],
+            "profil.service_id" => ["nullable", "exists:services,id"],
         ];
     }
 

@@ -86,7 +86,7 @@ class NoteController extends Controller
             $request->user()->id,
             $note,
             [],
-            function (Note $note) : JsonResponse {
+            function (Note $note, array $payload) : JsonResponse {
                 $controlerID = Role::find(3)->users->pluck('id')->first();
                 $note = $this->noteService()->changeControllerID($controlerID, $note, true);
 
@@ -109,7 +109,7 @@ class NoteController extends Controller
             ['request' => $request],
             function (Note $note, $payload) {
                 $note = $this->noteService()->changeState(Etat::REJECTED, $note);
-                $note = $this->noteService()->update($payload['request']->all(), $note);
+                $note = $this->noteService()->update($payload['request']->only(['commentaire']), $note);
                 return response()->noteRejection(NoteResource::make($note));
             }
         );
@@ -128,10 +128,26 @@ class NoteController extends Controller
             $request->user()->id,
             $note,
             ['request' => $request],
-            function (Note $note, $payload) {
+            function (Note $note, array $payload) : JsonResponse
+            {
                 $note = $this->noteService()->changeState(Etat::CANCELED, $note);
-                $note = $this->noteService()->update($payload['request']->all(), $note);
+                $note = $this->noteService()->update($payload['request']->only(['commentaire']), $note);
                 return response()->noteCanceltion(NoteResource::make($note));
+            }
+        );
+    }
+
+    public function control(Request $request, Note $note) : JsonResponse
+    {
+        return $this->noteService()->checkControllerID(
+            $request->user()->id,
+            $note,
+            ['request' => $request],
+            function (Note $note, array $payload) : JsonResponse
+            {
+                $note = $this->noteService()->changeState(Etat::VALIDATED, $note);
+                $note = $this->noteService()->update($payload['request']->only(['commentaire']), $note);
+                return response()->noteControlled(NoteResource::make($note));
             }
         );
     }
@@ -146,7 +162,6 @@ class NoteController extends Controller
     {
 
         $validatorId = Role::find(2)->users()->pluck('users.id')->first();
-
         $note = $this->noteService()->create($request->validated(), $validatorId, $request->user()->id);
 
         return response()->resourceCreated(NoteResource::make($note));

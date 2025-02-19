@@ -10,7 +10,7 @@ use App\Models\Service;
 
 class Profil extends Model
 {
-    protected $fillable = [
+    public $fillable = [
         'nom',
         'prenom',
         'naissance',

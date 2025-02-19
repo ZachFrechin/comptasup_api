@@ -66,6 +66,11 @@ class ResponseServiceProvider extends ServiceProvider
                                             "note" => $resource ], 201);
         });
 
+        Response::macro('noteControlled', function (JsonResource $resource) {
+            return Response::json(["data" => "Note has been controlled and marked as validated",
+                                            "note" => $resource ], 201);
+        });
+
         Response::macro('noteRejection', function (JsonResource $resource) {
             return Response::json(["data" => "Note has been rejected and marked as rejected",
                                             "note" => $resource ], 201);
@@ -78,6 +83,10 @@ class ResponseServiceProvider extends ServiceProvider
 
         Response::macro('notValidator', function () {
             return Response::json(["data" => "You are not the validator of this note"], 403);
+        });
+
+        Response::macro('notController', function () {
+            return Response::json(["data" => "You are not the controller of this note"], 403);
         });
 
         Response::macro('fileNotFound', function () {

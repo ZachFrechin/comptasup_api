@@ -35,26 +35,13 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request): JsonResponse
     {
-        $user = User::create([
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        $user = $this->userService()->create(
+            $request->email,
+            $request->password,
+            $request->profil
+        );
 
-        $user->roles()->attach(Role::first());
-
-        $user->profil()->create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'naissance' => $request->naissance,
-            'telephone' => $request->telephone,
-            'code_postal' => $request->code_postal,
-            'ville' => $request->ville,
-            'pays' => $request->pays,
-            'rue' => $request->rue,
-            'numero_de_rue' => $request->numero_de_rue,
-            'service_id' => $request->service_id,
-        ]);
-
+        $user = $this->userService()->addRolesByID($user, $request->roles);
         return response()->resourceCreated(UserResource::make($user));
     }
 
@@ -80,14 +67,10 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user): JsonResponse
     {
-        $user->fill($request->only($user->fillable));
-        $user->profil->fill($request->only($user->profil->fillable))->save();
 
-        if ($request->has('password')) {
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
+        $request->email ? $this->userService()->updateMail($user, $request->email) : null;
+        $request->password ? $this->userService()->updatePassword($user, $request->password) : null;
+        $request->profil ? $this->userService()->updateProfil($user, $request->profil) : null;
 
         return response()->resourceUpdated(UserResource::make($user));
     }

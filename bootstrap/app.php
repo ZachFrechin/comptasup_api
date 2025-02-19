@@ -9,7 +9,16 @@ use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
+        api: [
+            __DIR__.'/../routes/api.php',
+            __DIR__.'/../routes/api/depense.php',
+            __DIR__.'/../routes/api/nature.php',
+            __DIR__.'/../routes/api/note.php',
+            __DIR__.'/../routes/api/noteHistory.php',
+            __DIR__.'/../routes/api/role.php',
+            __DIR__.'/../routes/api/service.php',
+            __DIR__.'/../routes/api/user.php',
+        ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
@@ -20,5 +29,5 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+    })
+    ->create();

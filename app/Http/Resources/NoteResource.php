@@ -22,7 +22,9 @@ class NoteResource extends JsonResource
             "etat" => $this->etat,
             "user_id" => $this->user_id,
             "depenses"=> DepenseResource::collection($this->depenses),
-            "totalTTC" => $this->depenses->sum("totalTTC")
+            "totalTTC" => $this->depenses->sum("totalTTC"),
+            "controleur_id" => $this->controleur_id,
+            "validateur_id" => $this->validateur_id
         ];
     }
 }

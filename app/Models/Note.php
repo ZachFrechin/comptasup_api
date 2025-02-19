@@ -13,7 +13,8 @@ class Note extends Model
         'commentaire',
         'etat_id',
         'user_id',
-        'validateur_id'
+        'validateur_id',
+        'controleur_id'
     ];
 
     public function depenses() {

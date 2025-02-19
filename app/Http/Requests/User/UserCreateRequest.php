@@ -34,54 +34,22 @@ use Illuminate\Foundation\Http\FormRequest;
                     "confirmed",
                     "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{6,}$/",
                 ],
-                "nom" => [
-                    "required",
-                    "string",
-                    "max:255",
-                ],
-                "prenom" => [
-                    "required",
-                    "string",
-                    "max:255",
-                ],
-                "naissance" => [
-                    "required",
-                    "date_format:Y-m-d",
-                    "before:today",
-                ],
-                "telephone" => [
-                    "required",
-                    "string",
-                ],
-                "code_postal" => [
-                    "nullable",
-                    "string",
-                    "regex:/^\d{5}$/",
-                ],
-                "ville" => [
-                    "nullable",
-                    "string",
-                    "max:255",
-                ],
-                "pays" => [
-                    "nullable",
-                    "string",
-                    "max:255",
-                ],
-                "rue" => [
-                    "nullable",
-                    "string",
-                    "max:255",
-                ],
-                "numero_de_rue" => [
-                    "nullable",
-                    "integer",
-                ],
-                "service_id"=> [
-                    "nullable",
-                    "exists:services,id"
-                ]
+                "roles" => "required|array",
+                "roles.*" => "required|int|exists:roles,id",
+            
+                "profil" => ["required", "array"],
+                "profil.nom" => ["required", "string", "max:255"],
+                "profil.prenom" => ["required", "string", "max:255"],
+                "profil.naissance" => ["required", "date_format:Y-m-d", "before:today"],
+                "profil.telephone" => ["required", "string"],
+                "profil.code_postal" => ["nullable", "string", "regex:/^\d{5}$/"],
+                "profil.ville" => ["nullable", "string", "max:255"],
+                "profil.pays" => ["nullable", "string", "max:255"],
+                "profil.rue" => ["nullable", "string", "max:255"],
+                "profil.numero_de_rue" => ["nullable", "integer"],
+                "profil.service_id" => ["nullable", "exists:services,id"],
             ];
+            
         }
 
 
