@@ -44,7 +44,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
         Route::get('/', 'index');
 
         /**
-         * @api {get} /note/byValidator Note Valideur
+         * @api {get} /note/byValidateur Note Valideur
          * @apiName GetNotesByValideur
          * @apiDescription Retourn les ressources des notes en fonction du valideur connecté ( vide si l'utilisateur n'est pas un valideur ).
          * @apiGroup Note
@@ -82,7 +82,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
         Route::get('/byValideur','indexByValidator');
 
         /**
-         * @api {get} /note/byControler Note Controleur
+         * @api {get} /note/byControleur Note Controleur
          * @apiName GetNotesByControleur
          * @apiDescription Renvoie la liste des ressources des notes en fonction du controleur connecté ( vide si l'utilisateur n'est pas un controleur ).
          * @apiGroup Note
