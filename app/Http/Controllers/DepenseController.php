@@ -44,7 +44,7 @@ class DepenseController extends Controller
     public function update(Request $request, Depense $depense)
     {
         
-        dd($request);
+        dd($request->all());
         if($request->all() == [])
         {
             return response()->resourceUpdateMissingField(DepenseResource::make($depense));

@@ -145,7 +145,7 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
                     }
                 }
          */
-        Route::put('/{depense}', [DepenseController::class, 'update']);
+        Route::post('/{depense}', [DepenseController::class, 'update']);
 
         /**
          * @api {put} /depense/getFile/:id/:name Fichier dépense
