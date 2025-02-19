@@ -41,7 +41,7 @@ class DepenseController extends Controller
         }
     }
 
-    public function update(DepenseUpdateRequest $request, Depense $depense)
+    public function update(Request $request, Depense $depense)
     {
         
         dd($request->all());
