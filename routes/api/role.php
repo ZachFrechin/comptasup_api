@@ -7,143 +7,155 @@ Route::prefix('role')->middleware('auth:sanctum')->group(function () {
     Route::controller(RoleController::class)->group(function () {
 
         /**
-         * $ UP TO DATE
-         * @api {get} /role/ Liste des rôles
-         * @apiName GetRoleList
+         * @api {get} /role/ Roles
+         * @apiName GetRoles
+         * @apiDescription Retourne les ressources de la liste des roles.
          * @apiGroup Role
-         * * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiSuccess {Object} data Objet de réponse contenant les données.
-         * @apiSuccess {Object[]} data.roles Liste des rôles.
-         * @apiSuccess {Number} data.roles.id ID du rôle.
-         * @apiSuccess {String} data.roles.nom Nom du rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
+         * @apiSuccess {Object} data Ressources des roles.
+         *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "data": {
-         *         "roles": [
-         *           {
-         *             "id": 1,
-         *             "nom": "Admin"
-         *           },
-         *           {
-         *             "id": 2,
-         *             "nom": "User"
-         *           }
-         *         ]
-         *       }
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data": 
+                    [
+                        {
+                            "id": 1,
+                            "nom": "Employé",
+                            "color": null,
+                            "permissions": []
+                        },
+                        {
+                            "id": 2,
+                            "nom": "Valideur",
+                            "color": null,
+                            "permissions":
+                            [
+                                {
+                                    "id": 6,
+                                    "nom": "select_users"
+                                }
+                            ]
+                        }
+                    ]
+                }
          */
         Route::get('/','index');
 
         /**
-         * $ UP TO DATE
-         * @api {get} /role/:id Récupérer les informations d'un rôle
+         * @api {get} /role/:id Role
          * @apiName GetRole
+         * @apiDescription Retourne la ressource d'un role.
          * @apiGroup Role
-         * * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiParam {Number} id ID du rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiSuccess {Object} data Objet de réponse contenant les données.
-         * @apiSuccess {Object} data.role Informations du rôle.
-         * @apiSuccess {Number} data.role.id ID du rôle.
-         * @apiSuccess {String} data.role.nom Nom du rôle.
+         * @apiParam {Number} id ID unique du rôle
+         *
+         * @apiSuccess {Object} data Ressource du role
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "data": {
-         *         "role": {
-         *           "id": 1,
-         *           "nom": "Admin"
-         *         }
-         *       }
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data": 
+                    {
+                        "id": 2,
+                        "nom": "Valideur",
+                        "color": null,
+                        "permissions": [
+                            {
+                                "id": 6,
+                                "nom": "select_users"
+                            }
+                        ]
+                    }
+                }
          */
         Route::get('/{role}','show');
 
         /**
-         * $ UP TO DATE
-         * @api {post} /role/store Ajouter un nouveau rôle
+         * @api {post} /role/store Créer Role
+         * @apiDescription Sauve un role en base.
          * @apiName CreateRole
          * @apiGroup Role
-         * * @apiVersion 0.1.0
-         *
-         * @apiBody {String} nom Nom du rôle.
-         * @apiBody {String} couleur Couleur du rôle.
-         * @apiBody {array} arrayPermissions Permissions du rôle.
+         * @apiVersion 1.0.1
          *
          * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiSuccess {Object} data Objet de réponse contenant les données.
-         * @apiSuccess {Object} data.role Rôle créé.
+         * @apiBody {String} nom Nom du rôle
+         * @apiBody {String} color Couleur du rôle
+         * @apiBody {array:int} permissions Permissions du rôle ( cf. Permission )
+         *
+         * @apiSuccess {Object} data Ressource du role crée.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 201 Created
-         *     {
-         *       "data": {
-         *         "role": {
-         *           "id": 3,
-         *           "nom": "Editor"
-         *         }
-         *       }
-         *     }
+                HTTP/1.1 201 Created
+                {
+                    "data": 
+                    {
+                        "id": 6,
+                        "nom": "zeuubi",
+                        "color": "red",
+                        "permissions": []
+                    }
+                }
          */
         Route::post('/store','store');
 
         /**
-         * % TO UPDATE
-         * @api {put} /role/update/:id Mettre à jour un rôle
+         * @api {put} /role/update/:id Update Role
          * @apiName UpdateRole
+         * @apiDescription Met à jour un role en base.
          * @apiGroup Role
-         * * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiParam {Number} id ID du rôle.
-         *
-         * @apiBody {String} nom Nom du rôle. {Number} id ID du rôle.
-         * @apiBody {String} nom Nom du rôle. {String} [nom] Nom du rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiSuccess {Object} data Objet de réponse contenant les données.
-         * @apiSuccess {Object} data.role Rôle mis à jour.
+         * @apiParam {Number} id ID unique du rôle.
+         *
+         * @apiBody {String} nom Nom du role
+         * @apiBody {String} color Couleur du role
+         *
+         * @apiSuccess {Object} data Ressource du role.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "data": {
-         *         "role": {
-         *           "id": 2,
-         *           "nom": "User"
-         *         }
-         *       }
-         *     }
+                 HTTP/1.1 201 OK
+                {
+                    "data":
+                    {
+                        "id": 6,
+                        "nom": "zeuubi",
+                        "color": "red",
+                        "permissions": []
+                    }
+                }
          */
         Route::put('/{role}','update');
 
         /**
-         * $ UP TO DATE
-         * @api {delete} /role/destroy/:id Supprimer un rôle
+         * @api {delete} /role/destroy/:id Supprimer Role
          * @apiName DeleteRole
+         * @apiDescription Supprime un role en base.
          * @apiGroup Role
-         * * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiParam {Number} id ID du rôle.
          * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiSuccess {Object} data Objet de réponse contenant les données.
-         * @apiSuccess {String} data.message Message de confirmation de suppression du rôle.
+         * @apiParam {Number} id ID unique du role
          *
+         * @apiSuccess {Object} data Message de retour.
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "data": {
-         *         "message": "Rôle supprimé avec succès."
-         *       }
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data":
+                    {
+                        "message" : "ok
+                    }
+                }
          */
         Route::delete('/{role}', 'destroy');
     });

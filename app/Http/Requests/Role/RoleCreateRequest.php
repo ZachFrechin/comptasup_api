@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class RoleCreateRequest extends FormRequest
         return [
             "nom"=> "string|required",
             "color"=> "string|nullable",
-            "permissions" => "required|array",
+            "permissions" => "array",
             "permissions.*" => "required|int|exists:permissions,id"
         ];
     }

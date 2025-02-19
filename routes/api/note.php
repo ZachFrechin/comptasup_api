@@ -12,287 +12,348 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          * @apiGroup Note
          * @apiVersion 1.0.1
          *
-         * @apiParam {Number} etat ID de l'état pour filtrer les notes (optionnel).
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
          *
          * @apiSuccess {Object} data Ressources des notes.
          *
          * @apiSuccessExample {json} Succès:
-              HTTP/1.1 200 OK
-             {
-         *         "data": [
-         *             {
-         *                 "id": 1,
-         *                 "commentaire": null,
-         *                 "etat_id": {
-         *                     "id": 1,
-         *                     "nom": "not validated",
-         *                     "created_at": "2025-01-14T18:55:52.000000Z",
-         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
-         *                 }
-         *             }
-         *         ]
-            }
+                HTTP/1.1 200 OK
+                {
+                    "data": [
+                        {
+                            "id": 1,
+                            "commentaire": null,
+                            "nom": "nom",
+                            "etat": {
+                                "id": 1,
+                                "nom": "not validated",
+                                "created_at": "2025-02-19T14:03:29.000000Z",
+                                "updated_at": "2025-02-19T14:03:29.000000Z"
+                            },
+                            "user_id": 3,
+                            "depenses": [],
+                            "totalTTC": 0,
+                            "controleur_id": null,
+                            "validateur_id": 4
+                        }
+                    ]
+                }
          */
         Route::get('/', 'index');
 
-
         /**
-         * @api {get} /note/byValidator Liste des notes par validateur
-         * @apiName GetNotesByValidator
+         * @api {get} /note/byValidator Note Valideur
+         * @apiName GetNotesByValideur
+         * @apiDescription Retourn les ressources des notes en fonction du valideur connecté ( vide si l'utilisateur n'est pas un valideur ).
          * @apiGroup Note
-         * @apiVersion 0.1.0
-         *
-         * @apiDescription Récupère la liste des notes associées au validateur connecté.
-         * Vous pouvez ajouter un paramètre optionnel `etat` pour filtrer les notes en fonction de leur état.
-         *
-         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
-         *
-         * @apiSuccess {Object[]} data Liste des notes.
-         * @apiSuccess {Number} data.id ID unique de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
-         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
-         *
-         * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *         "data": [
-         *             {
-         *                 "id": 1,
-         *                 "commentaire": null,
-         *                 "etat_id": {
-         *                     "id": 1,
-         *                     "nom": "not validated",
-         *                     "created_at": "2025-01-14T18:55:52.000000Z",
-         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
-         *                 }
-         *             }
-         *         ]
-         *     }
-         */
-        Route::get('/byValidator','indexByValidator');
-
-        /**
-         * @api {get} /note/byControler Liste des notes par controler
-         * @apiName GetNotesByControler
-         * @apiGroup Note
-         * @apiVersion 0.1.0
-         *
-         * @apiDescription Récupère la liste des notes associées au controleur connecté.
-         * Vous pouvez ajouter un paramètre optionnel `etat` pour filtrer les notes en fonction de leur état.
-         *
-         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
-         *
-         * @apiSuccess {Object[]} data Liste des notes.
-         * @apiSuccess {Number} data.id ID unique de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id Informations sur l'état de la note.
-         * @apiSuccess {Number} data.etat_id.id ID unique de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
-         *
-         * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *         "data": [
-         *             {
-         *                 "id": 1,
-         *                 "commentaire": null,
-         *                 "etat_id": {
-         *                     "id": 1,
-         *                     "nom": "not validated",
-         *                     "created_at": "2025-01-14T18:55:52.000000Z",
-         *                     "updated_at": "2025-01-14T18:55:52.000000Z"
-         *                 }
-         *             }
-         *         ]
-         *     }
-         */
-        Route::get('/byControler','indexByControler');
-
-
-
-        /**
-         * @api {post} /note/store Créer une nouvelle note
-         * @apiName StoreNote / store une note de frai, la retourne et ajoute un état de base et attribue la note au validateur
-         * @apiGroup Note
-         * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
          * @apiHeader {Bearer} token Token d'authentification
-         * @apiBody {String} commentaire Contenu de la note.
          *
-         * @apiSuccess {Object} data Détails de la note créée.
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
+         *
+         * @apiSuccess {Object} data Ressources des notes.
+         *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 201 Created
-         *     {
-         *       {
-                    "id": 1,
-                    "commentaire": null,
-                    "etat_id": null
+                HTTP/1.1 200 OK
+                {
+                    "data": [
+                        {
+                            "id": 1,
+                            "commentaire": null,
+                            "nom": "nom",
+                            "etat": {
+                                "id": 1,
+                                "nom": "not validated",
+                                "created_at": "2025-02-19T14:03:29.000000Z",
+                                "updated_at": "2025-02-19T14:03:29.000000Z"
+                            },
+                            "user_id": 3,
+                            "depenses": [],
+                            "totalTTC": 0,
+                            "controleur_id": null,
+                            "validateur_id": 4
+                        }
+                    ]
                 }
-         *   }
+         */
+        Route::get('/byValideur','indexByValidator');
+
+        /**
+         * @api {get} /note/byControler Note Controleur
+         * @apiName GetNotesByControleur
+         * @apiDescription Renvoie la liste des ressources des notes en fonction du controleur connecté ( vide si l'utilisateur n'est pas un controleur ).
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} [etat] ID de l'état pour filtrer les notes (optionnel).
+         *
+         * @apiSuccess {Object} data Ressources des notes.
+         *
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 200 OK
+                {
+                    "data": [
+                        {
+                            "id": 1,
+                            "commentaire": null,
+                            "nom": null,
+                            "etat": {
+                                "id": 4,
+                                "nom": "not_controled",
+                                "created_at": "2025-02-19T14:03:29.000000Z",
+                                "updated_at": "2025-02-19T14:03:29.000000Z"
+                            },
+                            "user_id": 3,
+                            "depenses": [],
+                            "totalTTC": 0,
+                            "controleur_id": 3,
+                            "validateur_id": 4
+                        }
+                    ]
+                }
+         */
+        Route::get('/byControleur','indexByControler');
+
+
+
+        /**
+         * @api {post} /note/store Créer Note
+         * @apiName StoreNote
+         * @apiDescription Sauve une note en base, et lui attribut par default un valideur ( cf. valideur_id )
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiBody {String} nom Nom de la note
+         * @apiBody {String} commentaire Contenu de la note ( optionel )
+         *
+         * @apiSuccess {Object} data Ressource de la note créée.
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 201 Created
+                {
+                    "data": {
+                        "id": 2,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat": {
+                            "id": 1,
+                            "nom": "not validated",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": null,
+                        "validateur_id": 4
+                    }
+                }
          */
         Route::post('/store','store');
 
         /**
-         * @api {get} /note/:id Afficher une note
-         * @apiName ShowNote
+         * @api {get} /note/:id Note
+         * @apiName GetNote
+         * @apiDescription Retourne la ressource d'une note utilisateur.
          * @apiGroup Note
-         * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiParam {Number} id ID unique de la note.
          *
-         * @apiSuccess {Object} data Détails de la note.
+         * @apiSuccess {Object} data Ressource de la note.
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       {
-                    "id": 1,
-                    "commentaire": null,
-                    "etat_id": null
+                HTTP/1.1 200 OK
+                {
+                    "data":
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat":
+                        {
+                            "id": 4,
+                            "nom": "not_controled",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": 3,
+                        "validateur_id": 4
+                    }
                 }
-         *    }
          */
         Route::get('/{note}','show');
 
         /**
-         * @api {post} /note/:id/validate Valider une note de frais
+         * @api {post} /note/:id/validate Valider Note
          * @apiName ValidateNote
+         * @apiDescription Valide une note en modifiant son état en base.
          * @apiGroup Note
-         * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiParam {Number} id ID de la note de frais à valider.
+         * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiSuccess {String} message Message de confirmation.
-         * @apiSuccess {Object} data Données de la note mise à jour.
-         * @apiSuccess {Number} data.id ID de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id État de la note.
-         * @apiSuccess {Number} data.etat_id.id ID de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         * @apiParam {Number} id ID de la note à valider.
+         *
+         * @apiSuccess {Object} data Ressource de la note.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "message": "Note has been validated and marked as 'not controlled'.",
-         *       "data": {
-         *           "id": 1,
-         *           "commentaire": null,
-         *           "etat_id": {
-         *               "id": 2,
-         *               "nom": "not controlled",
-         *               "created_at": "2025-01-14T18:55:52.000000Z",
-         *               "updated_at": "2025-01-14T18:55:52.000000Z"
-         *           }
-         *       }
-         *     }
-         *
-
-         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
-         * @apiErrorExample {json} Non autorisé:
-         *     HTTP/1.1 403 Forbidden
-         *     {
-         *       "message": "You are not the validator of this note."
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note has been validated and marked as not controlled",
+                    "note":
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat":
+                        {
+                            "id": 4,
+                            "nom": "not_controled",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": 3,
+                        "validateur_id": 4
+                    }
+                }
          */
         Route::post('/{note}/validate', 'validate');
 
         /**
-         * @api {post} /note/:id/reject Rejeter une note de frais
+         * @api {post} /note/:id/reject Rejeter Note
          * @apiName RejectNote
+         * @apiDescription Rejete une note en modifiant son état en base.
          * @apiGroup Note
-         * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
          *
-         * @apiParam {Number} id ID de la note de frais à rejeter.
+         * @apiHeader {Bearer} token Token d'authentification
          *
-         * @apiBody {comment} comment Commentaire de la note (optionel).
-         * @apiSuccess {String} message Message de confirmation.
-         * @apiSuccess {Object} data Données de la note mise à jour.
-         * @apiSuccess {Number} data.id ID de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id État de la note.
-         * @apiSuccess {Number} data.etat_id.id ID de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         * @apiParam {Number} id ID de la note de frais à rejeter
+         *
+         * @apiBody {comment} comment Commentaire de la note ( optionel )
+         *
+         * @apiSuccess {Object} data Ressource de la note.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "message": "Note has been rejected and marked as 'not controlled'.",
-         *       "data": {
-         *           "id": 1,
-         *           "commentaire": null,
-         *           "etat_id": {
-         *               "id": 3,
-         *               "nom": "not controlled",
-         *               "created_at": "2025-01-14T18:55:52.000000Z",
-         *               "updated_at": "2025-01-14T18:55:52.000000Z"
-         *           }
-         *       }
-         *     }
-         *
-
-         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
-         * @apiErrorExample {json} Non autorisé:
-         *     HTTP/1.1 403 Forbidden
-         *     {
-         *       "message": "You are not the validator of this note."
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note has been rejected and marked as rejected",
+                    "note":
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat":
+                        {
+                            "id": 2,
+                            "nom": "rejected",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": 3,
+                        "validateur_id": 4
+                    }
+                }
          */
         Route::post('/{note}/reject', 'reject');
 
         /**
-         * @api {post} /note/:id/cancel Annuler une note de frais
+         * @api {post} /note/:id/cancel Annuler Note
          * @apiName CancelNote
+         * @apiDescription Annule une note en modifiant son état en base.
          * @apiGroup Note
-         * @apiVersion 0.1.0
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
          *
          * @apiParam {Number} id ID de la note de frais à annuler.
-         * @apiBody {comment} comment Commentaire de la note (optionel).
          *
-         * @apiSuccess {String} message Message de confirmation.
-         * @apiSuccess {Object} data Données de la note mise à jour.
-         * @apiSuccess {Number} data.id ID de la note.
-         * @apiSuccess {String} data.commentaire Commentaire de la note.
-         * @apiSuccess {Object} data.etat_id État de la note.
-         * @apiSuccess {Number} data.etat_id.id ID de l'état.
-         * @apiSuccess {String} data.etat_id.nom Nom de l'état.
-         * @apiSuccess {String} data.etat_id.created_at Date de création de l'état.
-         * @apiSuccess {String} data.etat_id.updated_at Date de mise à jour de l'état.
+         * @apiBody {comment} comment Commentaire de la note ( optionel )
+         *
+         * @apiSuccess {Object} data Ressource de la note.
          *
          * @apiSuccessExample {json} Succès:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "message": "Note has been canceled and marked as 'not controlled'.",
-         *       "data": {
-         *           "id": 1,
-         *           "commentaire": null,
-         *           "etat_id": {
-         *               "id": 4,
-         *               "nom": "not controlled",
-         *               "created_at": "2025-01-14T18:55:52.000000Z",
-         *               "updated_at": "2025-01-14T18:55:52.000000Z"
-         *           }
-         *       }
-         *     }
-         *
-
-         * @apiError NotAuthorized Vous n'êtes pas le validateur de cette note.
-         * @apiErrorExample {json} Non autorisé:
-         *     HTTP/1.1 403 Forbidden
-         *     {
-         *       "message": "You are not the validator of this note."
-         *     }
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note has been canceled and marked as canceled",
+                    "note":
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat":
+                        {
+                            "id": 3,
+                            "nom": "canceled",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": 3,
+                        "validateur_id": 4
+                    }
+                }
          */
         Route::post('/{note}/cancel', 'cancel');
 
+        /**
+         * @api {post} /note/:id/control Controler Note
+         * @apiName ControlNote
+         * @apiDescription Controle positivement une note en modifiant son état en base.
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} id ID de la note de frais à controler.
+         *
+         * @apiBody {comment} comment Commentaire de la note ( optionel )
+         *
+         * @apiSuccess {Object} data Ressource de la note.
+         *
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note has been controlled and marked as validated",
+                    "note":
+                    {
+                        "id": 1,
+                        "commentaire": null,
+                        "nom": "nom",
+                        "etat":
+                        {
+                            "id": 5,
+                            "nom": "validated",
+                            "created_at": "2025-02-19T14:03:29.000000Z",
+                            "updated_at": "2025-02-19T14:03:29.000000Z"
+                        },
+                        "user_id": 3,
+                        "depenses": [],
+                        "totalTTC": 0,
+                        "controleur_id": 3,
+                        "validateur_id": 4
+                    }
+                }
+         */
         Route::post('/{note}/control', 'control');
 
     });

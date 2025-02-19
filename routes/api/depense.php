@@ -6,7 +6,7 @@ use App\Http\Controllers\DepenseController;
 Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
     Route::controller(DepenseController::class)->group(function () {
         /**
-         * @api {get} /depense Dépenses Utilisateur*
+         * @api {get} /depense Dépenses Utilisateur
          * @apiName GetUserDepense
          * @apiDescription Retourne la liste des ressources des dépense utilisateur.
          * @apiGroup Depense
@@ -18,7 +18,8 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": [
+                    "data":
+                    [
                         {
                             "id": 1,
                             "details": "{\"test\": \"test\"}",
@@ -55,11 +56,13 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 201 Created
                 {
-                    "data": {
+                    "data":
+                    {
                         "id": 3,
                         "details": "{}",
                         "note": 1,
-                        "nature": {
+                        "nature":
+                        {
                             "id": 1,
                             "nom": "Autre",
                             "descriptor": "{\"file\": {\"ext\": [\"image\/png\", \"image\/jpeg\", \"application\/pdf\"], \"size\": 10, \"type\": \"file\", \"title\": \"Ticket\", \"position\": 0, \"required\": true}}",
@@ -90,7 +93,8 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": {
+                    "data":
+                    {
                         "id": 1,
                         "details": "{\"test\": \"test\"}",
                         "note": null,
@@ -125,13 +129,15 @@ Route::prefix('depense')->middleware('auth:sanctum')->group(function () {
          *
          * @apiSuccess {Object} data Ressource de la dépense.
          * @apiSuccessExample {json} Succès:
-                HTTP/1.1 200 OK
+                HTTP/1.1 201 OK
                 {
-                    "data": {
+                    "data":
+                    {
                         "id": 1,
                         "details": "{}",
                         "note": null,
-                        "nature": {
+                        "nature":
+                        {
                             "id": 1,
                             "nom": "Autre",
                             "descriptor": "{\"file\": {\"ext\": [\"image\/png\", \"image\/jpeg\", \"application\/pdf\"], \"size\": 10, \"type\": \"file\", \"title\": \"Ticket\", \"position\": 0, \"required\": true}}",

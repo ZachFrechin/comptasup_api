@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ServiceCreateRequest;
-use App\Http\Requests\ServiceUpdateRequest;
+use App\Http\Requests\Service\ServiceCreateRequest;
+use App\Http\Requests\Service\ServiceUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\ServiceResource;
 use App\Models\Service;

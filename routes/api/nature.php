@@ -18,7 +18,8 @@ Route::prefix('nature')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": [
+                    "data":
+                    [
                         {
                             "id": 1,
                             "nom": "Autre",
@@ -47,7 +48,8 @@ Route::prefix('nature')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 201 Created
                 {
-                    "data": {
+                    "data":
+                    {
                         "id": 11,
                         "nom": "nom",
                         "descriptor": "{}",
@@ -72,7 +74,8 @@ Route::prefix('nature')->middleware('auth:sanctum')->group(function () {
          * @apiSuccessExample {json} Succès:
                 HTTP/1.1 200 OK
                 {
-                    "data": {
+                    "data":
+                    {
                         "id": 1,
                         "nom": "Autre",
                         "descriptor": "{\"file\": {\"ext\": [\"image\/png\", \"image\/jpeg\", \"application\/pdf\"], \"size\": 10, \"type\": \"file\", \"title\": \"Ticket\", \"position\": 0, \"required\": true}}",
