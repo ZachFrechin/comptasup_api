@@ -53,6 +53,8 @@ class NoteService extends Service
         return $note;
     }
 
+
+
     // ! function will return the return of callback function ( probably a correct response )
     public function checkValideurID(int $id, Note $note, array $payload, callable $callback): JsonResponse
     {
@@ -68,6 +70,17 @@ class NoteService extends Service
     public function checkControllerID(int $id, Note $note, array $payload, callable $callback) : JsonResponse
     {
         if($note->controleur_id === $id)
+        {
+            return $callback($note, $payload);
+        } else
+        {
+            return response()->notController();
+        }
+    }
+
+    public function checkOperatorID(int $id, Note $note, array $payload, callable $callback) : JsonResponse
+    {
+        if($note->controleur_id === $id || $note->validateur_id === $id)
         {
             return $callback($note, $payload);
         } else

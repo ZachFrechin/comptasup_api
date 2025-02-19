@@ -72,7 +72,7 @@ class NoteController extends Controller
 
     public function reject(Request $request, Note $note) : JsonResponse
     {
-        return $this->noteService()->checkValideurID(
+        return $this->noteService()->checkOperatorID(
             $request->user()->id,
             $note,
             ['request' => $request],
@@ -86,7 +86,7 @@ class NoteController extends Controller
 
     public function cancel(Request $request, Note $note) : JsonResponse
     {
-        return $this->noteService()->checkValideurID(
+        return $this->noteService()->checkOperatorID(
             $request->user()->id,
             $note,
             ['request' => $request],
