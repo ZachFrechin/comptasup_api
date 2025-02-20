@@ -50,10 +50,15 @@ class DepenseController extends Controller
         
         $this->depenseService()->update($depense, $request->validated());
         $this->depenseService()->storeFile($depense, $request);
-        $this->noteService()->changeState(
-            $this->etatService()->getByName('not validated')->id,
-            $this->noteService()->getByID($depense->note_id)
-        );
+        $note = $this->noteService()->getByID($depense->note_id);
+        if($note->controleur_id !== $request->user()->id)
+        {
+            $this->noteService()->changeState(
+                $this->etatService()->getByName('not validated')->id,
+                $this->noteService()->getByID($depense->note_id)
+            );
+        }
+
 
         return response()->resourceUpdated(DepenseResource::make($depense));
     }
