@@ -36,7 +36,7 @@ class RoleService extends Service
     {
         $this->create('Employé');
         $this->create('Valideur');
-        $this->create('Controlleur');
+        $this->create('Contrôleur');
         $this->create('Gestionnaire');
         $this->create('Administrateur');
     }

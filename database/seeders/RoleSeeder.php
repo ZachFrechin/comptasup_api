@@ -12,7 +12,7 @@ class RoleSeeder extends DatabaseSeeder
     {
         $employee = $this->roleService()->create('Employé');
         $valideur = $this->roleService()->create('Valideur');
-        $controlleur = $this->roleService()->create('Controlleur');
+        $controlleur = $this->roleService()->create('Contrôleur');
         $gestionnaire = $this->roleService()->create('Gestionnaire');
         $administrateur = $this->roleService()->create('Administrateur');
 

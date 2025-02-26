@@ -340,7 +340,7 @@ function print() { __p += __j.call(arguments, '') }
                     },
                     {
                         "id": 3,
-                        "nom": "Controlleur",
+                        "nom": "Contrôleur",
                         "color": null,
                         "permissions":
                         [

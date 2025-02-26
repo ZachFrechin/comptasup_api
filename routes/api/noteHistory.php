@@ -50,7 +50,7 @@ Route::prefix('noteHistory')->middleware('auth:sanctum')->group(function ()
                                     },
                                     {
                                         "id": 3,
-                                        "nom": "Controlleur",
+                                        "nom": "Contrôleur",
                                         "color": null,
                                         "permissions":
                                         [
