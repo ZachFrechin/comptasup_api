@@ -8,7 +8,8 @@ class ServiceSeeder extends DatabaseSeeder
 {
     public function run()
     {
-        $this->serviceService()->create('Comptabilité', '1', 'Service de comptabilité');
-        $this->serviceService()->create('Management', '2', 'Service de management');
+        $this->serviceService()->create('Administratif', '1', 'Service administratif');
+        $this->serviceService()->create('Direction', '2', 'Service de direction');
+        $this->serviceService()->create('Coordination', '3', 'Service de coordination');
     }
 }

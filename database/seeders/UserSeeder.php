@@ -15,7 +15,7 @@ class UserSeeder extends DatabaseSeeder
      */
     public function run(): void
     {
-        
+
         $admin = $this->createAdmin();
         $this->userService()->addRoles($admin, ['Administrateur']);
 
@@ -23,13 +23,13 @@ class UserSeeder extends DatabaseSeeder
         $this->userService()->addRoles($gestionnaire, ['Gestionnaire']);
 
         $controleur = $this->createControleur();
-        $this->userService()->addRoles($controleur, ['Controlleur']);
+        $this->userService()->addRoles($controleur, ['Contrôleur']);
 
         $valideur = $this->createValideur();
         $this->userService()->addRoles($valideur, ['Valideur']);
     }
 
-    public function createAdmin() : User 
+    public function createAdmin() : User
     {
         $user = $this->userService()->create(
             'administrateur@exemple.com',
@@ -44,34 +44,13 @@ class UserSeeder extends DatabaseSeeder
                 'pays' => 'France',
                 'rue' => 'Rue des Elephants',
                 'numero_de_rue' => 1,
-                'service_id'=> $this->serviceService()->getByName('Comptabilité')->id,
+                'service_id'=> $this->serviceService()->getByName('Administratif')->id,
             ]);
 
         return $user;
     }
 
-    public function createValideur() : User 
-    {
-        $user = $this->userService()->create(
-            'valideur@exemple.com',
-            'password',
-            [
-                'nom' => 'Boulé',
-                'prenom' => 'Matthieu',
-                'naissance' => '1991-05-22',
-                'telephone' => '0612345678',
-                'code_postal' => '73000',
-                'ville' => 'Chambéry',
-                'pays' => 'France',
-                'rue' => 'Rue des Arbres',
-                'numero_de_rue' => 1,
-                'service_id'=> $this->serviceService()->getByName('Comptabilité')->id,
-            ]);
-
-        return $user;
-    }
-
-    public function createGestionnaire() : User 
+    public function createGestionnaire() : User
     {
         $user = $this->userService()->create(
             'gestionnaire@exemple.com',
@@ -86,13 +65,13 @@ class UserSeeder extends DatabaseSeeder
                 'pays' => 'France',
                 'rue' => 'Rue des Champignons',
                 'numero_de_rue' => 1,
-                'service_id'=> $this->serviceService()->getByName('Comptabilité')->id,
+                'service_id'=> $this->serviceService()->getByName('Direction')->id,
             ]);
 
         return $user;
     }
 
-    public function createControleur() : User 
+    public function createControleur() : User
     {
         $user = $this->userService()->create(
             'controleur@exemple.com',
@@ -107,7 +86,28 @@ class UserSeeder extends DatabaseSeeder
                 'pays' => 'France',
                 'rue' => 'Rue des Poissons',
                 'numero_de_rue' => 1,
-                'service_id'=> $this->serviceService()->getByName('Comptabilité')->id,
+                'service_id'=> $this->serviceService()->getByName('Coordination')->id,
+            ]);
+
+        return $user;
+    }
+
+    public function createValideur() : User
+    {
+        $user = $this->userService()->create(
+            'valideur@exemple.com',
+            'password',
+            [
+                'nom' => 'Boulé',
+                'prenom' => 'Matthieu',
+                'naissance' => '1991-05-22',
+                'telephone' => '0612345678',
+                'code_postal' => '73000',
+                'ville' => 'Chambéry',
+                'pays' => 'France',
+                'rue' => 'Rue des Arbres',
+                'numero_de_rue' => 1,
+                'service_id'=> $this->serviceService()->getByName('Coordination')->id,
             ]);
 
         return $user;
