@@ -34,7 +34,7 @@ class RoleService extends Service
 
     public function createBaseRole() : void
     {
-        $this->create('Employé');
+        $this->create('Salarié');
         $this->create('Valideur');
         $this->create('Contrôleur');
         $this->create('Gestionnaire');

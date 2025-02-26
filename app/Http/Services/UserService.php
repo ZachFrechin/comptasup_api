@@ -31,10 +31,10 @@ class UserService extends Service
                 'email' => $mail,
                 'password' => Hash::make($password),
             ]);
-        
+
         $profil = Profil::create($profil);
         $profil->update(['user_id' => $user->id]);
-        $this->addRoles($user, ['Employé']);
+        $this->addRoles($user, ['Salarié']);
         return $user;
     }
 

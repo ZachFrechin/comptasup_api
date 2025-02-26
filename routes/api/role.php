@@ -24,7 +24,7 @@ Route::prefix('role')->middleware('auth:sanctum')->group(function () {
                     [
                         {
                             "id": 1,
-                            "nom": "Employé",
+                            "nom": "Salarié",
                             "color": null,
                             "permissions": []
                         },

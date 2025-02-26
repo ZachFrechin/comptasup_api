@@ -38,7 +38,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                             [
                                 {
                                     "id": 1,
-                                    "nom": "Employé",
+                                    "nom": "Salarié",
                                     "color": null,
                                     "permissions": []
                                 },
@@ -109,7 +109,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                         [
                             {
                                 "id": 1,
-                                "nom": "Employé",
+                                "nom": "Salarié",
                                 "color": null,
                                 "permissions": []
                             },
@@ -191,7 +191,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                         [
                             {
                                 "id": 1,
-                                "nom": "Employé",
+                                "nom": "Salarié",
                                 "color": null,
                                 "permissions": []
                             },
@@ -274,7 +274,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                         [
                             {
                                 "id": 1,
-                                "nom": "Employé",
+                                "nom": "Salarié",
                                 "color": null,
                                 "permissions": []
                             },
@@ -372,7 +372,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                         [
                             {
                                 "id": 1,
-                                "nom": "Employé",
+                                "nom": "Salarié",
                                 "color": null,
                                 "permissions": []
                             },
@@ -442,7 +442,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                         [
                             {
                                 "id": 1,
-                                "nom": "Employé",
+                                "nom": "Salarié",
                                 "color": null,
                                 "permissions": []
                             },
