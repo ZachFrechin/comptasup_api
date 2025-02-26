@@ -27,6 +27,16 @@ class UserSeeder extends DatabaseSeeder
 
         $valideur = $this->createValideur();
         $this->userService()->addRoles($valideur, ['Valideur']);
+
+        $marine = $this->createMarine();
+        $this->userService()->addRoles($marine, ['Salarié', 'Administrateur', 'Contrôleur', 'Gestionnaire']);
+
+        $olivier = $this->createOlivier();
+        $this->userService()->addRoles($olivier, ['Salarié', 'Administrateur', 'Valideur']);
+
+        $stephanie = $this->createStephanie();
+        $this->userService()->addRoles($stephanie, ['Salarié', 'Valideur']);
+
     }
 
     public function createAdmin() : User
@@ -112,4 +122,69 @@ class UserSeeder extends DatabaseSeeder
 
         return $user;
     }
+
+    public function createMarine() : User
+    {
+        $user = $this->userService()->create(
+            'mlaydernier@formasup-smb.fr',
+            'psZ@2J',
+            [
+                'nom' => 'LAYDERNIER',
+                'prenom' => 'Marine',
+                'naissance' => '1990-01-01',
+                'telephone' => '0655555555',
+                'code_postal' => '73000',
+                'ville' => 'Chambéry',
+                'pays' => 'France',
+                'rue' => 'Rue des Arbres',
+                'numero_de_rue' => 1,
+                'service_id'=> $this->serviceService()->getByName('Direction')->id,
+            ]);
+
+        return $user;
+    }
+
+    public function createOlivier() : User
+    {
+        $user = $this->userService()->create(
+            'ogibouin@formasup-smb.fr',
+            'aX%k4u',
+            [
+                'nom' => 'GIBOUIN',
+                'prenom' => 'Olivier',
+                'naissance' => '1990-01-01',
+                'telephone' => '0655555555',
+                'code_postal' => '73000',
+                'ville' => 'Chambéry',
+                'pays' => 'France',
+                'rue' => 'Rue des Arbres',
+                'numero_de_rue' => 1,
+                'service_id'=> $this->serviceService()->getByName('Direction')->id,
+            ]);
+
+        return $user;
+    }
+
+    public function createStephanie() : User
+    {
+        $user = $this->userService()->create(
+            'sbenedetto@formasup-smb.fr',
+            'NFm@7p',
+            [
+                'nom' => 'GEROSA',
+                'prenom' => 'Stéphanie',
+                'naissance' => '1990-01-01',
+                'telephone' => '0655555555',
+                'code_postal' => '73000',
+                'ville' => 'Chambéry',
+                'pays' => 'France',
+                'rue' => 'Rue des Arbres',
+                'numero_de_rue' => 1,
+                'service_id'=> $this->serviceService()->getByName('Direction')->id,
+            ]);
+
+        return $user;
+    }
+
+
 }
