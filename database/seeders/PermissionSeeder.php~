@@ -8,8 +8,6 @@ class PermissionSeeder extends DatabaseSeeder
 {
     public function run()
     {
-        $this->permissionService()->create('validate_notes');
-        $this->permissionService()->create('control_notes');
         $this->permissionService()->create('select_roles');
         $this->permissionService()->create('create_roles');
         $this->permissionService()->create('update_roles');

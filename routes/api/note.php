@@ -79,7 +79,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     ]
                 }
          */
-        Route::get('/byValideur','indexByValidator');
+        Route::get('/byValideur','indexByValidator')->middleware("ability:validate_notes");
 
         /**
          * @api {get} /note/byControleur Note Controleur
@@ -117,7 +117,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     ]
                 }
          */
-        Route::get('/byControleur','indexByControler');
+        Route::get('/byControleur','indexByControler')->middleware("ability:control_notes");
 
 
 
@@ -231,7 +231,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     }
                 }
          */
-        Route::post('/{note}/validate', 'validate');
+        Route::post('/{note}/validate', 'validate')->middleware("ability:validate_notes");
 
         /**
          * @api {post} /note/:id/reject Rejeter Note
@@ -272,7 +272,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     }
                 }
          */
-        Route::post('/{note}/reject', 'reject');
+        Route::post('/{note}/reject', 'reject')->middleware("ability:validate_notes,control_notes");
 
         /**
          * @api {post} /note/:id/cancel Annuler Note
@@ -313,7 +313,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     }
                 }
          */
-        Route::post('/{note}/cancel', 'cancel');
+        Route::post('/{note}/cancel', 'cancel')->middleware("ability:validate_notes,control_notes");
 
         /**
          * @api {post} /note/:id/control Controler Note
@@ -354,7 +354,6 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     }
                 }
          */
-        Route::post('/{note}/control', 'control');
-
+        Route::post('/{note}/control', 'control')->middleware("ability:control_notes");
     });
 });
