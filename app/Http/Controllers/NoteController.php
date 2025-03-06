@@ -97,4 +97,14 @@ class NoteController extends Controller
     {
         // TODO
     }
+
+    public function exportPDF(Note $note)
+    {
+        return $this->exportService()->generatePDF($note);
+    }
+
+    public function exportCSV(Note $note)
+    {
+        return $this->exportService()->generateCSV($note);
+    }
 }

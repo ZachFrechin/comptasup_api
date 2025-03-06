@@ -355,5 +355,45 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                 }
          */
         Route::post('/{note}/control', 'control')->middleware("ability:control_notes");
+
+        /**
+         * @api {get} /note/:id/export/pdf Export PDF
+         * @apiName ExportPDF
+         * @apiDescription Exporte une note en format PDF.
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} id ID de la note à exporter.
+         *
+         * @apiSuccess {Object} data Ressource de la note exportée.
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note exported successfully"
+                }
+         */
+        Route::get('/{note}/export/pdf', [NoteController::class, 'exportPDF']);
+
+        /**
+         * @api {get} /note/:id/export/csv Export CSV
+         * @apiName ExportCSV
+         * @apiDescription Exporte une note en format CSV.
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} id ID de la note à exporter.
+         *
+         * @apiSuccess {Object} data Ressource de la note exportée.
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 200 OK
+                {
+                    "data": "Note exported successfully"
+                }
+         */
+        Route::get('/{note}/export/csv', [NoteController::class, 'exportCSV']);
     });
 });
