@@ -63,7 +63,7 @@
                 <span class="info-label">Demandeur :</span>
                 <span>{{ $user }}</span>
             </div>
-            @if($validateur)
+            @if($valideur)
             <div class="info-item">
                 <span class="info-label">Valideur :</span>
                 <span>{{ $valideur->name }}</span>
