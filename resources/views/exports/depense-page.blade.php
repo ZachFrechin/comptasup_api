@@ -62,6 +62,18 @@
             padding: 0;
         }
         .files-list li {
+            margin-bottom: 15px;
+        }
+        .file-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .file-name {
+            font-weight: bold;
             margin-bottom: 5px;
         }
         .depense-number {
@@ -133,7 +145,14 @@
         <h3>Fichiers joints</h3>
         <ul class="files-list">
             @foreach($fichiers as $fichier)
-                <li>{{ basename($fichier) }}</li>
+                <li>
+                    <div class="file-name">{{ $fichier['nom'] }}</div>
+                    @if($fichier['isImage'])
+                        <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
+                             class="file-image" 
+                             alt="{{ $fichier['nom'] }}">
+                    @endif
+                </li>
             @endforeach
         </ul>
     </div>

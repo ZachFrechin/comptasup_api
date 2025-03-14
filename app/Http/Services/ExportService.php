@@ -25,10 +25,22 @@ class ExportService extends Service
         $numero = 1;
         foreach ($note->depenses as $depense)
         {
+            $fichiers = [];
+            foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
+                $path = Storage::path($fichier);
+                $mimeType = mime_content_type($path);
+                $fichiers[] = [
+                    'nom' => basename($fichier),
+                    'mime' => $mimeType,
+                    'isImage' => str_starts_with($mimeType, 'image/'),
+                    'data' => str_starts_with($mimeType, 'image/') ? base64_encode(file_get_contents($path)) : null
+                ];
+            }
+
             $depenseData = [
                 'depense' => $depense,
                 'details' => json_decode($depense->details, true),
-                'fichiers' => Storage::files('public/depenses/' . $depense->id),
+                'fichiers' => $fichiers,
                 'numero' => $numero,
                 'descriptor' => json_decode($depense->nature->descriptor, true)
             ];
