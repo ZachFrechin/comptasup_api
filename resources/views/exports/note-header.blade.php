@@ -61,18 +61,21 @@
         <div class="info-grid">
             <div class="info-item">
                 <span class="info-label">Demandeur :</span>
-                <span>{{ $user }}</span>
+                <span>{{ $user->profil->nom }} {{ $user->profil->prenom }}</span>
+                <span>{{ $user->email }}</span>
             </div>
             @if($valideur)
             <div class="info-item">
                 <span class="info-label">Valideur :</span>
-                <span>{{ $valideur->name }}</span>
+                <span>{{ $valideur->profil->nom }} {{ $valideur->profil->prenom }}</span>
+                <span>{{ $valideur->email }}</span>
             </div>
             @endif
             @if($controleur)
             <div class="info-item">
                 <span class="info-label">Contrôleur :</span>
-                <span>{{ $controleur->name }}</span>
+                <span>{{ $controleur->profil->nom }} {{ $controleur->profil->prenom }}</span>
+                <span>{{ $controleur->email }}</span>
             </div>
             @endif
         </div>
