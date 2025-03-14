@@ -151,7 +151,7 @@
                         {{-- <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
                              class="file-image" 
                              alt="{{ $fichier['nom'] }}"> --}}
-                             {{ $fichier['data'] }}
+                             {{ $fichier['mime'] }}
                     @endif
                 </li>
             @endforeach
