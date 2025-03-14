@@ -21,7 +21,7 @@ class ExportService extends Service
             'etat' => $note->etat
         ];
 
-        dump($headerData);
+        dd($headerData);
         $html .= View::make('exports.note-header', $headerData)->render();
 
         $numero = 1;
