@@ -16,7 +16,7 @@ class ExportService extends Service
         $headerData = [
             'note' => $note,
             'user' => $note->user,
-            'validateur' => $note->validateur,
+            'valideur' => $note->validateur,
             'controleur' => $note->controleur,
             'etat' => $note->etat
         ];

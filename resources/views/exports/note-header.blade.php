@@ -61,12 +61,12 @@
         <div class="info-grid">
             <div class="info-item">
                 <span class="info-label">Demandeur :</span>
-                <span>{{ $user->name }}</span>
+                <span>{{ $user }}</span>
             </div>
             @if($validateur)
             <div class="info-item">
-                <span class="info-label">Validateur :</span>
-                <span>{{ $validateur->name }}</span>
+                <span class="info-label">Valideur :</span>
+                <span>{{ $valideur->name }}</span>
             </div>
             @endif
             @if($controleur)
