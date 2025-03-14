@@ -59,7 +59,9 @@ class ExportService extends Service
             ];
             $html .= View::make('exports.depense-page', $depenseData)->render();
             if ($numero < count($note->depenses)) {
-                $html .= '<div class="page-break"></div>';
+                if (!empty($fichiers)) {
+                    $html .= '<div style="page-break-after: always;"></div>';
+                }
             }
             $numero++;
         }
