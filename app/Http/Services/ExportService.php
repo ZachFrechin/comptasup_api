@@ -15,11 +15,13 @@ class ExportService extends Service
         
         $headerData = [
             'note' => $note,
-            'user' => $note->user(),
-            'validateur' => $note->validateur(),
-            'controleur' => $note->controleur(),
+            'user' => $note->user,
+            'validateur' => $note->validateur,
+            'controleur' => $note->controleur,
             'etat' => $note->etat
         ];
+
+        dump($headerData);
         $html .= View::make('exports.note-header', $headerData)->render();
 
         $numero = 1;
