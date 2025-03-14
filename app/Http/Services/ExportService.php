@@ -27,14 +27,27 @@ class ExportService extends Service
         {
             $fichiers = [];
             foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
-                $path = Storage::path($fichier);
-                $mimeType = mime_content_type($path);
-                $fichiers[] = [
-                    'nom' => basename($fichier),
-                    'mime' => $mimeType,
-                    'isImage' => str_starts_with($mimeType, 'image/'),
-                    'data' => str_starts_with($mimeType, 'image/') ? base64_encode(file_get_contents($path)) : null
-                ];
+                try {
+                    $fullPath = storage_path('app/' . $fichier);
+                    if (file_exists($fullPath)) {
+                        $mimeType = mime_content_type($fullPath);
+                        $isImage = str_starts_with($mimeType, 'image/');
+                        
+                        $fichiers[] = [
+                            'nom' => basename($fichier),
+                            'mime' => $mimeType,
+                            'isImage' => $isImage,
+                            'data' => $isImage ? base64_encode(file_get_contents($fullPath)) : null
+                        ];
+                        
+                        if ($isImage) {
+                            \Log::info('Taille des données image pour ' . basename($fichier) . ': ' . 
+                                strlen(base64_encode(file_get_contents($fullPath))) . ' caractères');
+                        }
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('Erreur lors de la lecture du fichier: ' . $e->getMessage());
+                }
             }
 
             $depenseData = [
