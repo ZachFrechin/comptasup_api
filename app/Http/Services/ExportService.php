@@ -58,11 +58,6 @@ class ExportService extends Service
                 'descriptor' => json_decode($depense->nature->descriptor, true)
             ];
             $html .= View::make('exports.depense-page', $depenseData)->render();
-            if ($numero < count($note->depenses)) {
-                if (!empty($fichiers)) {
-                    $html .= '<div style="page-break-after: always;"></div>';
-                }
-            }
             $numero++;
         }
 
