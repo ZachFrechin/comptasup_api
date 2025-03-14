@@ -28,10 +28,8 @@ class ExportService extends Service
             $fichiers = [];
             foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
                 try {
-                    dump($fichier);
                     $fullPath = storage_path('app/private/' .$fichier);
                     if (file_exists($fullPath)) {
-                        dd("le fichier existe");
                         $mimeType = mime_content_type($fullPath);
                         $isImage = str_starts_with($mimeType, 'image/');
                         
