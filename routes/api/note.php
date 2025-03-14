@@ -119,7 +119,41 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
          */
         Route::get('/byControleur','indexByControler')->middleware("ability:control_notes");
 
-
+        /**
+         * @api {get} /note/byGestionnaire Note Gestionnaire
+         * @apiName GetNotesByGestionnaire
+         * @apiDescription Retourne la liste des ressources des notes en fonction du gestionnaire connecté ( vide si l'utilisateur n'est pas un gestionnaire ).
+         * @apiGroup Note
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiSuccess {Object} data Ressources des notes.
+         *
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 200 OK
+                {
+                    "data": [
+                        {
+                            "id": 1,
+                            "commentaire": null,
+                            "nom": "nom",
+                            "etat": {
+                                "id": 5,
+                                "nom": "validated",
+                                "created_at": "2025-02-19T14:03:29.000000Z",
+                                "updated_at": "2025-02-19T14:03:29.000000Z"
+                            },
+                            "user_id": 3,
+                            "depenses": [],
+                            "totalTTC": 0,
+                            "controleur_id": 3,
+                            "validateur_id": 4
+                        }
+                    ]
+                }
+         */
+        Route::get('/byGestionnaire','indexByGestionnaire')->middleware("ability:validate_notes,control_notes");
 
         /**
          * @api {post} /note/store Créer Note

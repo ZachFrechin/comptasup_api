@@ -13,7 +13,6 @@ class ExportService extends Service
     {
         $html = '';
         
-        // En-tête de la note
         $headerData = [
             'note' => $note,
             'user' => $note->user,
@@ -23,9 +22,9 @@ class ExportService extends Service
         ];
         $html .= View::make('exports.note-header', $headerData)->render();
 
-        // Une page par dépense
         $numero = 1;
-        foreach ($note->depenses as $depense) {
+        foreach ($note->depenses as $depense)
+        {
             $depenseData = [
                 'depense' => $depense,
                 'details' => json_decode($depense->details, true),
@@ -53,7 +52,8 @@ class ExportService extends Service
             'Content-Disposition' => 'attachment; filename="note-de-frais-' . $note->id . '.csv"',
         ];
 
-        $callback = function() use ($note) {
+        $callback = function() use ($note)
+        {
             $file = fopen('php://output', 'w');
             
             fputcsv($file, ['ID', 'Date', 'Montant TTC', 'Tiers', 'SIRET', 'Nature', 'Détails']);

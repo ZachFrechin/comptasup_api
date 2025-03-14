@@ -47,6 +47,15 @@ class NoteController extends Controller
         );
     }
 
+    public function indexByGestionnaire(Request $request)
+    {
+        return response()->resourceCollection(
+            NoteResource::collection(
+                Note::where('etat_id', Etat::VALIDATED)->get()
+            )
+        );
+    }
+
     public function validate(Request $request, Note $note): JSONResponse
     {
         $controlerID = Role::find(3)->users->pluck('id')->first();
