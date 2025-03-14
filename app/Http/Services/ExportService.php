@@ -29,7 +29,7 @@ class ExportService extends Service
             foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
                 try {
                     dd($fichier);
-                    $fullPath = storage_path($fichier);
+                    $fullPath = storage_path('app/private/' .$fichier);
                     if (file_exists($fullPath)) {
                         dd("le fichier existe");
                         $mimeType = mime_content_type($fullPath);
