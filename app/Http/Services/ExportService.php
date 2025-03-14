@@ -11,7 +11,8 @@ class ExportService extends Service
 {
     public function generatePDF(Note $note)
     {
-        // En-tête de la note
+        $html = '';
+        
         $headerData = [
             'note' => $note,
             'user' => $note->user,
@@ -19,11 +20,11 @@ class ExportService extends Service
             'controleur' => $note->controleur,
             'etat' => $note->etat
         ];
+        $html .= View::make('exports.note-header', $headerData)->render();
 
-        // Préparation des données des dépenses
-        $depensesData = [];
         $numero = 1;
-        foreach ($note->depenses as $depense) {
+        foreach ($note->depenses as $depense)
+        {
             $fichiers = [];
             foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
                 $path = Storage::path($fichier);
@@ -36,24 +37,20 @@ class ExportService extends Service
                 ];
             }
 
-            $depensesData[] = [
+            $depenseData = [
                 'depense' => $depense,
                 'details' => json_decode($depense->details, true),
                 'fichiers' => $fichiers,
                 'numero' => $numero,
                 'descriptor' => json_decode($depense->nature->descriptor, true)
             ];
+            $html .= View::make('exports.depense-page', $depenseData)->render();
+            if ($numero < count($note->depenses)) {
+                $html .= '<div class="page-break"></div>';
+            }
             $numero++;
         }
 
-        // Génération du HTML complet
-        $data = [
-            'header' => $headerData,
-            'depenses' => $depensesData
-        ];
-
-        $html = View::make('exports.pdf-template', $data)->render();
-        
         $pdf = Pdf::loadHTML($html);
         $pdf->setPaper('A4');
         

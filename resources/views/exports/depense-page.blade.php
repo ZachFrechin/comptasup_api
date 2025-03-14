@@ -147,11 +147,11 @@
             @foreach($fichiers as $fichier)
                 <li>
                     <div class="file-name">{{ $fichier['nom'] }}</div>
-                    @if($fichier['isImage'])
+                    {{-- @if($fichier['isImage'])
                         <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
                              class="file-image" 
                              alt="{{ $fichier['nom'] }}">
-                    @endif
+                    @endif --}}
                 </li>
             @endforeach
         </ul>
