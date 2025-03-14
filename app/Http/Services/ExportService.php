@@ -28,7 +28,7 @@ class ExportService extends Service
             $fichiers = [];
             foreach (Storage::files('public/depenses/' . $depense->id) as $fichier) {
                 try {
-                    dd($fichier);
+                    dump($fichier);
                     $fullPath = storage_path('app/private/' .$fichier);
                     if (file_exists($fullPath)) {
                         dd("le fichier existe");
