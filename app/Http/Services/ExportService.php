@@ -72,25 +72,25 @@ class ExportService extends Service
     {
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="note-de-frais-' . $note->id . '.csv"',
+            'Content-Disposition' => 'attachment; filename="NOTE-DE-FRAIS-' . $note->id . '.csv"',
         ];
 
         $callback = function() use ($note)
         {
             $file = fopen('php://output', 'w');
             
-            fputcsv($file, ['ID', 'Date', 'Montant TTC', 'Tiers', 'SIRET', 'Nature', 'Détails']);
+            fputcsv($file, ['REF', 'Date', 'Nature', 'N°', 'Tiers', 'SIRET', 'Montant TTC (€)']);
             
             foreach ($note->depenses as $depense) 
             {
                 fputcsv($file, [
                     $depense->id,
                     $depense->date,
-                    $depense->totalTTC,
+                    $depense->nature->nom,
+                    $depense->nature->numero,
                     $depense->tiers,
                     $depense->SIRET,
-                    $depense->nature->nom,
-                    $depense->details
+                    $depense->totalTTC,
                 ]);
             }
             
