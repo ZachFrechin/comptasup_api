@@ -7,6 +7,8 @@ use App\Models\Note;
 use App\Http\Services\Service;
 use App\Models\Etat;
 use Illuminate\Http\JsonResponse;
+use Mail;
+use App\Mail\NoteMail;
 
 
 class NoteService extends Service
@@ -22,11 +24,13 @@ class NoteService extends Service
             ]
         ));
     }
+
     public function update(array $fields, Note $note) : Note
     {
         $note->update($fields);
         return $note;
     }
+
     public function addHistory(int $base, int $final, Note $note): NoteHistory
     {
         return NoteHistory::create([
@@ -36,11 +40,25 @@ class NoteService extends Service
             'user_id' => $note->user_id
         ]);
     }
+
+    public function sendNoteMail(Note $note)
+    {
+        $mail = $note->user->email;
+        $nom = $note->user->profil->nom;
+        $prenom = $note->user->profil->prenom;
+        $etat = $note->etat->nom;
+        Mail::to($mail)->send(new NoteMail([
+            'etat' => $etat,
+            'nom' => $nom,
+            'prenom' => $prenom
+        ]));
+    }
     
     public function changeState(int $type, Note $note): Note
     {
         $note->update(['etat_id' => $type]);
         $this->addHistory($note->etat_id, $type, $note);
+        $this->sendNoteMail($note);
         return $note;
     }
 
