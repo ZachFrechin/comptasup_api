@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\NoteHistory;
 use App\Models\Note;
+use App\Models\User;
 use App\Http\Services\Service;
 use App\Models\Etat;
 use Illuminate\Http\JsonResponse;
@@ -41,32 +42,33 @@ class NoteService extends Service
         ]);
     }
 
-    public function sendNoteMail(Note $note)
+    public function sendNoteMail(Note $note, Etat $ancien_etat, User $operator)
     {
         $mail = $note->user->email;
-        $nom = $note->user->profil->nom;
-        $prenom = $note->user->profil->prenom;
-        $etat = $note->etat->nom;
+        $nouvel_etat = $note->etat;
+
         Mail::to($mail)->send(new NoteMail([
-            'etat' => $etat,
-            'nom' => $nom,
-            'prenom' => $prenom
+            'note' => $note,
+            'ancien_etat' => $ancien_etat,
+            'nouvel_etat' => $nouvel_etat,
+            'operator' => $operator
         ]));
     }
     
-    public function changeState(int $type, Note $note): Note
+    public function changeState(int $type, Note $note, User $operator): Note
     {
+        $ancien_etat = Etat::find($note->etat_id);
         $note->update(['etat_id' => $type]);
         $this->addHistory($note->etat_id, $type, $note);
-        $this->sendNoteMail($note);
+        $this->sendNoteMail($note, $ancien_etat, $operator);
         return $note;
     }
 
-    public function changeControllerID(int $controllerID, Note $note, bool $changeState = false): Note
+    public function changeControllerID(int $controllerID, Note $note, bool $changeState = false, User $operator): Note
     {
         $note->update(['controleur_id' => $controllerID]);
         if ($changeState) {
-            $this->changeState(Etat::NOT_CONTROLED, $note);
+            $this->changeState(Etat::NOT_CONTROLED, $note, $operator);
         }
         return $note;
     }
