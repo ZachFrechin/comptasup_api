@@ -161,7 +161,7 @@
                 </div>
             </div>
 
-            <div class="section">
+            <!-- <div class="section">
                 <h2 class="section-title">Validation</h2>
                 <div class="validation-grid">
                     @if($valideur)
@@ -184,12 +184,16 @@
                     @endif
                     
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
     <div class="footer">
-        Document généré le {{ now()->format('d/m/Y H:i') }}
+        @php
+            setlocale(LC_TIME, 'fr_FR.UTF8');
+            date_default_timezone_set('Europe/Paris');
+        @endphp
+        Document généré le {{ now()->timezone('Europe/Paris')->format('d/m/Y à H:i') }}
     </div>
 </body>
 </html> 
