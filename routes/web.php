@@ -11,3 +11,10 @@ Route::get('/doc', function () {
         'message' => 'Welcome to the API!',
         ]);
 });
+
+use Barryvdh\DomPDF\ServiceProvider;
+
+Route::get('/check-dompdf', function () {
+    return class_exists(ServiceProvider::class) ? 'DomPDF est chargé' : 'DomPDF introuvable';
+});
+

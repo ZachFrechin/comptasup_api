@@ -18,7 +18,7 @@ class RoleSeeder extends DatabaseSeeder
 
         $this->roleService()->addPermission($valideur, ['select_users', 'validate_notes']);
         $this->roleService()->addPermission($controlleur, ['select_users', 'control_notes']);
-        $this->roleService()->addPermission($gestionnaire, ['select_users', 'select_roles']);
+        $this->roleService()->addPermission($gestionnaire, ['select_users', 'select_roles', 'control_notes']);
         $this->roleService()->addPermission($administrateur, ['administrator']);
 
     }

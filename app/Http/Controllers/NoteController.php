@@ -47,30 +47,43 @@ class NoteController extends Controller
         );
     }
 
+    public function indexByGestionnaire(Request $request)
+    {
+        return response()->resourceCollection(
+            NoteResource::collection(
+                Note::where('etat_id', Etat::VALIDATED)->get()
+            )
+        );
+    }
+
     public function validate(Request $request, Note $note): JSONResponse
     {
         $controlerID = Role::find(3)->users->pluck('id')->first();
-        $note = $this->noteService()->changeControllerID($controlerID, $note, true);
+        $operator = $request->user();
+        $note = $this->noteService()->changeControllerID($controlerID, $note, true, $operator);
         return response()->noteValidation(NoteResource::make($note));
     }
 
     public function reject(Request $request, Note $note) : JsonResponse
     {
-        $note = $this->noteService()->changeState(Etat::REJECTED, $note);
+        $operator = $request->user();
+        $note = $this->noteService()->changeState(Etat::REJECTED, $note, $operator);
         $note = $this->noteService()->update($request->only(['commentaire']), $note);
         return response()->noteRejection(NoteResource::make($note));
     }
 
     public function cancel(Request $request, Note $note) : JsonResponse
     {
-        $note = $this->noteService()->changeState(Etat::CANCELED, $note);
+        $operator = $request->user();
+        $note = $this->noteService()->changeState(Etat::CANCELED, $note, $operator);
         $note = $this->noteService()->update($request->only(['commentaire']), $note);
         return response()->noteCanceltion(NoteResource::make($note));
     }
 
     public function control(Request $request, Note $note) : JsonResponse
     {
-        $note = $this->noteService()->changeState(Etat::VALIDATED, $note);
+        $operator = $request->user();
+        $note = $this->noteService()->changeState(Etat::VALIDATED, $note, $operator);
         $note = $this->noteService()->update($request->only(['commentaire']), $note);
         return response()->noteControlled(NoteResource::make($note));
     }
@@ -96,5 +109,15 @@ class NoteController extends Controller
     public function destroy(string $id)
     {
         // TODO
+    }
+
+    public function exportPDF(Note $note)
+    {
+        return $this->exportService()->generatePDF($note);
+    }
+
+    public function exportCSV(Note $note)
+    {
+        return $this->exportService()->generateCSV($note);
     }
 }
