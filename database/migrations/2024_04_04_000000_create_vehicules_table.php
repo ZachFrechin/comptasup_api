@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('vehicules', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('model');
             $table->string('brand');
-            $table->date('date');
-            $table->string('carte_grise')->nullable();
+            $table->string('model');
+            $table->string('immatriculation');
             $table->unsignedBigInteger('profil_id')->nullable();
             $table->foreign('profil_id')->references('id')->on('profils');
             $table->timestamps();

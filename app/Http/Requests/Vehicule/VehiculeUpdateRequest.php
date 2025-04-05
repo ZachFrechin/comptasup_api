@@ -17,7 +17,7 @@ class VehiculeUpdateRequest extends FormRequest
             'name' => 'string|max:255',
             'model' => 'string|max:255',
             'brand' => 'string|max:255',
-            'date' => 'date',
+            'immatriculation' => 'string|max:255',
             'carte_grise' => 'file|nullable|mimes:jpeg,png,pdf|max:10240',
             'profil_id' => 'nullable|exists:profils,id'
         ];

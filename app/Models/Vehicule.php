@@ -9,10 +9,9 @@ class Vehicule extends Model
 {
     protected $fillable = [
         'name',
-        'model',
         'brand',
-        'date',
-        'carte_grise',
+        'model',
+        'immatriculation',
         'profil_id'
     ];
 
