@@ -48,10 +48,10 @@ class UserController extends Controller
         return response()->resourceUpdated(UserResource::make($user));
     }
     
-    public function updatePassword(UserUpdatePasswordRequest $request, User $user): JsonResponse
+    public function updatePassword(UserUpdatePasswordRequest $request): JsonResponse
     {
-        $this->userService()->updatePassword($user, $request->old_password, $request->password);
-        return response()->resourceUpdated(UserResource::make($user));
+        $this->userService()->updatePassword($request->user(), $request->old_password, $request->password);
+        return response()->resourceUpdated(UserResource::make($request->user()));
     }
 
     public function updateRole(UserControlRoleRequest $request, User $user)
