@@ -477,5 +477,21 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                 }
          */
         Route::delete('/deleteRole/{user}', 'deleteRole');
+
+        /**
+         * @api {put} /user/updatePassword/:id Mettre à jour Mot de passe User
+         * @apiName UpdateUserPassword
+         * @apiDescription Met à jour le mot de passe de l'user en base.
+         * @apiGroup User
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} id ID unique de l'user.
+         *
+         * @apiBody {String} old_password Mot de passe actuel de l'user
+         * @apiBody {String} password Nouveau mot de passe de l'user
+         */
+        Route::put('/updatePassword/{user}', 'updatePassword');
     });
 });
