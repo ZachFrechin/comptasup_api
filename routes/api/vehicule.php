@@ -90,5 +90,22 @@ Route::prefix('vehicule')->middleware('auth:sanctum')->group(function () {
          * @apiSuccess {File} file Vehicle file
          */
         Route::get('/getfile/{vehicule}/{filename}', 'getFile');
+
+        /**
+         * @api {delete} /vehicule/:id Delete Vehicle
+         * @apiName DeleteVehicle
+         * @apiDescription Deletes a vehicle resource.
+         * @apiGroup Vehicle
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Authentication token
+         *
+         * @apiParam {Number} id Vehicle ID
+         *
+         * @apiSuccess {Object} data Deleted vehicle resource
+         */
+        Route::delete('/{vehicule}', 'destroy');
     });
+
+
 }); 

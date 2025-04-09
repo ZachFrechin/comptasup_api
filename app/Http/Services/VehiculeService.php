@@ -45,4 +45,9 @@ class VehiculeService extends Service
         $vehicule->update($fields);
         return $vehicule;
     }
+
+    public function delete(Vehicule $vehicule): void
+    {
+        $vehicule->delete();
+    }
 } 

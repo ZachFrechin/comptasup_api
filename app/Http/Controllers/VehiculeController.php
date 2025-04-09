@@ -48,4 +48,11 @@ class VehiculeController extends Controller
 
         return response()->resourceUpdated(VehiculeResource::make($vehicule));
     }
+
+    public function destroy(Vehicule $vehicule)
+    {
+        $this->vehiculeService()->delete($vehicule);
+
+        return response()->resourceDeleted();
+    }
 } 
