@@ -19,7 +19,8 @@ class VehiculeCreateRequest extends FormRequest
             'brand' => 'string|required|max:255',
             'immatriculation' => 'string|required|max:255',
             'carte_grise' => 'file|nullable|mimes:jpeg,png,pdf|max:10240',
-            'profil_id' => 'nullable|exists:profils,id'
+            'profil_id' => 'nullable|exists:profils,id',
+            'chevaux_fiscaux' => 'nullable|integer|min:1'
         ];
     }
 } 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('immatriculation');
             $table->unsignedBigInteger('profil_id')->nullable();
             $table->foreign('profil_id')->references('id')->on('profils');
+            $table->integer('chevaux_fiscaux')->nullable();
             $table->timestamps();
         });
     }

@@ -12,7 +12,8 @@ class Vehicule extends Model
         'brand',
         'model',
         'immatriculation',
-        'profil_id'
+        'profil_id',
+        'chevaux_fiscaux'
     ];
 
     protected $casts = [

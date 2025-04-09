@@ -22,6 +22,7 @@ class VehiculeResource extends JsonResource
             "model" => $this->model,
             "immatriculation" => $this->immatriculation,
             "profil_id" => $this->profil_id,
+            "chevaux_fiscaux" => $this->chevaux_fiscaux,
             "fichiers" => $this->getFichiersUrls(),
         ];
     }
