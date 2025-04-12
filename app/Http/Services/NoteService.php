@@ -58,8 +58,8 @@ class NoteService extends Service
     public function changeState(int $type, Note $note, User $operator): Note
     {
         $ancien_etat = Etat::find($note->etat_id);
-        $note->update(['etat_id' => $type]);
         $this->addHistory($note->etat_id, $type, $note);
+        $note->update(['etat_id' => $type]);
         $this->sendNoteMail($note, $ancien_etat, $operator);
         return $note;
     }

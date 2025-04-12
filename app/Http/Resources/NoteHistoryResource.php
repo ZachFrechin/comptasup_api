@@ -18,7 +18,8 @@ class NoteHistoryResource extends JsonResource
             'user' => UserResource::make($this->user),
             'note' => NoteResource::make($this->note),
             'baseEtat' => $this->baseEtat,
-            'finalEtat' => $this->finalEtat
+            'finalEtat' => $this->finalEtat,
+            'date' => $this->created_at,
         ];
     }
 }
