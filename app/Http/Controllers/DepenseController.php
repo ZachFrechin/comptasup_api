@@ -48,7 +48,9 @@ class DepenseController extends Controller
         {
             return response()->resourceUpdateMissingField(DepenseResource::make($depense));
         }
-        
+
+        $operator = $request->user();
+
         $this->depenseService()->update($depense, $request->validated());
         $this->depenseService()->storeFile($depense, $request);
         $note = $this->noteService()->getByID($depense->note_id);
@@ -56,7 +58,8 @@ class DepenseController extends Controller
         {
             $this->noteService()->changeState(
                 $this->etatService()->getByName('not validated')->id,
-                $this->noteService()->getByID($depense->note_id)
+                $this->noteService()->getByID($depense->note_id),
+                $operator
             );
         }
 
