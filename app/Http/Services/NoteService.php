@@ -32,13 +32,13 @@ class NoteService extends Service
         return $note;
     }
 
-    public function addHistory(int $base, int $final, Note $note): NoteHistory
+    public function addHistory(int $base, int $final, Note $note, User $operator): NoteHistory
     {
         return NoteHistory::create([
             'etat_base_id' => $base,
             'etat_final_id' => $final,
             'note_id' => $note->id,
-            'user_id' => $note->user_id
+            'user_id' => $operator->id
         ]);
     }
 
@@ -58,7 +58,7 @@ class NoteService extends Service
     public function changeState(int $type, Note $note, User $operator): Note
     {
         $ancien_etat = Etat::find($note->etat_id);
-        $this->addHistory($note->etat_id, $type, $note);
+        $this->addHistory($note->etat_id, $type, $note, $operator);
         $note->update(['etat_id' => $type]);
         $this->sendNoteMail($note, $ancien_etat, $operator);
         return $note;
