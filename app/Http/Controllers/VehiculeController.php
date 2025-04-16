@@ -12,7 +12,7 @@ class VehiculeController extends Controller
 {
     public function index(Request $request)
     {
-        return response()->resourceCollection(VehiculeResource::collection($this->vehiculeService()->getAll($request->user()->id)));
+        return response()->resourceCollection(VehiculeResource::collection($this->vehiculeService()->getAll($request->user()->profil->id)));
     }
 
     public function store(VehiculeCreateRequest $request)

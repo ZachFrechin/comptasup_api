@@ -17,9 +17,9 @@ class VehiculeService extends Service
         return Vehicule::create($fields);
     }
 
-    public function getAll(int $user_id): Collection
+    public function getAll(int $profil_id): Collection
     {
-        return Vehicule::where('user_id', $user_id)->get();
+        return Vehicule::where('profil_id', $profil_id)->get();
     }
 
     public function storeFile(Vehicule $vehicule, FormRequest $request): void
