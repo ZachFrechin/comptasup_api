@@ -142,9 +142,25 @@
 
         .file-image {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 800px;
             border: 1px solid #dee2e6;
             border-radius: 4px;
+        }
+        
+
+        .pdf-page {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .page-number {
+            color: #002B49;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .file-indicator {
@@ -270,6 +286,12 @@
                             <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
                                  class="file-image" 
                                  alt="{{ $fichier['nom'] }}">
+                        @else
+                            @foreach($fichier['data'] as $page)
+                                <img src="data:image/jpeg;base64,{{ $page }}" 
+                                     class="file-image" 
+                                     alt="Page {{ $loop->index + 1 }}">
+                            @endforeach 
                         @endif
                     </li>
                 @endforeach
