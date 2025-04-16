@@ -37,14 +37,6 @@
             "position": 5,
             "title": "Véhicule utilisé",
             "required": true
-        },
-        "file": {
-            "type": "file",
-            "position": 6,
-            "title": "Justificatif",
-            "size": 10,
-            "ext": ["image/png", "image/jpeg", "application/pdf"],
-            "required": true
         }
     }
 }
