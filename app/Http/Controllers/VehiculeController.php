@@ -18,6 +18,7 @@ class VehiculeController extends Controller
     public function store(VehiculeCreateRequest $request)
     {
         $vehicule = $this->vehiculeService()->create($request->validated());
+        $vehicule->profil_id = $request->user()->profil->id;
         $this->vehiculeService()->storeFile($vehicule, $request);
 
         return response()->resourceCreated(VehiculeResource::make($vehicule));
