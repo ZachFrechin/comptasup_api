@@ -284,6 +284,8 @@
                                             <span class="value">{{ $detail['value']['chevaux_fiscaux'] }} CV</span>
                                         </div>
                                     </div>
+                                @elseif($detail['type'] === 'checkbox')
+                                    {{ $detail['value'] ? 'Oui' : 'Non' }}
                                 @else
                                     {{ $detail['value'] }}
                                 @endif
