@@ -238,7 +238,8 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
          *
          * @apiBody {String} old_password Mot de passe actuel de l'user
          * @apiBody {String} password Nouveau mot de passe de l'user
-         */
+         * @apiBody {String} password_confirmation Confirmation du nouveau mot de passe de l'user
+         * */
         Route::put('/updatePassword', 'updatePassword');
 
         /**
