@@ -10,9 +10,9 @@ use App\Http\Requests\Vehicule\VehiculeUpdateRequest;
 
 class VehiculeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->resourceCollection(VehiculeResource::collection($this->vehiculeService()->getAll()));
+        return response()->resourceCollection(VehiculeResource::collection($this->vehiculeService()->getAll($request->user()->id)));
     }
 
     public function store(VehiculeCreateRequest $request)
