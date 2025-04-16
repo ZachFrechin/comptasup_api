@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Note;
+use App\Models\Vehicule;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
@@ -40,12 +41,13 @@ class ExportService extends Service
     {
         $html = '';
         $numero = 1;
+        $fichiers = [];
 
         foreach ($note->depenses as $depense) {
             $depenseData = [
                 'depense' => $depense,
-                'details' => json_decode($depense->details, true),
-                'fichiers' => $this->processDepenseFiles($depense),
+                'details' => $this->processDetails($depense, $fichiers),
+                'fichiers' => $this->processDepenseFiles($depense, $fichiers),
                 'numero' => $numero,
                 'descriptor' => json_decode($depense->nature->descriptor, true)
             ];
@@ -57,34 +59,75 @@ class ExportService extends Service
         return $html;
     }
 
-    private function processDepenseFiles($depense): array
+    private function processDetails($depense, &$fichiers): array
     {
-        $fichiers = [];
+        $details = json_decode($depense->details, true);
+        $descriptor = json_decode($depense->nature->descriptor, true);
+        $processedDetails = [];
+
+        foreach ($details as $key => $value) {
+            $keyDescriptor = $descriptor[$key];
+
+            if ($keyDescriptor['type'] === 'vehicule') {
+                $vehicule = Vehicule::find($value);
+                if ($vehicule) {
+                    $value = [
+                        'id' => $vehicule->id,
+                        'marque' => $vehicule->brand,
+                        'modele' => $vehicule->model,
+                        'immatriculation' => $vehicule->immatriculation,
+                        'chevaux_fiscaux' => $vehicule->chevaux_fiscaux,
+                    ];
+                }
+            }
+
+            $processedDetails[] = [
+                'key' => $key,
+                'title' => $keyDescriptor['title'],
+                'position' => $keyDescriptor['position'],
+                'type' => $keyDescriptor['type'],
+                'value' => $value
+            ];
+        }
+
+        usort($processedDetails, function($a, $b) {
+            return $a['position'] <=> $b['position'];
+        });
+
+        return $processedDetails;
+    }
+
+    private function processDepenseFiles($depense, &$fichiers): array
+    {
         $files = Storage::files('public/depenses/' . $depense->id);
 
         foreach ($files as $fichier) {
             try {
-                $fullPath = storage_path('app/private/' . $fichier);
-                
-                if (!file_exists($fullPath)) {
-                    continue;
-                }
-
-                $mimeType = mime_content_type($fullPath);
-                $isImage = str_starts_with($mimeType, 'image/');
-                $isPDF = str_starts_with($mimeType, 'application/pdf');
-
-                if ($isPDF) {
-                    $fichiers[] = $this->processPdfFile($fichier, $fullPath, $mimeType);
-                } else {
-                    $fichiers[] = $this->processImageFile($fichier, $fullPath, $mimeType, $isImage);
-                }
+                $this->processDocument($fichier, $fichiers);
             } catch (Exception $e) {
                 \Log::error('Error processing file: ' . $e->getMessage());
             }
         }
 
         return $fichiers;
+    }
+
+    private function processDocument($fichier, &$fichiers): void {
+        $fullPath = storage_path('app/private/' . $fichier);
+                
+        if (!file_exists($fullPath)) {
+            return;
+        }
+
+        $mimeType = mime_content_type($fullPath);
+        $isImage = str_starts_with($mimeType, 'image/');
+        $isPDF = str_starts_with($mimeType, 'application/pdf');
+
+        if ($isPDF) {
+            $fichiers[] = $this->processPdfFile($fichier, $fullPath, $mimeType);
+        } else {
+            $fichiers[] = $this->processImageFile($fichier, $fullPath, $mimeType, $isImage);
+        }
     }
 
     private function processPdfFile(string $fichier, string $fullPath, string $mimeType): array
@@ -119,11 +162,6 @@ class ExportService extends Service
     private function processImageFile(string $fichier, string $fullPath, string $mimeType, bool $isImage): array
     {
         $data = $isImage ? base64_encode(file_get_contents($fullPath)) : null;
-
-        if ($isImage) {
-            \Log::info('Image data size for ' . basename($fichier) . ': ' . 
-                strlen($data) . ' characters');
-        }
 
         return [
             'nom' => basename($fichier),
