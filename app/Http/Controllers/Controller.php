@@ -13,6 +13,7 @@ use App\Http\Services\PermissionService;
 use App\Http\Services\ServiceService;
 use App\Http\Services\DepenseService;
 use App\Http\Services\ExportService;
+use App\Http\Services\VehiculeService;
 
 abstract class Controller
 {
@@ -31,6 +32,7 @@ abstract class Controller
             'serviceService' => ServiceService::class,
             'depenseService' => DepenseService::class,
             'exportService' => ExportService::class,
+            'vehiculeService' => VehiculeService::class,
         ]);
     }
 }

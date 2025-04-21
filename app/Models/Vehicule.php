@@ -8,10 +8,16 @@ use App\Models\Profil;
 class Vehicule extends Model
 {
     protected $fillable = [
-        'plaque',
-        'chevaux_fiscaux',
-        'ressource',
-        'profil_id'
+        'name',
+        'brand',
+        'model',
+        'immatriculation',
+        'profil_id',
+        'chevaux_fiscaux'
+    ];
+
+    protected $casts = [
+        'date' => 'date'
     ];
 
     public function profil() {

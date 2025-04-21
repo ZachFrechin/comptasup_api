@@ -1,0 +1,42 @@
+{
+    "nom": "Indemnité Kilométrique",
+    "numero": "5",
+    "descriptor": {
+        "lieuDepart": {
+            "type": "text",
+            "position": 1,
+            "title": "Lieu départ",
+            "size": 50,
+            "placeholder": "Ex: Annecy",
+            "required": true
+        },
+        "lieuArrivee": {
+            "type": "text",
+            "position": 2,
+            "title": "Lieu arrivée",
+            "size": 50,
+            "placeholder": "Ex: Chambéry",
+            "required": true
+        },
+        "allerRetour": {
+            "type": "checkbox",
+            "position": 3,
+            "title": "Aller <> Retour",
+            "required": true
+        },
+        "distance": {
+            "type": "number",
+            "position": 4,
+            "title": "Distance",
+            "required": true,
+            "min": 0,
+            "max": 100000
+        },
+        "vehicule": {
+            "type": "vehicule",
+            "position": 5,
+            "title": "Véhicule utilisé",
+            "required": true
+        }
+    }
+}

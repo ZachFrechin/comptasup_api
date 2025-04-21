@@ -11,7 +11,6 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
             color: #333;
             line-height: 1.4;
             padding: 40px;
@@ -122,9 +121,63 @@
         .page-wrapper {
             min-height: calc(100vh - 120px); /* 100vh moins padding-top/bottom du body et espace footer */
         }
+
+        .history-container {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+
+        .history-item {
+            display: flex;
+            flex-direction: column;
+            padding: 12px 15px;
+            background-color: white;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-main-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .history-date-line {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .history-state {
+            font-weight: 500;
+            color: #002B49;
+            min-width: 200px;
+        }
+
+        .history-user {
+            color: #666;
+            min-width: 200px;
+        }
+
+        .history-separator {
+            color: #F2304C;
+            margin: 0 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    @php
+        use App\Helpers\StateTranslator;
+    @endphp
+
     <div class="page-wrapper">
         <div class="document-header">
             <h1 class="document-title">Note de frais</h1>
@@ -149,7 +202,7 @@
                     <div class="info-block">
                         <div class="info-label">Date de création</div>
                         <div class="info-value">{{ $note->created_at->format('d/m/Y') }}</div>
-                        <div class="info-label" style="margin-top: 8px;">Nombre de dépenses</div>
+                        <div class="info-label">Nombre de dépenses</div>
                         <div class="info-value">{{ $note->depenses->count() }}</div>
                     </div>
                 </div>
@@ -161,30 +214,25 @@
                 </div>
             </div>
 
-            <!-- <div class="section">
-                <h2 class="section-title">Validation</h2>
-                <div class="validation-grid">
-                    @if($valideur)
-                    <div class="info-block">
-                        <div class="info-label">Validé par</div>
-                        <div class="info-value">
-                            <span class="uppercase">{{ $valideur->profil->nom }}</span> {{ $valideur->profil->prenom }}
+            <div class="section">
+                <h2 class="section-title">Historique des modifications</h2>
+                <div class="history-container">
+                    @foreach($note->history as $transition)
+                        <div class="history-item">
+                            <div class="history-main-line">
+                                <span class="history-state">{{ StateTranslator::translate($transition->baseEtat) }} -> {{ StateTranslator::translate($transition->finalEtat) }}</span>
+                                <span class="history-separator">|</span>
+                                <span class="history-user">
+                                    <span class="uppercase">{{ $transition->user->profil->nom }}</span> {{ $transition->user->profil->prenom }}
+                                </span>
+                            </div>
+                            <div class="history-date-line">
+                                {{ $transition->created_at->timezone('Europe/Paris')->format('d/m/Y à H:i') }}
+                            </div>
                         </div>
-                        <div class="info-value">{{ $valideur->email }}</div>
-                    </div>
-                    @endif
-                    @if($controleur)
-                    <div class="info-block">
-                        <div class="info-label">Contrôlé par</div>
-                        <div class="info-value">
-                            <span class="uppercase">{{ $controleur->profil->nom }}</span> {{ $controleur->profil->prenom }}
-                        </div>
-                        <div class="info-value">{{ $controleur->email }}</div>
-                    </div>
-                    @endif
-                    
+                    @endforeach
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 

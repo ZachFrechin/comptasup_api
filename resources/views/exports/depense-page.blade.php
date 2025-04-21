@@ -142,15 +142,57 @@
 
         .file-image {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 800px;
             border: 1px solid #dee2e6;
             border-radius: 4px;
+        }
+        
+
+        .pdf-page {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .page-number {
+            color: #002B49;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .file-indicator {
             color: #F2304C;
             font-size: 14px;
             margin-top: 5px;
+        }
+
+        .vehicule-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .vehicule-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vehicule-info-item .label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        .vehicule-info-item .value {
+            font-size: 14px;
+            color: #002B49;
+            font-weight: 500;
         }
 
         /* Pied de page */
@@ -218,36 +260,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $descriptor = json_decode($depense->nature->descriptor, true);
-                        
-                        // Créer un tableau associatif avec les positions
-                        $sortedDetails = [];
-                        foreach($details as $key => $value) {
-                            if(isset($descriptor[$key])) {
-                                $sortedDetails[] = [
-                                    'key' => $key,
-                                    'value' => $value,
-                                    'title' => $descriptor[$key]['title'],
-                                    'position' => $descriptor[$key]['position'] ?? 999,
-                                    'type' => $descriptor[$key]['type'] ?? 'text'
-                                ];
-                            }
-                        }
-                        
-                        // Trier par position
-                        usort($sortedDetails, function($a, $b) {
-                            return $a['position'] <=> $b['position'];
-                        });
-                    @endphp
-
-                    @foreach($sortedDetails as $detail)
+                    @foreach($details as $detail)
                         @if($detail['type'] !== 'file')
                         <tr>
                             <td>{{ $detail['title'] }}</td>
                             <td>
-                                @if($detail['type'] === 'date')
-                                    {{ \Carbon\Carbon::parse($detail['value'])->format('d/m/Y') }}
+                                @if($detail['type'] === 'vehicule')
+                                    <div class="vehicule-info">
+                                        <div class="vehicule-info-item">
+                                            <span class="label">Marque</span>
+                                            <span class="value">{{ $detail['value']['marque'] }}</span>
+                                        </div>
+                                        <div class="vehicule-info-item">
+                                            <span class="label">Modèle</span>
+                                            <span class="value">{{ $detail['value']['modele'] }}</span>
+                                        </div>
+                                        <div class="vehicule-info-item">
+                                            <span class="label">Immatriculation</span>
+                                            <span class="value">{{ $detail['value']['immatriculation'] }}</span>
+                                        </div>
+                                        <div class="vehicule-info-item">
+                                            <span class="label">Chevaux Fiscaux</span>
+                                            <span class="value">{{ $detail['value']['chevaux_fiscaux'] }} CV</span>
+                                        </div>
+                                    </div>
+                                @elseif($detail['type'] === 'checkbox')
+                                    {{ $detail['value'] ? 'Oui' : 'Non' }}
                                 @else
                                     {{ $detail['value'] }}
                                 @endif
@@ -270,6 +308,12 @@
                             <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
                                  class="file-image" 
                                  alt="{{ $fichier['nom'] }}">
+                        @else
+                            @foreach($fichier['data'] as $page)
+                                <img src="data:image/jpeg;base64,{{ $page }}" 
+                                     class="file-image" 
+                                     alt="Page {{ $loop->index + 1 }}">
+                            @endforeach 
                         @endif
                     </li>
                 @endforeach

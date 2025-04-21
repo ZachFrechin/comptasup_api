@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdatePasswordRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\User\UserControlRoleRequest;
 use Illuminate\Http\Request;
@@ -46,6 +47,12 @@ class UserController extends Controller
         $request->profil ? $this->userService()->updateProfil($user, $request->profil) : null;
 
         return response()->resourceUpdated(UserResource::make($user));
+    }
+
+    public function updatePassword(UserUpdatePasswordRequest $request): JsonResponse
+    {
+        $this->userService()->updatePassword($request->user(), $request->old_password, $request->password);
+        return response()->resourceUpdated(UserResource::make($request->user()));
     }
 
     public function updateRole(UserControlRoleRequest $request, User $user)

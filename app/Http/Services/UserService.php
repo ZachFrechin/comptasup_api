@@ -50,12 +50,6 @@ class UserService extends Service
         return $user;
     }
 
-    public function updatePassword(User $user, string $password) : User
-    {
-        $user->update(['password' => Hash::make($password)]);
-        return $user;
-    }
-
     public function getByID(int $id) : User | null
     {
         return User::find($id);
@@ -76,6 +70,16 @@ class UserService extends Service
     public function addRolesByID(User $user, array $roleID) : User
     {
         $user->roles()->attach($roleID);
+        return $user;
+    }
+
+    public function updatePassword(User $user, string $old_password, string $password) : User
+    {
+        if (!Hash::check($old_password, $user->password)) {
+            throw new \Exception('Current password is incorrect');
+        }
+
+        $user->update(['password' => Hash::make($password)]);
         return $user;
     }
 }

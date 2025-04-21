@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('vehicules', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('plaque');
-            $table->unsignedBigInteger('chevaux_fiscaux');
-            $table->string('ressource');
-            $table->unsignedBigInteger('profil_id');
+            $table->string('name');
+            $table->string('brand');
+            $table->string('model');
+            $table->string('immatriculation');
+            $table->unsignedBigInteger('profil_id')->nullable();
             $table->foreign('profil_id')->references('id')->on('profils');
+            $table->integer('chevaux_fiscaux')->nullable();
             $table->timestamps();
         });
     }
@@ -30,4 +31,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('vehicules');
     }
-};
+}; 
