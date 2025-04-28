@@ -12,8 +12,6 @@ class Depense extends Model
         'note_id',
         'totalTTC',
         'date',
-        'tiers',
-        'SIRET',
         'nature_id',
         'details'
     ];
