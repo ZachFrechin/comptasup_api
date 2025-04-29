@@ -11,7 +11,8 @@ class NoteHistory extends Model
         'note_id',
         'user_id',
         'etat_base_id',
-        'etat_final_id'
+        'etat_final_id',
+        'commentaire'
     ];
 
     public function note()
