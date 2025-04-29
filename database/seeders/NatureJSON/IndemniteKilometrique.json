@@ -1,10 +1,10 @@
 {
     "nom": "Indemnité Kilométrique",
-    "numero": "5",
+    "numero": "62510000",
     "descriptor": {
         "lieuDepart": {
             "type": "text",
-            "position": 1,
+            "position": 0,
             "title": "Lieu départ",
             "size": 50,
             "placeholder": "Ex: Annecy",
@@ -12,7 +12,7 @@
         },
         "lieuArrivee": {
             "type": "text",
-            "position": 2,
+            "position": 1,
             "title": "Lieu arrivée",
             "size": 50,
             "placeholder": "Ex: Chambéry",
@@ -20,13 +20,13 @@
         },
         "allerRetour": {
             "type": "checkbox",
-            "position": 3,
+            "position": 2,
             "title": "Aller <> Retour",
             "required": true
         },
         "distance": {
             "type": "number",
-            "position": 4,
+            "position": 3,
             "title": "Distance",
             "required": true,
             "min": 0,
@@ -34,7 +34,7 @@
         },
         "vehicule": {
             "type": "vehicule",
-            "position": 5,
+            "position": 4,
             "title": "Véhicule utilisé",
             "required": true
         }

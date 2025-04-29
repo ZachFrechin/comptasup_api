@@ -1,32 +1,43 @@
 {
     "nom": "Repas salarié",
-    "numero": "6",
+    "numero": "62510000",
     "descriptor": {
-      "accompagnement": {
-        "type": "dropdown",
-        "position": 0,
-        "title": "Accompagnement",
-        "options": [
-          {
-            "key": "seul",
-            "value": "Seul"
-          },
-          {
-            "key": "accompagne",
-            "value": "Accompagné"
-          }
-        ],
-        "required": true
-      },
-      "collaborateurs": {
-        "type": "collaborateur",
-        "title": "Accompagnant(s)",
-        "position": 2,
-        "need": {
-          "key": "accompagnement",
-          "value": "accompagne"
+        "siret": {
+            "type": "siret",
+            "position": 0,
+            "title": "SIRET",
+            "required": true
+        },
+        "tiers": {
+            "type": "text",
+            "position": 1,
+            "title": "Tiers",
+            "required": true
+        },
+        "accompagnement": {
+            "type": "dropdown",
+            "position": 2,
+            "title": "Accompagnement",
+            "options": [
+              {
+                "key": "seul",
+                "value": "Seul"
+              },
+              {
+                "key": "accompagne",
+                "value": "Accompagné"
+              }
+            ],
+            "required": true
+        },
+        "collaborateurs": {
+            "type": "collaborateur",
+            "title": "Accompagnant(s)",
+            "position": 3,
+            "need": {
+              "key": "accompagnement",
+              "value": "accompagne"
+            }
         }
-      }
     }
   }
-  

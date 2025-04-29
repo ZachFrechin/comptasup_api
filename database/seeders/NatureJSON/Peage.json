@@ -1,16 +1,28 @@
 {
     "nom": "Péage",
-    "numero": "3",
+    "numero": "62510000",
     "descriptor": {
+        "siret": {
+            "type": "siret",
+            "position": 0,
+            "title": "SIRET",
+            "required": true
+        },
+        "tiers": {
+            "type": "text",
+            "position": 1,
+            "title": "Tiers",
+            "required": true
+        },
         "dateDebut": {
             "type": "date",
-            "position": 0,
+            "position": 2,
             "title": "Date début",
             "required": true
         },
         "lieuDepart": {
             "type": "text",
-            "position": 1,
+            "position": 3,
             "title": "Lieu départ",
             "size": 50,
             "placeholder": "Ex: Annecy",
@@ -18,13 +30,13 @@
         },
         "dateFin": {
             "type": "date",
-            "position": 2,
+            "position": 4,
             "title": "Date fin",
             "required": true
         },
         "lieuArrivee": {
             "type": "text",
-            "position": 3,
+            "position": 5,
             "title": "Lieu arrivée",
             "size": 50,
             "placeholder": "Ex: Chambéry",
@@ -32,7 +44,7 @@
         },
         "file": {
             "type": "file",
-            "position": 4,
+            "position": 6,
             "title": "Justificatif",
             "size": 10,
             "ext": ["image/png", "image/jpeg", "application/pdf"],

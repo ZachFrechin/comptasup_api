@@ -1,53 +1,64 @@
 {
     "nom": "Repas invité",
-    "numero": "6",
+    "numero": "62510000",
     "descriptor": {
-      "collaborateurs_present": {
-        "type": "dropdown",
-        "position": 0,
-        "title": "Collaborateur(s) invité(s)",
-        "options": [
-          {
-            "key": "oui",
-            "value": "Oui"
-          },
-          {
-            "key": "non",
-            "value": "Non"
-          }
-        ],
-        "required": true
-      },
-      "collaborateurs": {
-        "type": "collaborateur",
-        "title": "Accompagnant(s)",
-        "position": 1,
-        "need": {
-          "key": "collaborateurs_present",
-          "value": "oui"
+        "siret": {
+            "type": "siret",
+            "position": 0,
+            "title": "SIRET",
+            "required": true
+        },
+        "tiers": {
+            "type": "text",
+            "position": 1,
+            "title": "Tiers",
+            "required": true
+        },
+        "collaborateurs_present": {
+            "type": "dropdown",
+            "position": 2,
+            "title": "Collaborateur(s) invité(s)",
+            "options": [
+              {
+                "key": "oui",
+                "value": "Oui"
+              },
+              {
+                "key": "non",
+                "value": "Non"
+              }
+            ],
+            "required": true
+        },
+        "collaborateurs": {
+            "type": "collaborateur",
+            "title": "Accompagnant(s)",
+            "position": 3,
+            "need": {
+              "key": "collaborateurs_present",
+              "value": "oui"
+            }
+        },
+        "invites": {
+            "type": "invite-informations",
+            "title": "Invité(s) externe(s)",
+            "position": 4
+        },
+        "motif": {
+            "type": "text",
+            "position": 5,
+            "title": "Motif du repas",
+            "placeholder": "",
+            "size": 80,
+            "required": true
+        },
+        "file": {
+            "type": "file",
+            "position": 6,
+            "title": "Justificatif",
+            "size": 10,
+            "ext": ["image/png", "image/jpeg", "application/pdf"],
+            "required": true
         }
-      },
-      "invites": {
-        "type": "invite-informations",
-        "title": "Invité(s) externe(s)",
-        "position": 2
-      },
-      "motif": {
-        "type": "text",
-        "position": 3,
-        "title": "Motif du repas",
-        "placeholder": "",
-        "size": 80,
-        "required": true
-      },
-      "file": {
-        "type": "file",
-        "position": 4,
-        "title": "Justificatif",
-        "size": 10,
-        "ext": ["image/png", "image/jpeg", "application/pdf"],
-        "required": true
-      }
     }
 }
-  
