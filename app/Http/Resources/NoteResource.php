@@ -20,7 +20,7 @@ class NoteResource extends JsonResource
             "commentaire" => $this->commentaire,
             'nom' => $this->nom,
             "etat" => $this->etat,
-            "user_id" => $this->user_id,
+            "user" => $this->user,
             "depenses"=> DepenseResource::collection($this->depenses),
             "totalTTC" => $this->depenses->sum("totalTTC"),
             "controleur_id" => $this->controleur_id,
