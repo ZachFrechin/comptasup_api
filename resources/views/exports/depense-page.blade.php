@@ -146,7 +146,7 @@
             border: 1px solid #dee2e6;
             border-radius: 4px;
         }
-        
+
 
         .pdf-page {
             margin-bottom: 20px;
@@ -205,6 +205,29 @@
             color: #666;
             width: calc(100% - 80px);
         }
+
+        .person-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .person-card .name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .person-card .email,
+        .person-card .company,
+        .person-card .siret {
+            color: #555;
+            font-size: 13px;
+        }
+
     </style>
 </head>
 <body>
@@ -221,27 +244,6 @@
                 <div class="info-block">
                     <div class="info-label">Montant TTC</div>
                     <div class="info-value montant">{{ number_format($depense->totalTTC, 2, ',', ' ') }} €</div>
-                </div>
-                <div class="info-block">
-                    <div class="info-label">Tiers</div>
-                    <div class="info-value">{{ $depense->tiers ?: 'Non spécifié' }}</div>
-                </div>
-                <div class="info-block">
-                    <div class="info-label">SIRET</div>
-                    <div class="info-value">
-                        @php
-                            if ($depense->SIRET) {
-                                $siret = $depense->SIRET;
-                                $formatted = substr($siret, 0, 3) . '.' . 
-                                           substr($siret, 3, 3) . '.' . 
-                                           substr($siret, 6, 3) . '.' . 
-                                           substr($siret, 9);
-                                echo $formatted;
-                            } else {
-                                echo 'Non spécifié';
-                            }
-                        @endphp
-                    </div>
                 </div>
                 <div class="info-block">
                     <div class="info-label">Nature</div>
@@ -284,8 +286,32 @@
                                             <span class="value">{{ $detail['value']['chevaux_fiscaux'] }} CV</span>
                                         </div>
                                     </div>
+                                @elseif($detail['type'] === 'siret')
+                                    @php
+                                        $siret = $detail['value'];
+                                        $formatted = substr($siret, 0, 3) . '.' .
+                                                   substr($siret, 3, 3) . '.' .
+                                                   substr($siret, 6, 3) . '.' .
+                                                   substr($siret, 9);
+                                        echo $formatted;
+                                    @endphp
                                 @elseif($detail['type'] === 'checkbox')
                                     {{ $detail['value'] ? 'Oui' : 'Non' }}
+                                @elseif($detail['type'] === 'collaborateur')
+                                    @foreach($detail['value'] as $collaborateur)
+                                        <div class="person-card">
+                                            <div class="name">{{ $collaborateur['prenom'] }} {{ $collaborateur['nom'] }}</div>
+                                            <div class="email">{{ $collaborateur['email'] }}</div>
+                                        </div>
+                                    @endforeach
+                                @elseif($detail['type'] === 'invite-informations')
+                                    @foreach($detail['value'] as $invite)
+                                        <div class="person-card">
+                                            <div class="name">{{ $invite['prenom'] }} {{ $invite['nom'] }}</div>
+                                            <div class="company">{{ $invite['nom_entreprise'] }}</div>
+                                            <div class="siret">SIRET : {{ $invite['siret'] }}</div>
+                                        </div>
+                                    @endforeach
                                 @else
                                     {{ $detail['value'] }}
                                 @endif
@@ -305,15 +331,15 @@
                     <li>
                         <div class="file-name">{{ $fichier['nom'] }}</div>
                         @if($fichier['isImage'])
-                            <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}" 
-                                 class="file-image" 
+                            <img src="data:{{ $fichier['mime'] }};base64,{{ $fichier['data'] }}"
+                                 class="file-image"
                                  alt="{{ $fichier['nom'] }}">
                         @else
                             @foreach($fichier['data'] as $page)
-                                <img src="data:image/jpeg;base64,{{ $page }}" 
-                                     class="file-image" 
+                                <img src="data:image/jpeg;base64,{{ $page }}"
+                                     class="file-image"
                                      alt="Page {{ $loop->index + 1 }}">
-                            @endforeach 
+                            @endforeach
                         @endif
                     </li>
                 @endforeach
@@ -326,4 +352,4 @@
         Document généré le {{ now()->format('d/m/Y H:i') }}
     </div>
 </body>
-</html> 
+</html>
