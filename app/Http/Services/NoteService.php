@@ -38,7 +38,8 @@ class NoteService extends Service
             'etat_base_id' => $base,
             'etat_final_id' => $final,
             'note_id' => $note->id,
-            'user_id' => $operator->id
+            'user_id' => $operator->id,
+            'commentaire' => $note->commentaire
         ]);
     }
 

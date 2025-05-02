@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('etat_base_id');
             $table->unsignedBigInteger('etat_final_id');
+            $table->text('commentaire')->nullable();
             $table->foreign('note_id')->references('id')->on('notes');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('etat_base_id')->references('id')->on('etats');

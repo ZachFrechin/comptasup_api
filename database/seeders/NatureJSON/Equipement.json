@@ -2,14 +2,25 @@
     "nom": "Equipement stock",
     "numero": "7",
     "descriptor": {
-      "file": {
-        "type": "file",
-        "position": 0,
-        "title": "Ticket",
-        "size": 10,
-        "ext": ["image/png", "image/jpeg", "application/pdf"],
-        "required": true
-      }
+        "siret": {
+            "type": "siret",
+            "position": 0,
+            "title": "SIRET",
+            "required": true
+        },
+        "tiers": {
+            "type": "text",
+            "position": 1,
+            "title": "Tiers",
+            "required": true
+        },
+        "file": {
+            "type": "file",
+            "position": 2,
+            "title": "Ticket",
+            "size": 10,
+            "ext": ["image/png", "image/jpeg", "application/pdf"],
+            "required": true
+        }
     }
 }
-  

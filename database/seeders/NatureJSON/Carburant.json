@@ -1,10 +1,22 @@
 {
     "nom": "Carburant",
-    "numero": "1",
+    "numero": "62510000",
     "descriptor": {
+        "siret": {
+            "type": "siret",
+            "position": 0,
+            "title": "SIRET",
+            "required": true
+        },
+        "tiers": {
+            "type": "text",
+            "position": 1,
+            "title": "Tiers",
+            "required": true
+        },
         "prixAuLitre": {
             "type": "number",
-            "position": 0,
+            "position": 2,
             "title": "Prix au litre",
             "required": true,
             "min": 0.5,
@@ -12,12 +24,12 @@
         },
         "quantite": {
             "type": "number",
-            "position": 1,
+            "position": 3,
             "title": "Quantité"
         },
         "distance": {
             "type": "number",
-            "position": 1,
+            "position": 4,
             "title": "Distance",
             "required": true,
             "min": 0,
@@ -25,7 +37,7 @@
         },
         "file": {
             "type": "file",
-            "position": 2,
+            "position": 5,
             "title": "Justificatif",
             "size": 10,
             "ext": ["image/png", "image/jpeg", "application/pdf"],

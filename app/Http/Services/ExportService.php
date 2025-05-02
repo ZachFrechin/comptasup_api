@@ -20,7 +20,7 @@ class ExportService extends Service
     {
         $html = $this->generateHeaderHtml($note);
         $html .= $this->generateDepensesHtml($note);
-        
+
         return $this->createPdfResponse($html, $note->id);
     }
 
@@ -69,7 +69,7 @@ class ExportService extends Service
             $keyDescriptor = $descriptor[$key];
 
             if ($keyDescriptor['type'] === 'vehicule') {
-                $vehicule = Vehicule::find($value);
+                $vehicule = Vehicule::find($value["id"]);
                 if ($vehicule) {
                     $value = [
                         'id' => $vehicule->id,
@@ -114,7 +114,7 @@ class ExportService extends Service
 
     private function processDocument($fichier, &$fichiers): void {
         $fullPath = storage_path('app/private/' . $fichier);
-                
+
         if (!file_exists($fullPath)) {
             return;
         }
@@ -134,7 +134,7 @@ class ExportService extends Service
     {
         try {
             \Log::info('Processing PDF file: ' . $fullPath);
-            
+
             $imagick = new Imagick();
             $imagick->setResolution(self::PDF_RESOLUTION, self::PDF_RESOLUTION);
             $imagick->readImage($fullPath);
@@ -176,7 +176,7 @@ class ExportService extends Service
     {
         $pdf = Pdf::loadHTML($html);
         $pdf->setPaper('A4');
-        
+
         return $pdf->download('note-de-frais-' . $noteId . '.pdf');
     }
 
@@ -190,25 +190,23 @@ class ExportService extends Service
         $callback = function() use ($note)
         {
             $file = fopen('php://output', 'w');
-            
-            fputcsv($file, ['REF', 'Date', 'Nature', 'N°', 'Tiers', 'SIRET', 'Montant TTC (€)']);
-            
-            foreach ($note->depenses as $depense) 
+
+            fputcsv($file, ['REF', 'N°', 'Nature', 'Date', 'Total TTC (€)']);
+
+            foreach ($note->depenses as $depense)
             {
                 fputcsv($file, [
                     $depense->id,
-                    $depense->date,
-                    $depense->nature->nom,
                     $depense->nature->numero,
-                    $depense->tiers,
-                    $depense->SIRET,
+                    $depense->nature->nom,
+                    $depense->date,
                     $depense->totalTTC,
                 ]);
             }
-            
+
             fclose($file);
         };
 
         return response()->stream($callback, 200, $headers);
     }
-} 
+}
