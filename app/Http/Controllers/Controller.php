@@ -14,6 +14,7 @@ use App\Http\Services\ServiceService;
 use App\Http\Services\DepenseService;
 use App\Http\Services\ExportService;
 use App\Http\Services\VehiculeService;
+use App\Http\Services\OcrService;
 
 abstract class Controller
 {
@@ -33,6 +34,7 @@ abstract class Controller
             'depenseService' => DepenseService::class,
             'exportService' => ExportService::class,
             'vehiculeService' => VehiculeService::class,
+            'ocrService'=> OcrService::class,
         ]);
     }
 }

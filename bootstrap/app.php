@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__.'/../routes/api/nature.php',
             __DIR__.'/../routes/api/note.php',
             __DIR__.'/../routes/api/noteHistory.php',
+            __DIR__.'/../routes/api/ocr.php',
             __DIR__.'/../routes/api/role.php',
             __DIR__.'/../routes/api/service.php',
             __DIR__.'/../routes/api/user.php',
