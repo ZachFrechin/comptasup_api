@@ -17,9 +17,18 @@ use App\Models\Role;
 
 class UserController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->resourceCollection(UserResource::collection(User::all()));
+        $query = User::query();
+
+        if ($request->has('role')) {
+            $query->whereHas('roles', function($q) use ($request) {
+                $q->where('nom', $request->role);
+            });
+        }
+
+        $users = $query->get();
+        return response()->resourceCollection(UserResource::collection($users));
     }
 
     public function store(UserCreateRequest $request): JsonResponse
