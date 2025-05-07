@@ -82,5 +82,29 @@ class UserService extends Service
         $user->update(['password' => Hash::make($password)]);
         return $user;
     }
+
+    public function getAffiliatedUsers(User $user) : Collection
+    {
+        return User::where('valideur_id', $user->id)->get();
+    }
+
+    public function getAffiliatedUsersID(int $id) : Collection
+    {
+        return User::where('valideur_id', $id)->pluck('id');
+    }
+
+    public function addAffiliatedUsers(User $user, array $affiliatedUsers) : void
+    {
+        foreach ($affiliatedUsers as $affiliatedUser) {
+           $affiliatedUser->update(['valideur_id' => $user->id]);
+        }
+    }
+
+    public function removeAffiliatedUser(array $affiliatedUsers) : void
+    {
+        foreach ($affiliatedUsers as $affiliatedUser) {
+            $affiliatedUser->update(['valideur_id' => null]);
+        }
+    }
 }
 

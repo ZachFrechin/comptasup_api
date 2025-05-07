@@ -493,6 +493,148 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
          */
         Route::delete('/deleteRole/{user}', 'deleteRole');
 
+        /**
+         * @api {put} /user/addValideur/:user/:valideur Ajouter un valideur
+         * @apiName AddValideur
+         * @apiDescription Ajoute un valideur à un user.
+         * @apiGroup User
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} user ID unique de l'user.
+         * @apiParam {Number} valideur ID unique du valideur.
+         *
+         * @apiSuccess {Object} data Ressource de l'user.
+         *
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 201 OK
+                {
+                    "data":
+                    {
+                        "id": 1,
+                        "email": "administrateur@exemple.com",
+                        "nom": "Trépanier",
+                        "prenom": "Alexis",
+                        "naissance": "1958-02-12",
+                        "telephone": "0612345678",
+                        "code_postal": "73000",
+                        "ville": "Chambéry",
+                        "pays": "France",
+                        "rue": "Rue des Elephants",
+                        "numero_de_rue": 1,
+                        "ressource": null,
+                        "roles":
+                        [
+                            {
+                                "id": 1,
+                                "nom": "Salarié",
+                                "color": null,
+                                "permissions": []
+                            },
+                            {
+                                "id": 5,
+                                "nom": "Administrateur",
+                                "color": null,
+                                "permissions":
+                                [
+                                    {
+                                        "id": 11,
+                                        "nom": "administrator"
+                                    }
+                                ]
+                            }
+                        ],
+                        "vehicules": [],
+                        "trajets": [],
+                        "date_ajout": "2025-02-19T14:03:28.000000Z",
+                        "derniere_modification": "2025-02-19T14:03:28.000000Z",
+                        "statut": 1,
+                        "service":
+                        {
+                            "id": 1,
+                            "nom": "Comptabilité",
+                            "description": "Service de comptabilité",
+                            "numero": "1",
+                            "created_at": "2025-02-19T14:03:28.000000Z",
+                            "updated_at": "2025-02-19T14:03:28.000000Z"
+                        },
+                        "affiliés": [USER-RESOURCE]
+                    }
+                }
+         */
+        Route::put('/addValideur/{user}/{valideur}', 'addValideur');
+
+        /**
+         * @api {delete} /user/removeValideur/:user Supprimer un valideur
+         * @apiName RemoveValideur
+         * @apiDescription Retire le valideur qui s'occupe de l'user.
+         * @apiGroup User
+         * @apiVersion 1.0.1
+         *
+         * @apiHeader {Bearer} token Token d'authentification
+         *
+         * @apiParam {Number} user ID unique de l'user.
+         *
+         * @apiSuccess {Object} data Ressource de l'user.
+         *
+         * @apiSuccessExample {json} Succès:
+                HTTP/1.1 201 OK
+                {
+                    "data":
+                    {
+                        "id": 1,
+                        "email": "administrateur@exemple.com",
+                        "nom": "Trépanier",
+                        "prenom": "Alexis",
+                        "naissance": "1958-02-12",
+                        "telephone": "0612345678",
+                        "code_postal": "73000",
+                        "ville": "Chambéry",
+                        "pays": "France",
+                        "rue": "Rue des Elephants",
+                        "numero_de_rue": 1,
+                        "ressource": null,
+                        "roles":
+                        [
+                            {
+                                "id": 1,
+                                "nom": "Salarié",
+                                "color": null,
+                                "permissions": []
+                            },
+                            {
+                                "id": 5,
+                                "nom": "Administrateur",
+                                "color": null,
+                                "permissions":
+                                [
+                                    {
+                                        "id": 11,
+                                        "nom": "administrator"
+                                    }
+                                ]
+                            }
+                        ],
+                        "vehicules": [],
+                        "trajets": [],
+                        "date_ajout": "2025-02-19T14:03:28.000000Z",
+                        "derniere_modification": "2025-02-19T14:03:28.000000Z",
+                        "statut": 1,
+                        "service":
+                        {
+                            "id": 1,
+                            "nom": "Comptabilité",
+                            "description": "Service de comptabilité",
+                            "numero": "1",
+                            "created_at": "2025-02-19T14:03:28.000000Z",
+                            "updated_at": "2025-02-19T14:03:28.000000Z"
+                        },
+                        "affiliés": [USER-RESOURCE]
+                    }
+                }
+        */
+        Route::delete('/removeValideur/{user}', 'removeValideur');
 
     });
 });

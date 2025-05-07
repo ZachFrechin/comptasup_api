@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Services\UserService;
 
 class UserResource extends JsonResource
 {
@@ -14,6 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $userService = new UserService();
         return [
             'id' => $this->id,
             'email' => $this->email,
@@ -34,6 +36,7 @@ class UserResource extends JsonResource
             'derniere_modification' => $this->updated_at,
             "statut" => $this->active,
             "service" => $this->profil->service,
+            "affiliés" => $userService->getAffiliatedUsers($this->resource),
         ];
     }
 }

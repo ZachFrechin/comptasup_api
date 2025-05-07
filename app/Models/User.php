@@ -24,6 +24,7 @@ class User extends Authenticatable
     public $fillable = [
         'email',
         'password',
+        'valideur_id',
     ];
 
     /**

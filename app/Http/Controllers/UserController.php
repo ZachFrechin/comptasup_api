@@ -72,4 +72,19 @@ class UserController extends Controller
         $user->delete();
         return response()->resourceDeleted();
     }
+
+    public function addValideur(User $user, User $valideur)
+    {
+        if($valideur->roles->contains('nom', 'Valideur')){
+            $this->userService()->addAffiliatedUsers($valideur, [$user]);
+            return response()->resourceUpdated(UserResource::make($user));
+        }
+        return response()->resourceUpdated(UserResource::make($user));
+    }
+
+    public function removeValideur(User $user)
+    {
+        $this->userService()->removeAffiliatedUser([$user]);
+        return response()->resourceUpdated(UserResource::make($user));
+    }
 }
