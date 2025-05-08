@@ -29,11 +29,17 @@ class NoteController extends Controller
         );
     }
 
-    public function indexByValidator(Request $request)
+    public function indexByValideur(Request $request)
     {
+        $currentUserId = $request->user()->id;
+        
         return response()->resourceCollection(
             NoteResource::collection(
-                Note::where('etat_id', Etat::NOT_VALIDATED)->get()
+                Note::where('etat_id', Etat::NOT_VALIDATED)
+                    ->whereHas('user', function($query) use ($currentUserId) {
+                        $query->where('valideur_id', $currentUserId);
+                    })
+                    ->get()
             )
         );
     }

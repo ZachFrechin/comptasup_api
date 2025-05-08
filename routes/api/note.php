@@ -79,7 +79,7 @@ Route::prefix('note')->middleware('auth:sanctum')->group(function () {
                     ]
                 }
          */
-        Route::get('/byValideur','indexByValidator')->middleware("ability:validate_notes");
+        Route::get('/byValideur','indexByValideur')->middleware("ability:validate_notes");
 
         /**
          * @api {get} /note/byControleur Note Controleur
