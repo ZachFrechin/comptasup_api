@@ -634,7 +634,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
                     }
                 }
         */
-        Route::delete('/removeValideur/{user}', 'removeValideur');
+        Route::delete('/removeValideur/{user}/{valideur}', 'removeValideur');
 
     });
 });
