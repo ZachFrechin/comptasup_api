@@ -32,11 +32,11 @@ class UserResource extends JsonResource
             'roles' => RoleResource::collection($this->roles),
             'vehicules' => VehiculeResource::collection($this->profil->vehicules),
             'trajets' => TrajetResource::collection($this->profil->trajets),
-            'date_ajout' => $this->created_at,
+            'date_ajout' => $this->created_at,  
             'derniere_modification' => $this->updated_at,
             "statut" => $this->active,
             "service" => $this->profil->service,
-            "affiliés" => $userService->getAffiliatedUsers($this->resource),
+            "affiliés" => UserPreviewResource::collection($userService->getAffiliatedUsers($this->resource) ?? []),
         ];
     }
 }
