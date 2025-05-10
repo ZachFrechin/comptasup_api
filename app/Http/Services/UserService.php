@@ -85,26 +85,22 @@ class UserService extends Service
 
     public function getAffiliatedUsers(User $user) : Collection
     {
-        return User::where('valideur_id', $user->id)->get();
+        return $user->usersValides;
     }
 
     public function getAffiliatedUsersID(int $id) : Collection
     {
-        return User::where('valideur_id', $id)->pluck('id');
+        return User::find($id)->usersValides->pluck('id');
     }
 
     public function addAffiliatedUsers(User $user, array $affiliatedUsers) : void
     {
-        foreach ($affiliatedUsers as $affiliatedUser) {
-           $affiliatedUser->update(['valideur_id' => $user->id]);
-        }
+        $user->usersValides()->attach($affiliatedUsers);
     }
 
-    public function removeAffiliatedUser(array $affiliatedUsers) : void
+    public function removeAffiliatedUser(User $user, array $affiliatedUsers) : void
     {
-        foreach ($affiliatedUsers as $affiliatedUser) {
-            $affiliatedUser->update(['valideur_id' => null]);
-        }
+        $user->usersValides()->detach($affiliatedUsers);
     }
 }
 

@@ -61,4 +61,12 @@ class User extends Authenticatable
     public function notes() {
         return $this->hasMany(Note::class);
     }
+
+    public function valideurs() {
+        return $this->belongsToMany(User::class, 'user_valideur', 'user_id', 'valideur_id');
+    }
+
+    public function usersValides() {
+        return $this->belongsToMany(User::class, 'user_valideur', 'valideur_id', 'user_id');
+    }
 }

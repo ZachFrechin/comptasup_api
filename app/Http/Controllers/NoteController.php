@@ -37,7 +37,9 @@ class NoteController extends Controller
             NoteResource::collection(
                 Note::where('etat_id', Etat::NOT_VALIDATED)
                     ->whereHas('user', function($query) use ($currentUserId) {
-                        $query->where('valideur_id', $currentUserId);
+                        $query->whereHas('valideurs', function($q) use ($currentUserId) {
+                            $q->where('valideur_id', $currentUserId);
+                        });
                     })
                     ->get()
             )
