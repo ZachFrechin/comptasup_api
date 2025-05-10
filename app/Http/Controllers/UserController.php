@@ -91,9 +91,12 @@ class UserController extends Controller
         return response()->resourceUpdated(UserResource::make($user));
     }
 
-    public function removeValideur(User $user)
+    public function removeValideur(User $user, User $valideur)
     {
-        $this->userService()->removeAffiliatedUser([$user]);
-        return response()->resourceUpdated(UserResource::make($user));
+        if($valideur->roles->contains('nom', 'Valideur')){
+            $this->userService()->removeAffiliatedUser($valideur, [$user]);
+            return response()->resourceUpdated(UserResource::make($valideur));
+        }
+        return response()->resourceUpdated(UserResource::make($valideur));
     }
 }
