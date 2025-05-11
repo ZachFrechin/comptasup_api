@@ -2,7 +2,8 @@
 
 namespace App\Http\Services;
 
-use App\Models\NoteHistory;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Services\Service;
 
 use App\Traits\ServiceCallable;
