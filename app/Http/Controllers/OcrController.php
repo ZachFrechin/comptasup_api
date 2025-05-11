@@ -14,7 +14,7 @@ class OcrController extends Controller
     public function process(OcrImageRequest $request): JsonResponse
     {
         $image = $request->file('image');
-        $response = $this->ocrService->getOCRResult($image);
+        $response = $this->ocrService()->getOCRResult($image);
         
         return response()->json($response);
     }
