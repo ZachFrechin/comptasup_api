@@ -15,6 +15,7 @@ use App\Http\Services\DepenseService;
 use App\Http\Services\ExportService;
 use App\Http\Services\VehiculeService;
 use App\Http\Services\OcrService;
+use App\Http\Services\IndemniteKilometriqueService;
 
 abstract class Controller
 {
@@ -35,6 +36,7 @@ abstract class Controller
             'exportService' => ExportService::class,
             'vehiculeService' => VehiculeService::class,
             'ocrService'=> OcrService::class,
+            'indemniteKilometriqueService' => IndemniteKilometriqueService::class,
         ]);
     }
 }

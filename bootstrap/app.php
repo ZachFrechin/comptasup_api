@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__.'/../routes/api/user.php',
             __DIR__.'/../routes/api/mail.php',
             __DIR__.'/../routes/api/vehicule.php',
+            __DIR__.'/../routes/api/indeminteKilometrique.php',
         ],
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
