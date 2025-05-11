@@ -10,6 +10,7 @@ use App\Http\Services\ServiceService;
 use App\Http\Services\PermissionService;
 use App\Http\Services\NatureService;
 use App\Http\Services\EtatService;
+use App\Http\Services\IndemniteKilometriqueService;
 
 
 class DatabaseSeeder extends Seeder
@@ -70,7 +71,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             NatureSeeder::class,
-            EtatSeeder::class
+            EtatSeeder::class,
+            IndemniteKilometriqueSeeder::class
         ]);
     }
 }
