@@ -15,7 +15,7 @@ return [
     */
 
     'ocr' => [
-        'url' => env('OCR_SERVICE_URL', 'http://localhost:8000/api/ocr'),
+        'url' => env('OCR_SERVICE_URL', 'http://localhost:8000/ocr'),
     ],
 
     'postmark' => [

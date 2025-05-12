@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Note;
+use App\Models\Etat;
 use App\Models\Vehicule;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +16,32 @@ class ExportService extends Service
 {
     private const PDF_RESOLUTION = 200;
     private const IMAGE_QUALITY = 80;
+    private const STORAGE_PATH = 'private/notes';
 
     public function generatePDF(Note $note)
     {
+        if ($note->etat_id !== Etat::ARCHIVED) {
+            throw new Exception('La note doit être archivée pour générer un PDF');
+        }
+
+        $filename = "note-{$note->id}.pdf";
+        $filepath = self::STORAGE_PATH . "/{$filename}";
+
+        // Vérifier si le fichier existe déjà
+        if (Storage::exists($filepath)) {
+            return Storage::download($filepath, $filename);
+        }
+
         $html = $this->generateHeaderHtml($note);
         $html .= $this->generateDepensesHtml($note);
 
-        return $this->createPdfResponse($html, $note->id);
+        $pdf = Pdf::loadHTML($html);
+        $pdf->setPaper('A4');
+        
+        // Sauvegarder le PDF
+        Storage::put($filepath, $pdf->output());
+
+        return $pdf->download($filename);
     }
 
     private function generateHeaderHtml(Note $note): string
@@ -172,19 +192,23 @@ class ExportService extends Service
         ];
     }
 
-    private function createPdfResponse(string $html, int $noteId)
-    {
-        $pdf = Pdf::loadHTML($html);
-        $pdf->setPaper('A4');
-
-        return $pdf->download('note-de-frais-' . $noteId . '.pdf');
-    }
-
     public function generateCSV(Note $note)
     {
+        if ($note->etat_id !== Etat::ARCHIVED) {
+            throw new Exception('La note doit être archivée pour générer un CSV');
+        }
+
+        $filename = "note-{$note->id}.csv";
+        $filepath = self::STORAGE_PATH . "/{$filename}";
+
+        // Vérifier si le fichier existe déjà
+        if (Storage::exists($filepath)) {
+            return Storage::download($filepath, $filename);
+        }
+
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="NOTE-DE-FRAIS-' . $note->id . '.csv"',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
         $callback = function() use ($note)
@@ -206,6 +230,13 @@ class ExportService extends Service
 
             fclose($file);
         };
+
+        // Sauvegarder le CSV
+        $csvContent = '';
+        ob_start();
+        $callback();
+        $csvContent = ob_get_clean();
+        Storage::put($filepath, $csvContent);
 
         return response()->stream($callback, 200, $headers);
     }
