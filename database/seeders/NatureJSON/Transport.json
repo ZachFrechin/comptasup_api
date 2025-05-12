@@ -42,9 +42,15 @@
             "placeholder": "Ex: Chambéry",
             "required": true
         },
+        "allerRetour": {
+            "type": "checkbox",
+            "position": 6,
+            "title": "Aller <> Retour",
+            "required": true
+        },
         "file": {
             "type": "file",
-            "position": 6,
+            "position": 7,
             "title": "Ticket",
             "size": 10,
             "ext": ["image/png", "image/jpeg", "application/pdf"],
