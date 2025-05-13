@@ -130,8 +130,6 @@ class ExportService extends Service
 
         foreach ($files as $fichier) {
             try {
-                dump($depense->id);
-                dump($fichier);
                 $this->processDocument($fichier, $fichiers);
             } catch (Exception $e) {
                 \Log::error('Error processing file: ' . $e->getMessage());
