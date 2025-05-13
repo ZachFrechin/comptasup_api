@@ -65,6 +65,12 @@ class NoteService extends Service
         return $note;
     }
 
+    public function archive(Note $note): Note
+    {
+        $note->update(['etat_id' => Etat::ARCHIVED]);
+        return $note;
+    }
+
     public function changeControllerID(int $controllerID, Note $note, bool $changeState = false, User $operator): Note
     {
         $note->update(['controleur_id' => $controllerID]);

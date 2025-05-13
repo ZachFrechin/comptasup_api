@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use Imagick;
 use ImagickException;
 use Exception;
+use App\Http\Services\NoteService;
 
 class ExportService extends Service
 {
@@ -20,8 +21,13 @@ class ExportService extends Service
 
     public function generatePDF(Note $note)
     {
-        if ($note->etat_id !== Etat::ARCHIVED) {
-            throw new Exception('La note doit être archivée pour générer un PDF');
+        if ($note->etat_id !== Etat::VALIDATED && $note->etat_id !== Etat::ARCHIVED) {
+            throw new Exception('La note doit être validée ou archivée pour générer un PDF');
+        }
+
+        if ($note->etat_id === Etat::VALIDATED) {
+            $noteService = new NoteService();
+            $noteService->archive($note);
         }
 
         $filename = "note-{$note->id}.pdf";
@@ -194,8 +200,13 @@ class ExportService extends Service
 
     public function generateCSV(Note $note)
     {
-        if ($note->etat_id !== Etat::ARCHIVED) {
+        if ($note->etat_id !== Etat::VALIDATED && $note->etat_id !== Etat::ARCHIVED) {
             throw new Exception('La note doit être archivée pour générer un CSV');
+        }
+
+        if ($note->etat_id === Etat::VALIDATED) {
+            $noteService = new NoteService();
+            $noteService->archive($note);
         }
 
         $filename = "note-{$note->id}.csv";
