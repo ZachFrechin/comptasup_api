@@ -59,7 +59,7 @@ class NoteController extends Controller
     {
         return response()->resourceCollection(
             NoteResource::collection(
-                Note::where('etat_id', Etat::VALIDATED)->get()
+                Note::whereIn('etat_id', [Etat::VALIDATED, Etat::ARCHIVED])->get()
             )
         );
     }
