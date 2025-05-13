@@ -43,7 +43,7 @@ class ExportService extends Service
 
         $pdf = Pdf::loadHTML($html);
         $pdf->setPaper('A4');
-        
+
         // Sauvegarder le PDF
         Storage::put($filepath, $pdf->output());
 
@@ -67,9 +67,10 @@ class ExportService extends Service
     {
         $html = '';
         $numero = 1;
-        $fichiers = [];
 
         foreach ($note->depenses as $depense) {
+            $fichiers = [];
+
             $depenseData = [
                 'depense' => $depense,
                 'details' => $this->processDetails($depense, $fichiers),
@@ -116,7 +117,7 @@ class ExportService extends Service
             ];
         }
 
-        usort($processedDetails, function($a, $b) {
+        usort($processedDetails, function ($a, $b) {
             return $a['position'] <=> $b['position'];
         });
 
@@ -129,6 +130,8 @@ class ExportService extends Service
 
         foreach ($files as $fichier) {
             try {
+                dump($depense->id);
+                dump($fichier);
                 $this->processDocument($fichier, $fichiers);
             } catch (Exception $e) {
                 \Log::error('Error processing file: ' . $e->getMessage());
@@ -138,7 +141,8 @@ class ExportService extends Service
         return $fichiers;
     }
 
-    private function processDocument($fichier, &$fichiers): void {
+    private function processDocument($fichier, &$fichiers): void
+    {
         $fullPath = storage_path('app/private/' . $fichier);
 
         if (!file_exists($fullPath)) {
@@ -222,14 +226,12 @@ class ExportService extends Service
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
-        $callback = function() use ($note)
-        {
+        $callback = function () use ($note) {
             $file = fopen('php://output', 'w');
 
             fputcsv($file, ['REF', 'N°', 'Nature', 'Date', 'Total TTC (€)']);
 
-            foreach ($note->depenses as $depense)
-            {
+            foreach ($note->depenses as $depense) {
                 fputcsv($file, [
                     $depense->id,
                     $depense->nature->numero,
